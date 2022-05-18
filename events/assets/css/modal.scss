@@ -1,0 +1,54 @@
+.modal {
+  .modal-dialog {
+    .modal-content {
+      border: none;
+      border-radius: 10px;
+      background-color: $grey-superlight;
+      p {
+        font-size: 16px;
+        font-weight: bold;
+        color: $dark;
+      }
+      .modal-header {
+        background-color: $primary-alt;
+        border-radius: 10px 10px 0 0;
+        .modal-title {
+          color: #fff;
+          text-transform: uppercase;
+          font-size: 18px;
+          font-weight: 900;
+        }
+        .close {
+          color: $gray-disabled;
+          text-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+.modal-dialog,
+.modal-content {
+    height: auto;
+}
+
+.modal-dialog.big {
+  max-width: unset;
+  width: 70%;
+  margin: 1.75rem auto;
+}
+.modal-dialog.certificate {
+  width:1208px; 
+  max-width:1208px; 
+  height:862px;
+  margin: auto;
+}
+
+.modal-body {
+  max-height: calc(100% - 120px);
+  overflow-y: scroll;
+}
+.modal-body.certificate {
+  max-height: calc(100% - 120px);
+  overflow-y: hidden;
+}

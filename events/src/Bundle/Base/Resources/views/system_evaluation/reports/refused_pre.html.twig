@@ -1,0 +1,61 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <div class="row">
+      <div class="col-md-10">
+        <h1>{{ 'SYS_EV_REPORT_TITLE'|trans }}: {{ 'SYS_EV_REPORT_REFUSED_PRE'|trans }}</h1>
+      </div>
+      <div class="col-md-2">
+        <!--a class="btn btn-primary btn-sm float-right mr-1" data-toggle="tooltip" title="{{ 'SYS_EV_REPORT_EXCEL'|trans }}"><i class="fas fa-file-excel"></i></a-->
+      </div>
+    </div>
+    <!--form action="/system_evaluation/reports/refused_pre" class="form mt-0">
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <label for="filter-theme">{{ 'SYS_EV_REPORT_FORM_THEME'|trans }}</label>
+          <select name="filter-theme" id="filter-theme" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-fit">{{ 'SYS_EV_REPORT_FORM_FIT'|trans }}</label>
+          <select name="filter-fit" id="filter-fit" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-search">{{ 'SYS_EV_REPORT_FORM_SEARCH'|trans }}</label>
+          <input type="text" name="filter-search" id="filter-search" class="form-control">
+          <a class="inputSearchBtn"><i class="fas fa-search"></i></a>
+        </div>
+      </div>
+    </form-->
+    <div class="tabela my-2">
+      <table class="table table-sm table-striped table-responsive-md">
+        <thead>
+          <tr class="fw-normal">
+            <th class="">{{ 'Id'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_THEME'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_TITLE'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_FIT'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_REASON'|trans }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in tableData %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.theme }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ FRAMES[item.fit]|trans }}</td>
+            <td>{{ item.reason }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a href="{{ path('system_evaluation_activities', {'edition' : edition.id}) }}" class="nav-item nav-link tab-6" id="nav-1">
+                    {{ 'LISTAGEM DE<br/>TESES'|trans|raw }}
+                </a>
+                <a class="nav-item nav-link tab-6 active" id="nav-2" data-toggle="tab" href="#tab-2" role="tab">
+                    {{ 'DADOS DA<br/>TESE'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane show active" id="tab-2" role="tabpanel">
+
+                <h3>
+                    Tese #{{ entity.title }}
+                </h3>
+                <div class="card-body">
+                    <div class="row form mt-0">
+                        <div class="col-md-4 div-readonly">
+                            <div class="label">{{ 'Status'|trans }}</div>
+                            <div class="value">{{ constant('EVALUATION_STATUS', entity)|array_flip()[entity.status]|trans }}</div>
+                        </div>
+
+                        <div class="col-md-8 div-readonly">
+                            <div class="label">{{ 'Título'|trans }}</div>
+                            <div class="value">{{ entity.title }}</div>
+                        </div>
+
+                        <div class="col-md-5 div-readonly">
+                            <div class="label">{{ 'Evento'|trans }}</div>
+                            <div class="value">{{ entity.edition.name }}</div>
+                        </div>
+
+                        <div class="col-md-7 div-readonly">
+                            <div class="label">{{ 'Divisão Acadêmica'|trans }}</div>
+                            <div class="value">{{ entity.division.name }}</div>
+                        </div>
+
+                        <div class="col-md-12 div-readonly">
+                            <div class="label">{{ 'Tema de Interesse'|trans }}</div>
+                            <div class="value">{{ entity.userThemes.position }} - {{ entity.userThemes.details.title }}</div>
+                        </div>
+
+                        <div class="col-md-3 div-readonly">
+                            <div class="label">{{ 'Idioma'|trans }}</div>
+                            <div class="value">{{ constant('LANGUAGE', entity)|array_flip()[entity.language]|trans }}</div>
+                        </div>
+
+                        <div class="col-md-4 div-readonly">
+                            <div class="label">{{ 'Modalidade'|trans }}</div>
+                            <div class="value">{{ constant('MODALITIES', entity)|array_flip()[entity.modality]|trans }}</div>
+                        </div>
+
+                        <div class="col-md-5 div-readonly">
+                            <div class="label">{{ 'Nome do Orientador da Tese'|trans }}</div>
+                            <div class="value">{{ entity.advisorName }}</div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-5">
+
+                        <div class="col-md-6 div-readonly">
+                            <div class="label">{{ 'Arquivo da Tese'|trans }}</div>
+                            <div class="value">
+                                {% if entity.thesisFilePath is not empty %}
+                                    <a href="{{ asset(constant('PUBLIC_PATH', entity) ~ entity.edition.id ~ '/' ~ entity.thesisFilePath) }}" target="_blank" title="{{ 'Arquivo da Tese'|trans }}">
+                                        <strong>{{ 'Click here to open'|trans }}</strong>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 div-readonly">
+                            <div class="label">{{ 'Declaração de Concordância'|trans }}</div>
+                            <div class="value">
+                                {% if entity.agreementFilePath is not empty %}
+                                    <a href="{{ asset(constant('PUBLIC_PATH', entity) ~ entity.edition.id ~ '/' ~ entity.agreementFilePath) }}" target="_blank" title="{{ 'Declaração de Concordância'|trans }}">
+                                        <strong>{{ 'Click here to open'|trans }}</strong>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <a class="btn btn-outline-primary" onclick="javascript:history.go(-1)">
+                                <i class="far fa-arrow-alt-circle-left"></i><span>&nbsp;VOLTAR</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

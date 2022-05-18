@@ -1,0 +1,95 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label, themeSubmissionConfig) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'sort': field, 'direction': direction, 'themeSubmissionConfig': themeSubmissionConfig.id})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success  my-2">
+        {{ message |trans }}
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger  my-2">
+        {{ message |trans }}
+    </div>
+{% endfor %}
+
+{% if items|length > 0 or app.request.get('search')|length > 0 %}
+    <div class="form mt-3">
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-12 {{ form.status is defined ? 'col-md-6' : 'col-md-9 col-lg-10' }}">
+                {{ form_label(form.division, 'Divisão') }}
+                {{ form_widget(form.division, {'attr': {'class': 'filter form-control'}}) }}
+            </div>
+            {% if form.status is defined %}
+                <div class="col-12 col-md-3 col-lg-4">
+                    {{ form_label(form.status, 'Status') }}
+                    {{ form_widget(form.status, {'attr': {'class': 'filter form-control'}}) }}
+                </div>
+            {% endif %}
+            <div class="col-12 col-md-3 col-lg-2" style="padding-top: 31px;">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Filtrar</button>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endif %}
+{% if items|length > 0 %}
+    <div class="tabela my-2">
+        <table class="table table-sm table-striped table-responsive-md">
+            <thead>
+            <tr>
+                {{ sortMacro.sortColumnHeader('', 'ut.id', 'Id', themeSubmissionConfig) }}
+                <th>{{ 'DASHBOARD_LBL_DIVISION'|trans }}</th>
+                <th>{{ 'DASHBOARD_LBL_TITLE'|trans }}</th>
+                <th class="text-center">{{ 'Ordenação'|trans }}</th>
+                <th class="text-center">{{ 'DASHBOARD_LBL_STATUS'|trans }}</th>
+                <th class="text-center">{{ 'DASHBOARD_LBL_ACTIONS'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for e in items %}
+                <tr>
+                    <td>{{ e.id }}</td>
+                    <td>{{ e.division }}</td>
+                    <td>{{ e.details.portugueseTitle }}</td>
+                    <td class="text-center">{{ e.position }}</td>
+                    <td class="text-center">
+                        <span class="badge badge-{{ e.status|tema_avaliacao_status('color') }}">
+                            {{ e.status|tema_avaliacao_status('label')|trans }}
+                        </span>
+                    </td>
+                    <td class="text-center" width="150">
+                        <a href="{{ path('manager_themes_show', {'id' : e.id}) }}" data-toggle="tooltip" class="hover-success" title="{{ 'DASHBOARD_LBL_SEE_DETAILS'|trans }}">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        {% if e.status == constant('THEME_EVALUATION_STATUS_WAITING', e) %}
+
+                            <a data-toggle="tooltip" href="#remove" data-route="{{ path('manager_themes_remove', {'id': e.id}) }}" class="delete-submission hover-danger ml-2" title="{{ 'Cancelar Submissão'|trans }}">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <nav class="d-flex justify-content-between">
+            <small class="text-muted">{{ 'Showing'|trans }} {{ items|length }} {{ 'of'|trans }} {{ items.getTotalItemCount }}</small>
+
+            {{ knp_pagination_render(items) }}
+        </nav>
+    </div>
+{% else %}
+    <p class="my-2">{{ 'THEME_NOFOUND'|trans }}.</p>
+{% endif %}

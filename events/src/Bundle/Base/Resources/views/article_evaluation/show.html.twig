@@ -1,0 +1,298 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalRemoveAval">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remover artigo com erro de
+                        formatação</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-12 form-group">
+                        <p>Justificativa: </p>
+                        <textarea class="form-control" name="justificationRemoveAval" id="justificationRemoveAval" cols="52" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnSaveRemoveAval" data-route="{{ path('article_evaluation_save_error', {systemEvaluationIndications: article}) }}" >{{ 'Save'|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalInfoAval">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Informo que não poderei avaliar esteartigo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-lg-12 form-group">
+                        <p>Justificativa: </p>
+                        <textarea class="form-control" name="justificationInfoAval" id="justificationInfoAval" cols="89" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="btnSaveInfoAval" data-route="{{ path('article_evaluation_save_error', {systemEvaluationIndications: article}) }}">{{ 'Save'|trans }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="formDiv">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 col-lg-3 form-group">
+                    <h1>{{ 'Artigo'|trans|raw }} - #{{ article.id }}</h1>
+                </div>
+                <div class="col-xs-12 col-sm-9 col-lg-9 form-group text-right">
+                    <a href="#" data-toggle="modal" href="#myModal" class="btn btn-warning btn-sm" id="btnInfoAval">Informo que não poderei avaliar este
+                        artigo</a>
+                    <a href="#" class="btn btn-danger btn-sm" id="btnRemoveAval">Remover artigo com erro de
+                        formatação</a>
+                </div>
+            </div>
+
+            {{ form_start(form, {'attr': {'id':'formArticleEvaluationShow', 'novalidate': 'novalidate'}}) }}
+
+            <div class="row">
+                <div class="col-lg-12 form-group">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>{{ 'Name'|trans }}</th>
+                            <th>{{ 'Division'|trans }}</th>
+                            <th>{{ 'Theme'|trans }}</th>
+                            <th>{{ 'Frame'|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ article.userArticles.title }}</td>
+                            <td>{{ article.userArticles.divisionId.name }}</td>
+                            <td>{{ article.userArticles.userThemes.position }} - {{ article.userArticles.userThemes.details.title }}</td>
+                            <td>{{ article.userArticles.frame }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-12 form-group ">
+                    <p>{{ 'Resume'|trans }}: </p>
+                    <div class="showArea" style="border: solid #c0c0c0;">
+                        {{ article.userArticles.resume | raw }}
+                    </div>
+                </div>
+
+                <div class="col-lg-12 form-group">
+                    <h3> Ficha de avaliação: </h3> <br/>
+                </div>
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_ONE' | trans | raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaOne %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_TWO' | trans| raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaTwo %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_THREE'| trans | raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaThree %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_FOUR'| trans | raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaFour %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_FIVE'| trans | raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaFive %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_SIX'| trans | raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaSix %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_SEVEN'| trans | raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaSeven %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_EIGHT'| trans | raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaEight %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_NINE'| trans | raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaNine %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 form-group text-center">
+                    <div class="criteria-group">
+                        <label for="one">{{ 'ARTICLE_EVALUATION_CRITERIA_TEN'| trans | raw }}</label>
+                        <div class="radiocheck center">
+                            {% for rt in form.criteriaTen %}
+                                {% set label = rt.vars.label %}
+                                <div class="form-check form-check-inline">
+                                    {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input' }}) }}
+                                    <label class="form-check-label" for="{{ rt.vars.id }}">
+                                        {{ label| trans }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-md-6 form-group text-center mb-0">
+                    <label for="criteriaFinal">{{ 'ARTICLE_EVALUATION_CRITERIA_FINAL'| trans | raw }}</label>
+                    {{ form_widget(form.criteriaFinal, {'attr': { 'id': 'criteriaFinal', 'class': 'form-check-input' }}) }}
+                </div>
+
+                <div class="col-lg-12 form-group">
+                    <br/>
+                    <label for="resumo">{{ 'Justification'| trans | raw }}</label>
+                    {{ form_widget(form.justification, {'attr': {'id':'justification', 'class': 'form-control', 'rows': 5}}) }}
+                    {% if form.justification.vars['errors']|length > 0 %}
+                        <div class="invalid-feedback">
+                            {% for error in form.justification.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <br/>
+                </div>
+
+                <div class="col-lg-12 form-group">
+                    <button type="submit" class="btn btn-primary btn-block btSave">{{ 'SAVE'|trans }}</button>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('articleEvaluation') }}
+{% endblock %}

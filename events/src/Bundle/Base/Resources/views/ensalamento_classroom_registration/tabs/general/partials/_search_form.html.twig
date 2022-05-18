@@ -1,0 +1,87 @@
+{{ form_start(form, {'attr': {'id':'generalScheduleSearchForm', 'class': 'row', 'action':path('ensalement_general_index', {edition: edition.id}), 'novalidate': 'novalidate'}, 'method': 'GET'}) }}
+
+<!--Preencher os options do select com as divisões-->
+<div class="col-12 col-md-2 form-group">
+    {{ form_label(form.division, 'Divisão') }}
+    {{ form_widget(form.division, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.division.vars['errors']|length > 0 %}
+    <div class="form-error invalid-feedback">
+        {{ form.division.vars['errors'][0].message }}
+    </div>
+    {% endif %}
+</div>
+
+<!--Preencher os options do select com os temas da divisão selecionada-->
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.theme, 'Tema') }}
+    {{ form_widget(form.theme, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.theme.vars['errors']|length > 0 %}
+    <div class="form-error invalid-feedback">
+        {{ form.theme.vars['errors'][0].message }}
+    </div>
+    {% endif %}
+</div>
+
+<!--Preencher os options do select com as seções do tema selecionado-->
+<div class="col-12 col-md-4 form-group">
+    {{ form_label(form.section, 'Seção') }}
+    {{ form_widget(form.section, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.section.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.section.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<!--Mostra todos os participantes - Importante Select 2-->
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.user, 'Participante') }}
+    {{ form_widget(form.user, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.user.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.user.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<!--Mostra todas as datas do evento-->
+<div class="col-12 col-md-2 form-group">
+    {{ form_label(form.date, 'Data') }}
+    {{ form_widget(form.date, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.date.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.date.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<!--Mostra todas os horários das sessões do tipo SESSÃO DE TRABALHO! Pelo que o Takao havia dito, as seções só utilizam sessões de trabalho pra serem agendadas! Os outros tipos de sessão só aparecem no ensalamento prioritário.-->
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.time, 'Hora da Sessão') }}
+    {{ form_widget(form.time, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.time.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.time.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<!--Mostra a identificação da seção-->
+<div class="col-12 col-md-4 form-group">
+    {{ form_label(form.article, 'Artigo') }}
+    {{ form_widget(form.article, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.article.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.article.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-md-3 mt-4">
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Filtrar<i id="btnFilterSchedule"></i></button>
+</div>
+
+<div class="col-12">
+    <p class="activity-indicator d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+</div>
+{{ form_end(form) }}

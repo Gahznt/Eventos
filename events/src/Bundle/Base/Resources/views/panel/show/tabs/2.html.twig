@@ -1,0 +1,87 @@
+<h1>{{ 'PANEL_STEP3_HEAD'|trans }}</h1>
+
+<div id="proponent">
+    <div class="card mt-2 author">
+        <div class="card-header" id="header-proponent" data-toggle="collapse" data-target="#collapse-proponent">
+            <span>
+                {{ data.proponentId.name }}
+            </span>
+        </div>
+        <div id="collapse-proponent" class="collapse" aria-labelledby="header-proponent">
+            <div class="card-body">
+                <div class="row form mt-0">
+                    <div class="col-6 col-lg-6 div-readonly">
+                        <div class="label">{{ 'País de Origem'|trans }}</div>
+                        <div class="value" data-value="country">{{ data.proponentId.city.country.name }}</div>
+                    </div>
+                    <div class="col-6 col-lg-6 div-readonly">
+                        <div class="label">{{ 'CPF'|trans }}</div>
+                        <div class="value" data-value="cpf">{{ data.proponentId.identifier }}</div>
+                    </div>
+                    <div class="col-lg-6 div-readonly">
+                        <div class="label">{{ 'Nome Completo'|trans }}</div>
+                        <div class="value" data-value="name">{{ data.proponentId.name }}</div>
+                    </div>
+                    <div class="col-lg-6 div-readonly">
+                        <div class="label">{{ 'E-mail'|trans }}</div>
+                        <div class="value" data-value="email">{{ data.proponentId.email }}</div>
+                    </div>
+                    <div class="col-md-3 div-readonly">
+                        <div class="label">{{ 'Telefone Celular'|trans }}</div>
+                        <div class="value" data-value="celular">{{ data.proponentId.cellphone }}</div>
+                    </div>
+                    <div class="col-md-3 div-readonly">
+                        <div class="label">{{ 'Telefone Fixo'|trans }}</div>
+                        <div class="value" data-value="phone">{{ data.proponentId.phone }}</div>
+                    </div>
+                </div>  <!-- ./class="row form mt-0" -->
+            </div>   <!-- ./class="card-body" -->
+        </div>  <!-- ./id="collapse-proponent" class="collapse" aria-labelledby="header-proponent" -->
+    </div>  <!-- ./class="card mt-3" -->
+</div>  <!-- id="proponent" -->
+
+<br>
+
+<h1>{{ 'ACTIVITY_STEP2_HEAD'|trans }}</h1>
+
+<div id="panelist">
+    {% for panelist in data.panelsPanelists %}
+        <div class="card mt-1 author">
+            <div class="card-header" id="header-{{ panelist.id }}" data-toggle="collapse" data-target="#collapse-{{ panelist.id }}">
+                <span>
+                    {{ panelist.panelistId.name }}
+                </span>
+            </div>
+            <div id="collapse-{{ panelist.id }}" class="collapse" aria-labelledby="header-{{ panelist.id }}">
+                <div class="card-body">
+                    <div class="row form mt-0">
+                        <div class="col-6 col-lg-6 div-readonly">
+                            <div class="label">{{ 'País de Origem'|trans }}</div>
+                            <div class="value" data-value="country">{{ panelist.panelistId.city.country.name }}</div>
+                        </div>
+                        <div class="col-6 col-lg-6 div-readonly">
+                            <div class="label">{{ 'CPF'|trans }}</div>
+                            <div class="value" data-value="cpf">{{ panelist.panelistId.identifier }}</div>
+                        </div>
+                        <div class="col-lg-6 div-readonly">
+                            <div class="label">{{ 'Nome Completo'|trans }}</div>
+                            <div class="value" data-value="name">{{ panelist.panelistId.name }}</div>
+                        </div>
+                        <div class="col-lg-6 div-readonly">
+                            <div class="label">{{ 'E-mail'|trans }}</div>
+                            <div class="value" data-value="email">{{ panelist.panelistId.email }}</div>
+                        </div>
+                        <div class="col-md-3 div-readonly">
+                            <div class="label">{{ 'Telefone Celular'|trans }}</div>
+                            <div class="value" data-value="celular">{{ panelist.panelistId.cellphone }}</div>
+                        </div>
+                        <div class="col-md-3 div-readonly">
+                            <div class="label">{{ 'Telefone Fixo'|trans }}</div>
+                            <div class="value" data-value="phone">{{ panelist.panelistId.phone }}</div>
+                        </div>
+                    </div>  <!-- ./class="row form mt-2" -->
+                </div>   <!-- ./class="card-body" -->
+            </div>  <!-- ./id="collapse-{{ panelist.id }}" class="collapse" aria-labelledby="header-{{ panelist.id }}" -->
+        </div>  <!-- ./class="card mt-2 author" -->
+    {% endfor %}
+</div>  <!-- id="panelist" -->

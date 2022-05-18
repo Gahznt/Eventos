@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_index') }}" role="tab">
+                    {{ 'Events'|trans }}
+                </a>
+                <a class="nav-item nav-link" href="{{ path('manager_editions_index', {'eventId': event.id}) }}" role="tab">
+                    {{ 'MANAGER_EDITIONS'|trans }}
+                </a>
+                <a class="nav-item nav-link active" href="{{ path('manager_files_index', {'editionId': edition.id}) }}" role="tab">
+                    {{ 'FILES_TAB'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link" href="{{ path('manager_files_index', {'editionId': edition.id}) }}" role="tab">
+                            {{ 'FILES_LIST_TAB'|trans|raw }}
+                        </a>
+
+                        <a class="nav-item nav-link active" data-toggle="tab" href="#dados" role="tab">
+                            {{ 'FILES_LIST_DATA_TAB'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+
+                        {% if file.id != '' %}
+                            <h1>{{ 'FILES_LIST_DATA_HEAD'|trans|raw }} {{ file.description }}</h1>
+                        {% else %}
+                            <h1>{{ 'FILES_LIST_DATA_NEW'|trans|raw }}</h1>
+                        {% endif %}
+
+                        {% include "gestor/tabs/files/partials/_form.html.twig" %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorFiles') }}
+    {{ parent() }}
+{% endblock %}

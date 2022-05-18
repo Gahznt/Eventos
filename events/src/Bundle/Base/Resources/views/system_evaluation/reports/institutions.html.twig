@@ -1,0 +1,52 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <div class="row">
+      <div class="col-md-10">
+        <h1>{{ 'SYS_EV_REPORT_TITLE'|trans }}: {{ 'SYS_EV_REPORT_INSTITUTIONS'|trans }}</h1>
+      </div>
+      <div class="col-md-2">
+          <a href="{{ path('system_evaluation_reports', {'edition' : edition.id, 'export': 'excel', 'page': 'institutions'}) }}" class="btn btn-primary float-right mr-1" data-toggle="tooltip" title="{{ 'Baixar Excel'|trans }}">
+            <i class="fas fa-file-excel"></i>
+          </a>
+        <!--a class="btn btn-primary btn-sm float-right mr-1" data-toggle="tooltip" title="{{ 'SYS_EV_REPORT_EXCEL'|trans }}"><i class="fas fa-file-excel"></i></a-->
+      </div>
+    </div>
+    <!--form action="/system_evaluation/reports/articles_theme" class="form mt-0">
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <label for="filter-search">{{ 'SYS_EV_REPORT_FORM_SEARCH'|trans }}</label>
+          <input type="text" name="filter-search" id="filter-search" class="form-control">
+          <a class="inputSearchBtn"><i class="fas fa-search"></i></a>
+        </div>
+      </div>
+    </form-->
+    <div class="tabela my-2">
+      <table class="table table-sm table-striped table-responsive-md">
+        <thead>
+          <tr class="fw-normal">
+            <th class="">{{ 'SYS_EV_REPORT_TH_INSTITUTIONS_PROGRAMS'|trans }}</th>
+            <th class="" width="200">{{ 'SYS_EV_REPORT_TH_PROGRAM'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_ARTICLES_SUBMITTED'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_ARTICLES_SELECTED'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_AUTHORS'|trans }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in tableData %}
+          <tr>
+            <td>{{ item.institution }}</td>
+            <td>{{ item.program }}</td>
+            <td>{{ item.submitted }}</td>
+            <td>{{ item.selected }}</td>
+            <td>{{ item.authors }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% if associations|length > 0 %}
+    {% set latest = associations.latest %}
+    {% set history = associations.history is defined and associations.history is iterable ? associations.history : null %}
+    <div class="row pt-3">
+        <div class="col-12">
+            <h3>{{ 'USER_ASSOCIATION'|trans }}</h3>
+            <div class="card">
+                <div class="card-header">
+                    <span data-toggle="collapse" href="#associacao-latest" aria-expanded="true" aria-controls="associacao-latest">
+                      {{ 'Type'|trans }}: {{ latest.level|nivel_associacao('label')|trans }} -
+                      <span class="text-success">{{ 'USER_EXPIRES'|trans }} {{ latest.expiredAt is empty ? "" : latest.expiredAt|format_datetime('short', 'none') }}</span>
+                    </span>
+                </div>
+                <div class="collapse show" id="associacao-latest" data-associacao="{{ latest|json_encode|url_encode }}">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="div-readonly-inline">
+                                    <div class="label">{{ 'Level'|trans }}</div>
+                                    <div class="value text-uppercase">
+                                <span class="btn-sm btn-{{ latest.level|nivel_associacao('color') }}">
+                                    {{ latest.level|nivel_associacao('label')|trans }}
+                                </span>
+                                    </div>
+                                </div>
+                                <div class="div-readonly-inline">
+                                    <div class="label">{{ 'Institution'|trans }}</div>
+                                    <div class="value">
+                                        {{ latest.institutions }}
+                                    </div>
+                                </div>
+                                <div class="div-readonly-inline">
+                                    <div class="label">{{ 'Program'|trans }}</div>
+                                    <div class="value">
+                                        {{ latest.programs }}
+                                    </div>
+                                </div>
+                                <div class="div-readonly-inline">
+                                    <div class="label">{{ 'USER_ASSOCIATION_TYPE'|trans }}</div>
+                                    <div class="value">{{ latest.getTypeString|trans }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="div-readonly-inline">
+                                    <div class="label">{{ 'USER_PAYMENT_STATUS'|trans }}</div>
+                                    <div class="value text-uppercase">
+                                <span class="btn-sm btn-{{ latest.statusPay|status_pagamento('color') }}">
+                                    {{ latest.statusPay|status_pagamento('label')|trans }}
+                                    <i class="ml-1 fas fa-{{ latest.statusPay|status_pagamento('icon') }}"></i>
+                                </span>
+                                    </div>
+                                </div>
+                                <div class="div-readonly-inline">
+                                    <div class="label">{{ 'USER_PRIME_DIVISION'|trans }}</div>
+                                    <div class="value">{{ latest.division }}</div>
+                                </div>
+                                <div class="div-readonly-inline">
+                                    <div class="label">{{ 'USER_ADD_DIVISION'|trans }}</div>
+                                    <div class="value">{{ latest.division }}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 div-readonly">
+                                <div class="label">{{ 'USER_EMISSION'|trans }}</div>
+                                <div class="value">{{ latest.updatedAt is empty ? "" : latest.updatedAt|format_datetime('short', 'none') }}</div>
+                            </div>
+                            <div class="col-md-2 div-readonly">
+                                <div class="label">{{ 'USER_VALUE'|trans }}</div>
+                                <div class="value">{{ latest.getValueString }}</div>{# |format_currency('BRL') #}
+                            </div>
+                            <div class="col-md-2 div-readonly">
+                                <div class="label">{{ 'USER_EXPIRE_DATE' |trans }}</div>
+                                <div class="value">{{ latest.expiredAt is empty ? "" : latest.expiredAt|format_datetime('short', 'none') }}</div>
+                            </div>
+                            <div class="col-md-2 div-readonly {{ latest.lastPay is empty ? "" : "div-success" }}">
+                                <div class="label">{{ 'USER_PAYMENT_DATE'|trans }}</div>
+                                <div class="value">{{ latest.lastPay is empty ? "" : latest.lastPay|format_datetime('short', 'none') }}</div>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <a class="btn btn-primary box tbEditAssociacao" data-id="{{ latest.id }}">
+                                    <i class="fas fa-exchange-alt"></i><span>{{ 'USER_UPDATE_ASSOC'|trans }}</span>
+                                </a>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <form action="{{ path('user_confirm_pay', {'id' :latest.id }) }}" method="post">
+                                    <button type="submit" class="btn btn-success box"><i class="fas fa-check-circle"></i><span>{{ 'USER_CONFIRM_PAY'|trans }}</span></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if history is not null %}
+            <div class="col-12 mt-3">
+                <h3>{{ 'USER_ASSOC_HISTORY'|trans }}</h3>
+                {% if history is empty %}
+                    <div class="alert alert-warning" role="alert">
+                        {{ 'USER_ASSOC_NOFOUND'|trans }}.
+                    </div>
+                {% else %}
+                    {% for a in history %}
+                        <div class="card mt-3" data-associacao="{{ a|json_encode|url_encode }}">
+                            <div class="card-header">
+                                <span data-toggle="collapse" href="#associacao-{{ loop.index }}" aria-expanded="false"
+                                      aria-controls="associacao-{{ loop.index }}">
+                                  {{ 'Type'|trans }}: {{ a.level|nivel_associacao('label')|trans }}. <span class="text-danger">{{ 'USER_EXPIRED'|trans }}</span>
+                                </span>
+                            </div>
+                            <div class="collapse" id="associacao-{{ loop.index }}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-3 div-readonly">
+                                            <div class="label">{{ 'USER_EMISSION'|trans }}</div>
+                                            <div class="value">{{ a.updatedAt is empty ? "" : a.updatedAt|format_datetime('short', 'none') }}</div>
+                                        </div>
+                                        <div class="col-md-3 div-readonly">
+                                            <div class="label">{{ 'USER_VALUE'|trans }}</div>
+                                            <div class="value">{{ a.getValueString }}</div>{# |format_currency('BRL') #}
+                                        </div>
+                                        <div class="col-md-3 div-readonly">
+                                            <div class="label">{{ 'USER_EXPIRE_DATE'|trans }}</div>
+                                            <div class="value">{{ a.expiredAt is empty ? "" : a.expiredAt|format_datetime('short', 'none') }}</div>
+                                        </div>
+                                        <div class="col-md-3 div-readonly  {{ a.lastPay is empty ? "" : "div-success" }}">
+                                            <div class="label">{{ 'USER_PAYMENT_DATE'|trans }}</div>
+                                            <div class="value">{{ a.lastPay is empty ? "" : a.lastPay|format_datetime('short', 'none') }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        {{ 'USER_ASSOC_NOFOUND'|trans }}.
+    </div>
+{% endif %}

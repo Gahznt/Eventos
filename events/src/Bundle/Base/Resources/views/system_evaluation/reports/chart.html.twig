@@ -1,0 +1,19 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <h1>{{ 'SYS_EV_REPORT_TITLE'|trans }}: {{ period == 'last' ? 'SYS_EV_REPORT_CHART_SUBMISSIONS_LAST'|trans : 'SYS_EV_REPORT_CHART_SUBMISSIONS'|trans }}</h1>
+    {% if period == 'total' %}
+    <canvas id="chartTotal" data-data="{{ data|json_encode }}" data-label="{{ 'SYS_EV_REPORT_CHART_LABEL_SUBMISSIONS'|trans }}"></canvas>
+    {% elseif period == 'last' %}
+    <canvas id="chartLast" data-data="{{ data|json_encode }}" data-day="{{ 'SYS_EV_REPORT_TOOLTIP_DAY'|trans }}"></canvas>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('systemEvaluationReports') }}
+{% endblock %}

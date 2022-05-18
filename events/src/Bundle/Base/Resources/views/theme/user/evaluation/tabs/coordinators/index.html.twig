@@ -1,0 +1,48 @@
+{{ form_start(formCoordinator, {'method':'GET', 'attr': {'id':'coordinatorForm','action':path('theme_evaluation_index'), 'novalidate':'novalidate' }}) }}
+
+<div class="stepsTab" data-step="4">
+  <div class="row">
+    <div class="col-md-10">
+      <h1>{{ 'TEVAL_STEP4_HEAD'|trans }}</h1>
+    </div>
+    <div class="col-md-2">
+      {#<a class="btn btn-primary float-right" data-toggle="tooltip" title="{{ 'Enviar e-mail para todos'|trans }}"><i class="fas fa-envelope"></i></a>#}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <label for="coordinator-list-division">{{ 'ACADEMIC_DIVISION'|trans }}</label>
+      {{ form_widget(formCoordinator.divisionId, {'attr': {'class': 'form-control select-div'}}) }}
+    </div>
+    <div class="col-md-6 form-group">
+      <label for="coordinator-list-search">{{ 'Search'|trans }}</label>
+      <a id="coordinatorListBtn" class="inputSearchBtn"><i class="fas fa-search"></i></a>
+      {{ form_widget(formCoordinator.search, {'attr': {'class': 'filter form-control', 'style': 'height:calc(1.5em + 0.75rem + 12px);'}}) }}
+    </div>
+  </div>
+
+  <div class="tabela my-2">
+    <table class="table table-sm table-striped table-responsive-md w-100" id="coordinatorsTable">
+      <thead>
+        <tr>
+          <th data-data="user" width="40">{{ 'User'|trans }}</th>
+          <th data-data="name">{{ 'Name'|trans }}</th>
+          <th data-data="division" width="100">{{ 'Division'|trans }}</th>
+        </tr>
+      </thead>
+      <tbody>      
+      {% for item in coordinators %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.division }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<input type="hidden" id="themeId" name="themeId" value="{{ themeId }}">
+<input type="hidden" name="step" value="4">
+{{ form_end(formCoordinator, {'render_rest': false}) }}

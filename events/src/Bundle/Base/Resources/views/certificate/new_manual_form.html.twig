@@ -1,0 +1,65 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'edition': app.request.get('edition').id, 'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_index') }}" role="tab">
+                    {{ 'Events'|trans }}
+                </a>
+                <a class="nav-item nav-link" href="{{ path('manager_editions_index', {'eventId': edition.event.id}) }}" role="tab">
+                    {{ 'MANAGER_EDITIONS'|trans }}
+                </a>
+                <a class="nav-item nav-link active" href="{{ path('certificate_list', {'edition': edition.id}) }}" role="tab">
+                    {{ 'Certificados'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link" href="{{ path('certificate_list', {'edition': edition.id}) }}" role="tab">
+                            {{ 'Lista de<br>Certificados'|trans|raw }}
+                        </a>
+                        <a class="nav-item nav-link active" href="#dados" role="tab">
+                            Dados do<br/> Certificado
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+
+
+                        {% if entity.id != '' %}
+                            <h1>Dados do Certificado {{ entity.name }}</h1>
+                        {% else %}
+                            <h1>Dados do Novo Certificado</h1>
+                        {% endif %}
+
+                        {% include "certificate/partials/_new_manual_form.html.twig" %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('certificateNewManual') }}
+    {{ parent() }}
+{% endblock %}

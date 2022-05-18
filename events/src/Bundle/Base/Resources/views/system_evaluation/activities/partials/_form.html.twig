@@ -1,0 +1,155 @@
+{{ form_start(form, {'attr': {'id':'atividadeForm', 'class': 'form', 'action': path(app.request.get('_route'), {'edition' : edition.id, 'id': activity.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+
+<div class="row">
+    <div class="col-md-12 form-group">
+        <div class="radiocheck center">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.isGlobal, {'attr': {'id':'isGlobal', 'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="activity_isGlobal">{{ 'Atividade Global (aba ANPAD na Programação Detalhada)'|trans }}</label>
+                {% if form.isGlobal.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.isGlobal.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-4 form-group">
+        <label for="activity-tipo">{{ 'ACTIVITY_TYPE'|trans }}</label>
+        {{ form_widget(form.activityType, {'attr': {'id':'activityType', 'class': 'form-control'}}) }}
+        {% if form.activityType.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {{ form.activityType.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-4 col-md-4 form-group">
+        <label for="activity-divisao">{{ 'ACADEMIC_DIVISION'|trans }}</label>
+        {{ form_widget(form.division, {'attr': {'id':'division', 'class': 'form-control'}}) }}
+        {% if form.division.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {{ form.division.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-4 col-md-4 form-group">
+        <label for="activity-idioma">{{ 'ACTIVITY_LANGUAGE'|trans }}</label>
+        {{ form_widget(form.language, {'attr': {'id':'language', 'class': 'form-control'}}) }}
+        {% if form.language.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {{ form.language.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-12 form-group">
+        <label for="activity-restricao">{{ 'ACTIVITY_TIME'|trans }}</label>
+        {{ form_widget(form.timeRestriction, {'attr': {'id':'timeRestriction', 'class': 'form-control'}}) }}
+        {% if form.timeRestriction.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {{ form.timeRestriction.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="card activity mt-3">
+    <div class="card-header {% if submitted == true and (form.titlePortuguese.vars['errors']|length > 0 or form.descriptionPortuguese.vars['errors']|length > 0) %} invalid {% else %} valid {% endif %}" id="header1" data-toggle="collapse" data-target="#collapse1" data-toggle="tooltip">
+        {{ 'ACTIVITY_STEP1_HEAD'|trans }}&nbsp;({{ 'LANG_PT'|trans }})
+    </div>
+    <div id="collapse1" class="collapse" aria-labelledby="header1">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="activity-titulo-pt">{{ 'THEME_TITLE_FORM'|trans }}</label>
+                    {{ form_widget(form.titlePortuguese, {'attr': {'id':'titlePortuguese', 'class': 'form-control'}}) }}
+                    {% if form.titlePortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback d-block">
+                            {{ form.titlePortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="activity-desc-pt">{{ 'THEME_DESC'|trans }}</label>
+                    {{ form_widget(form.descriptionPortuguese, {'attr': {'id':'descriptionPortuguese', 'class': 'form-control', 'rows': 5, 'class': 'htmleditor'}}) }}
+                    {% if form.descriptionPortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback d-block">
+                            {{ form.descriptionPortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card activity mt-3">
+    <div class="card-header {% if submitted == true and (form.titleEnglish.vars['errors']|length > 0 or form.descriptionEnglish.vars['errors']|length > 0) %} invalid {% else %} valid {% endif %}" id="header2" data-toggle="collapse" data-target="#collapse2" data-toggle="tooltip">
+        {{ 'ACTIVITY_STEP1_HEAD'|trans }}&nbsp;({{ 'LANG_EN'|trans }})
+    </div>
+    <div id="collapse2" class="collapse" aria-labelledby="header2">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="activity-titulo-en">{{ 'THEME_TITLE_FORM'|trans }}</label>
+                    {{ form_widget(form.titleEnglish, {'attr': {'id':'titleEnglish', 'class': 'form-control'}}) }}
+                    {% if form.titleEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback d-block">
+                            {{ form.titleEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="activity-desc-en">{{ 'THEME_DESC'|trans }}</label>
+                    {{ form_widget(form.descriptionEnglish, {'attr': {'id':'descriptionEnglish', 'class': 'form-control', 'rows': 5, 'class': 'htmleditor'}}) }}
+                    {% if form.descriptionEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback d-block">
+                            {{ form.descriptionEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card activity mt-3">
+    <div class="card-header {% if submitted == true and (form.titleSpanish.vars['errors']|length > 0 or form.descriptionSpanish.vars['errors']|length > 0) %} invalid {% else %} valid {% endif %}" id="header3" data-toggle="collapse" data-target="#collapse3" data-toggle="tooltip">
+        {{ 'ACTIVITY_STEP1_HEAD'|trans }}&nbsp;({{ 'LANG_ES'|trans }})
+    </div>
+    <div id="collapse3" class="collapse" aria-labelledby="header3">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="activity-titulo-es">{{ 'THEME_TITLE_FORM'|trans }}</label>
+                    {{ form_widget(form.titleSpanish, {'attr': {'id':'titleSpanish', 'class': 'form-control'}}) }}
+                    {% if form.titleSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback d-block">
+                            {{ form.titleSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="activity-desc-es">{{ 'THEME_DESC'|trans }}</label>
+                    {{ form_widget(form.descriptionSpanish, {'attr': {'id':'descriptionSpanish', 'class': 'form-control', 'rows': 5, 'class': 'htmleditor'}}) }}
+                    {% if form.descriptionSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback d-block">
+                            {{ form.descriptionSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary" href="{{ path('manager_index') }}">{{ 'CANCEL'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}

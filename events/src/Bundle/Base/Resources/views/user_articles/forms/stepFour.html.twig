@@ -1,0 +1,55 @@
+{% import _self as formMacros %}
+
+        {% macro printStepPrototypeFile(defaultStep) %}
+          <span id="title">__file__</span>
+           {{ form_widget(defaultStep.path) }} {{ form_widget(defaultStep.realArticle) }}
+        {% endmacro %}
+
+<div class="stepsTab" data-step="4">
+  <h1>{{ 'ARTICLE_STEP4_HEAD'|trans }}</h1>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="alert alert-warning p-3 mb-0">
+        <h2>{{ 'ARTICLE_UPLOAD_HEAD'|trans }}</h2>
+        <p class="m-0 text-dark font-weight-bold">- {{ 'ARTICLE_UPLOAD_RULE1'|trans({'%number_words%': userArticles.editionId.event.numberWords}) }};</p>
+        <p class="m-0 text-dark font-weight-bold">- {{ 'ARTICLE_UPLOAD_RULE2'|trans }}.</p>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="fileDropzone" id="articleDropzone">
+        <i class="fas fa-upload fa-3x mr-5"></i>
+        <span>{{ 'ARITCLE_UPLOAD_DRAG'|trans|raw }}.</span>
+      </div>
+    </div>
+
+    <div class="col-lg-6 offset-lg-6 mt-3">
+
+        <div class="invalid-feedback">
+            {% if form.vars['errors']|length > 0 %}
+                {% for error in form.vars['errors'] %}
+                    {{ error.message| trans }}
+                {% endfor %}
+            {% endif %}
+        </div>
+      <div class="fileList">
+          <input type="file" id="user_articles_userArticlesFiles_0_path" name="user_articles[userArticlesFiles][0][path]" required="required" class="attchments" style="display:none;">
+        <h5>{{ 'ARTICLE_UPLOAD_LIST'|trans }}:</h5>
+        <div id="files-container-form" data-prototype="{{ formMacros.printStepPrototypeFile(form.userArticlesFiles.vars.prototype)|e('html_attr') }}"></div>
+      </div>
+    </div>
+  <!--
+    <div class="col-lg-6 offset-lg-6 mt-3">
+      <h3 class="mb-2">{{ 'ARTICLE_SUBMIT_CONFIRM'|trans }}</h3>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="idioma" value="1" id="uploadConfirm">
+        <label class="form-check-label" for="uploadConfirm">{{ 'ARTICLE_SUBMIT_MSG'|trans }}.</label>
+      </div>
+    </div>
+  -->
+  </div>
+</div>
+
+<div id="file-remove" class="d-none">
+  <a class='btn small btn-outline-primary float-right remove'>{{ 'ARTICLE_REMOVE_FILE'|trans}}</a>
+</div>

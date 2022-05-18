@@ -1,0 +1,43 @@
+{% macro interval(start, end) %}
+    {% set date = start|format_datetime(pattern="yyyyMMd") %}
+    {% set date2 = end|format_datetime(pattern="yyyyMMd") %}
+
+    {% if date == date2 %}
+        {{ start|format_datetime('medium', 'none') }}
+    {% else %}
+        {% set d = start|format_datetime(pattern="d") %}
+        {% set d2 = end|format_datetime(pattern="d") %}
+
+        {% set m = start|format_datetime(pattern="MM") %}
+        {% set m2 = end|format_datetime(pattern="MM") %}
+
+        {% set y = start|format_datetime(pattern="yyyy") %}
+        {% set y2 = end|format_datetime(pattern="yyyy") %}
+
+        {% if y == y2 %}
+            {% if m == m2 %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MMM d") }} - {{ end|format_datetime(pattern="d, yyyy") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d") }} - {{ end|format_datetime('medium', 'none') }}
+                {% endif %}
+            {% else %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MM/d") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d/MM") }}
+                {% endif %}
+                - {{ end|format_datetime('short', 'none') }}
+            {% endif %}
+        {% else %}
+            {{ start|format_datetime('short', 'none') }} - {{ end|format_datetime('short', 'none') }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% import _self as dateMacro %}
+
+<div class="fs-90">
+    <h1 class="mb-0">{{ 'EVENT_DETAILS_LABEL_INTRODUCTION'|trans }}</h1>
+    {{ edition.description|raw }}
+</div>

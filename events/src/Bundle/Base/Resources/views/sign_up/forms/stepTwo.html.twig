@@ -1,0 +1,134 @@
+<div class="stepsTab" data-step="2">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>{{ 'SIGNUP_STEP4_HEAD'|trans }}</h1>
+        </div>
+        <div class="col-lg-6">
+            <p class="text-danger text-right mt-0">{{ '* Campos obrigatórios'|trans }}</p>
+        </div>
+    </div>
+
+    <h2>{{ 'SIGNUP_RELATE_INFO'|trans }}</h2>
+
+    <p>* {{ 'Caso a instituição não esteja na lista, escolha a opção "Outra" e informe o nome da sua instituição.'|trans }}</p>
+
+    <div class="fieldsetBg">
+        <div class="row mb-3 jquery_institution_programs_row">
+            <div class="col-lg-5 form-group">
+                <label class="required-{{ form.institutionsPrograms.institutionFirstId.vars.required }}" for="instituicao_primaria">{{ 'SIGNUP_PRIME_CO'|trans }}</label>
+                {{ form_widget(form.institutionsPrograms.institutionFirstId, {'attr': {'id':'instituicao_primaria','class': 'form-control', 'data-route': path('program_by_institution')}}) }}
+                {% if form.institutionsPrograms.institutionFirstId.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {% for error in form.institutionsPrograms.institutionFirstId.vars['errors'] %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="clearfix mb-3"></div>
+
+                <div class="other_institution_wrapper {{ form.institutionsPrograms.institutionFirstId.vars.value != 99999 ? 'd-none' : '' }}">
+                    <label class="required-{{ form.institutionsPrograms.otherInstitutionFirst.vars.required }}" for="otherInstitutionFirst">{{ 'SIGNUP_OTHER_INSTITUTION'|trans }}</label>
+                    {{ form_widget(form.institutionsPrograms.otherInstitutionFirst, {'attr': {'id':'otherInstitutionFirst','class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-lg-5 form-group">
+                <label class="required-{{ form.institutionsPrograms.programFirstId.vars.required }}" for="programa_primaria">{{ 'SIGNUP_PROGRAM'|trans }}</label>
+                {{ form_widget(form.institutionsPrograms.programFirstId, {'attr': {'id':'programa_primaria','class': 'form-control'}}) }}
+                <p class="programs-load d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+                {% if form.institutionsPrograms.programFirstId.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {% for error in form.institutionsPrograms.programFirstId.vars['errors'] %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="clearfix mb-3"></div>
+
+                <div class="other_program_wrapper {{ form.institutionsPrograms.programFirstId.vars.value != 99999 ? 'd-none' : '' }}">
+                    <label class="required-{{ form.institutionsPrograms.otherProgramFirst.vars.required }}" for="otherProgramFirst">{{ 'SIGNUP_OTHER_PROGRAM'|trans }}</label>
+                    {{ form_widget(form.institutionsPrograms.otherProgramFirst, {'attr': {'id':'otherProgramFirst','class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-lg-2 form-group">
+                <label class="required-{{ form.institutionsPrograms.stateFirstId.vars.required }}" for="estado_primaria">{{ 'SIGNUP_STATE'|trans }}</label>
+                {{ form_widget(form.institutionsPrograms.stateFirstId, {'attr': {'id':'estado_primaria','class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="row jquery_institution_programs_row">
+            <div class="col-lg-5 form-group">
+                <label class="required-{{ form.institutionsPrograms.institutionSecondId.vars.required }}" for="instituicao_secundaria">{{ 'SIGNUP_SECN_CO'|trans }}</label>
+                {{ form_widget(form.institutionsPrograms.institutionSecondId, {'attr': {'id':'instituicao_secundaria','class': 'form-control', 'data-route': path('program_by_institution')}}) }}
+                {% if form.institutionsPrograms.institutionSecondId.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {% for error in form.institutionsPrograms.institutionSecondId.vars['errors'] %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="clearfix mb-3"></div>
+
+                <div class="other_institution_wrapper {{ form.institutionsPrograms.institutionSecondId.vars.value != 99999 ? 'd-none' : '' }}">
+                    <label class="required-{{ form.institutionsPrograms.otherInstitutionSecond.vars.required }}" for="otherInstitutionSecond">{{ 'SIGNUP_OTHER_INSTITUTION'|trans }}</label>
+                    {{ form_widget(form.institutionsPrograms.otherInstitutionSecond, {'attr': {'id':'otherInstitutionSecond','class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-lg-5 form-group">
+                <label class="required-{{ form.institutionsPrograms.programSecondId.vars.required }}" for="programa_secundaria">{{ 'SIGNUP_PROGRAM'|trans }}</label>
+                {{ form_widget(form.institutionsPrograms.programSecondId, {'attr': {'id':'programa_secundaria','class': 'form-control'}}) }}
+                <p class="programs-load d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+                {% if form.institutionsPrograms.programSecondId.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {% for error in form.institutionsPrograms.programSecondId.vars['errors'] %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="clearfix mb-3"></div>
+
+                <div class="other_program_wrapper {{ form.institutionsPrograms.programSecondId.vars.value != 99999 ? 'd-none' : '' }}">
+                    <label class="required-{{ form.institutionsPrograms.otherProgramSecond.vars.required }}" for="otherProgramSecond">{{ 'SIGNUP_OTHER_PROGRAM'|trans }}</label>
+                    {{ form_widget(form.institutionsPrograms.otherProgramSecond, {'attr': {'id':'otherProgramSecond','class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-lg-2 form-group">
+                <label class="required-{{ form.institutionsPrograms.stateSecondId.vars.required }}" for="estado_secundaria">{{ 'SIGNUP_STATE'|trans }}</label>
+                {{ form_widget(form.institutionsPrograms.stateSecondId, {'attr': {'id':'estado_secundaria','class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 form-group">
+                <button type="button" class="btn btn-sm btn-outline-danger float-left del" id="clear-institution_programs">
+                    <i class="fas fa-eraser"></i> {{ 'Limpar Informações'|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+    <h2 class="mt-3">{{ 'SIGNUP_AGREE_INFO'|trans }}</h2>
+    <div class="fieldsetBg checkGroup">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-check">
+                    {{ form_widget(form.newsletterAssociated, {'attr': {'id':'newsletter_associated','class': 'form-check-input'}}) }}
+                    {{ form_label(form.newsletterAssociated, 'SIGNUP_AGREE_EMAIL'|trans, {'attr': {'class': 'form-check-label'}}) }}
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1">
+                <div class="form-check">
+                    {{ form_widget(form.newsletterEvents, {'attr': {'id':'newsletter_events','class': 'form-check-input'}}) }}
+                    {{ form_label(form.newsletterEvents, 'SIGNUP_AGREE_EVENTS'|trans, {'attr': {'class': 'form-check-label'}}) }}
+                </div>
+            </div>
+            <div class="col-lg-3 offset-lg-1">
+                <div class="form-check">
+                    {{ form_widget(form.newsletterPartners, {'attr': {'id':'newsletter_partners','class': 'form-check-input'}}) }}
+                    {{ form_label(form.newsletterPartners, 'SIGNUP_AGREE_PARTNERS'|trans, {'attr': {'class': 'form-check-label'}}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

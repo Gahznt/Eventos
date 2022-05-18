@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab-form" role="tablist">
+                <a class="nav-item nav-link tab-2 active" id="nav-form-1" data-toggle="tab" href="#tab-form-1" role="tab">
+                    {{ 'REGISTRATION DATA'|trans }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-form-1" role="tabpanel">
+                <h1>{{ 'REGISTRATION DATA'|trans }}</h1>
+            </div>
+
+            <div class="fieldset">
+                <div class="row" id="sign_up">
+                    <div class="col-4 col-lg-4 div-readonly">
+                        <div class="label">{{ 'DASHBOARD_LBL_STATUS_PAID'|trans }}</div>
+                        <div class="value">{{ data.statusPay ? 'PAYMENT_STATUS_PAID'|trans : 'PAYMENT_STATUS_DEBT'|trans}}</div>
+                    </div>
+                    <div class="col-8 col-lg-8 div-readonly">
+                        <div class="label">{{ 'DASHBOARD_LBL_EDITION_SIGNUP_MODE'|trans }}</div>
+                        <div class="value">{{ data.PaymentMode.name }}</div>
+                    </div>
+                    <div class="col-4 col-lg-4 div-readonly">
+                        <div class="label">{{ 'DASHBOARD_LBL_EVENT'|trans }}</div>
+                        <div class="value">{{ data.edition.event.namePortuguese }}</div>
+                    </div>
+                    <div class="col-8 col-lg-8 div-readonly">
+                        <div class="label">{{ 'DASHBOARD_LBL_EDITION'|trans }}</div>
+                        <div class="value">{{ data.edition.namePortuguese }}</div>
+                    </div>
+                    <div class="col-12 div-readonly">
+                        <div class="label">{{ 'Presentation of the event'|trans }}</div>
+                        <div class="value">{{ data.edition.descriptionPortuguese|raw }}</div>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <a class="btn btn-outline-primary" onclick="javascript:history.go(-1)">
+                            <i class="far fa-arrow-alt-circle-left"></i><span>&nbsp;VOLTAR</span>
+                        </a>
+                    </div>
+                </div>  <!-- ./class="row" id="sign_up" -->
+            </div>  <!-- ./class="fieldset" -->
+        </div>  <!-- ./class="tab-content" -->
+    </div>  <!-- ./class="container" -->
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

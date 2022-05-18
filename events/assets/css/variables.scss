@@ -1,0 +1,52 @@
+$primary: #313e8f;
+$secondary: #f7be4d;
+$dark: #34495e;
+$footer: #3c4f80;
+$primary-alt: #202f56;
+$background: #18233f;
+$success: #49b7ac;
+$info: #477cc3;
+$warning: #f5a623;
+$alert: #d0305d;
+$gray-darkest: #9b9b9b;
+$gray-darker: #8999a7;
+$grey-dark: #a2b1bd;
+$gray-disabled: #adbac5;
+$gray-medium: #c8d4dd;
+$grey-light: #d5dfe7;
+$grey-superlight: #e6ebef;
+$bg-warning: #FEF7EB;
+$bg-info: #EEF3FA;
+$bg-success: #EEF8F7;
+$bg-alert: #FAEAEE;
+
+
+// espacamento navbar, breadcumb, content
+$navbar-bottom: 80px;
+$content-top: 100px;
+$breadcumb-height: 120px;
+$breadcumb-top: -($content-top+$breadcumb-height/2);
+$breadcumb-mobile-top: -$content-top+20px;
+$breadcumb-pad-top: 20px;
+$breadcumb-pad-bottom: 10px;
+
+// bootstrap
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "danger": $alert,
+  "warning": $warning,
+  "info": $info,
+  "light": $grey-light,
+  "dark": $dark,
+  "muted": $grey-dark
+);
+
+$custom-file-text: (
+  en: "Browse",
+  es: "Elegir",
+  pt_br: "Escolher Arquivo"
+);
+
+$mobile-vp: 414px;

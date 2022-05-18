@@ -1,0 +1,187 @@
+{% if subsection.id != '' %}
+    {{ form_start(form, {'attr': {'id':'subsectionForm', 'class': 'form', 'action':path('manager_subsections_edit', {id: subsection.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% else %}
+    {{ form_start(form, {'attr': {'id':'subsectionForm', 'class': 'form', 'action':path('manager_subsections_new', {editionId: edition.id, id: subsection.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% endif %}
+
+<div class="row">
+    <div class="col-md-5 form-group">
+        <label for="subsection_type">{{ 'SUB_TYPE'|trans }}</label>
+        {{ form_widget(form.type, {'attr': {'id':'type', 'class': 'form-control'}}) }}
+        {% if form.type.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.type.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-1 col-md-3 form-group">
+        <label for="subsection_position">{{ 'GESTOR_INFO_LABEL_ORDER'|trans }}</label>
+        {{ form_widget(form.position, {'attr': {'id':'position', 'class': 'form-control'}}) }}
+        {% if form.position.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.position.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-4 form-group">
+        <label>{{ 'SUB_FEATURED'|trans }}</label>
+        <div class="radiocheck center">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.isHighlight, {'attr': {'id':'isHighlight', 'class': 'form-check-input'}}) }}
+                {% if form.isHighlight.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.isHighlight.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 form-group">
+        <label>{{ 'Status'|trans }}</label>
+        <div class="radiocheck center">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.status, {'attr': {'id':'status', 'class': 'form-check-input'}}) }}
+                {% if form.status.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.status.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.isHomolog, {'attr': {'id':'isHomolog', 'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="subsection_isHomolog">{{ 'GESTOR_INFO_LABEL_HOM'|trans }}</label>
+                {% if form.isHomolog.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.isHomolog.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3 validCard">
+    <div class="card-header" id="subsection-header1" data-toggle="collapse" data-target="#subsection-collapse1" data-toggle="tooltip">
+        {{ 'SUB_DESC'|trans}} ({{ 'LANG_PT'|trans }})
+    </div>
+    <div id="subsection-collapse1" class="collapse" aria-labelledby="subsection-header1">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-md-8 form-group">
+                    <label class="form-check-label" for="subsection_namePortuguese">{{ 'Name'|trans }}</label>
+                    {{ form_widget(form.namePortuguese, {'attr': {'id':'namePortuguese', 'class': 'form-control'}}) }}
+                    {% if form.namePortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.namePortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="form-check-label" for="subsection_frontCallPortuguese">{{ 'SUB_HEADLINE'|trans }}</label>
+                    {{ form_widget(form.frontCallPortuguese, {'attr': {'id':'frontCallPortuguese', 'class': 'form-control'}}) }}
+                    {% if form.frontCallPortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.frontCallPortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="subsection_descriptionPortuguese">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.descriptionPortuguese, {'attr': {'id':'descriptionPortuguese', 'class': 'htmleditor'}}) }}
+                    {% if form.descriptionPortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.descriptionPortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3 validCard">
+    <div class="card-header" id="subsection-header2" data-toggle="collapse" data-target="#subsection-collapse2">
+        {{ 'SUB_DESC'|trans}} ({{ 'LANG_EN'|trans }})
+    </div>
+    <div id="subsection-collapse2" class="collapse" aria-labelledby="subsection-header2">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-md-8 form-group">
+                    <label class="form-check-label" for="subsection_nameEnglish">{{ 'Name'|trans }}</label>
+                    {{ form_widget(form.nameEnglish, {'attr': {'id':'nameEnglish', 'class': 'form-control'}}) }}
+                    {% if form.nameEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.nameEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="form-check-label" for="subsection_frontCallEnglish">{{ 'SUB_HEADLINE'|trans }}</label>
+                    {{ form_widget(form.frontCallEnglish, {'attr': {'id':'frontCallEnglish', 'class': 'form-control'}}) }}
+                    {% if form.frontCallEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.frontCallEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="subsection_descriptionEnglish">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.descriptionEnglish, {'attr': {'id':'descriptionEnglish', 'class': 'htmleditor'}}) }}
+                    {% if form.descriptionEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.descriptionEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3 validCard">
+    <div class="card-header" id="subsection-header3" data-toggle="collapse" data-target="#subsection-collapse3">
+        {{ 'SUB_DESC'|trans}} ({{ 'LANG_ES'|trans }})
+    </div>
+    <div id="subsection-collapse3" class="collapse" aria-labelledby="subsection-header3">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-md-8 form-group">
+                    <label class="form-check-label" for="subsection_nameSpanish">{{ 'Name'|trans }}</label>
+                    {{ form_widget(form.nameSpanish, {'attr': {'id':'nameSpanish', 'class': 'form-control'}}) }}
+                    {% if form.nameSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.nameSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="form-check-label" for="subsection_frontCallSpanish">{{ 'SUB_HEADLINE'|trans }}</label>
+                    {{ form_widget(form.frontCallSpanish, {'attr': {'id':'frontCallSpanish', 'class': 'form-control'}}) }}
+                    {% if form.frontCallSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.frontCallSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="subsection_descriptionSpanish">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.descriptionSpanish, {'attr': {'id':'descriptionSpanish', 'class': 'htmleditor'}}) }}
+                    {% if form.descriptionSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.descriptionSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary" href="{{ path('manager_subsections_index', {'editionId': edition.id}) }}">{{ 'CANCEL'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}

@@ -1,0 +1,26 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <p style="color:red;">Não tomar como base para layout de CSS e HTML</p>
+        <div class="row">
+            <div class="col-md-12 ml-md-auto" style="background: white;color: black;">
+                <h1>Edit example</h1>
+
+                {{ include('example/_form.html.twig', {'button_label': 'Update'}) }}
+
+                <a class="btn btn-primary" href="{{ path('example_index') }}">back to list</a>
+
+                {{ include('example/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        const route = "{{ path('sub_dependent_example')|escape('js') }}";
+    </script>
+    {{ parent() }}
+    {{ encore_entry_script_tags('example') }}
+{% endblock %}

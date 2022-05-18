@@ -1,0 +1,114 @@
+{% import _self as formMacros %}
+
+{% macro printStepPrototypePanelist(item) %}
+    <div class="fieldsetBg collection-item painelista mb-3" data-count="__name__">
+        <h1 id="title">
+            {{ 'PANELIST_DATA'|trans }}&nbsp;#<span class="collection-item-position"></span>
+        </h1>
+        <div class="row">
+            <div class="col-lg-6 form-group">
+                <label for="country">{{ 'PANEL_COUNTRY'|trans }}</label>
+                {{ form_widget(item.country, {'attr': {'class': 'form-control', 'data-count':"__name__"}}) }}
+                {% if item.country.vars['errors']|length > 0 %}
+                    <div class="invalid-feedback">
+                        {% for error in item.country.vars['errors'] %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 form-group">
+                <label id="label-cpf-__name__" for="cpf-__name__">{{ 'Document'|trans }}</label>
+                <div class="input-group">
+                    {{ form_widget(item.cpf, {'id':'cpf-__name__', 'attr': {'class': 'form-control', 'data-count':"__name__"}}) }}
+                    <div class="input-group-append searchCpf">
+                        <button type="button" class="btn btn-primary-alt cpfSearch" data-count="__name__" data-route="{{ path('user_by_country') }}">
+                            {{ 'PANEL_SEARCH'|trans }}
+                        </button>
+                    </div>
+                </div>
+                <div class="user-fake-error"></div>
+            </div>
+            <div class="col-12 form-group">
+                <label for="panelistFake">{{ 'Full Name'|trans }}</label>
+                {{ form_widget(item.panelistFake, {'attr': {'class': 'form-control input-user-fake disable'}}) }}
+                <div class="d-none">
+                    {{ form_widget(item.panelist, {'attr': {'class': 'form-control input-user disable'}}) }}
+                </div>
+                {% if item.panelist.vars['errors']|length > 0 %}
+                    <div class="invalid-feedback">
+                        {% for error in item.panelist.vars['errors'] %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 form-group">
+                <label for="curriculum-0">{{ 'LATTES_LINK'|trans }}</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text btn btn-primary-alt"><i class="fas fa-link"></i></span>
+                    </div>
+                    {{ form_widget(item.proponentCurriculumLattesLink, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                {% if item.proponentCurriculumLattesLink.vars['errors']|length > 0 %}
+                    <div class="invalid-feedback">
+                        {% for error in item.proponentCurriculumLattesLink.vars['errors'] %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6">
+                <label for="curriculumpdf-0">{{ 'PANEL_CV_PDF'|trans }}</label>
+                <div class="custom-file">
+                    {{ form_widget(item.proponentCurriculumPdfPath, {'attr': {'data-count':'__name__', 'class': 'custom-file-input painelist'}}) }}
+                    <label data-count="__name__" id="custom-file-label___name__" class="custom-file-label"
+                           for="custom-file-label___name__"
+                           data-label="{{ 'PANEL_UPLOAD_NOFILE'|trans }}">{{ 'PANEL_UPLOAD_NOFILE'|trans }}</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 btPainelista">
+                <a class="btn btn-sm btn-outline-danger float-left del btn-remove-collection-item disabled">
+                    <i class="fas fa-minus-circle"></i>
+                    {{ 'PANELIST_REMOVE'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endmacro %}
+
+<div class="stepsTab" data-step="2">
+    <h1>{{ 'ACTIVITY_STEP2_HEAD'|trans }}</h1>
+    <div id="panelist-container-form"
+         class="collection-container"
+         data-prototype="{{ formMacros.printStepPrototypePanelist(form.panelists.vars.prototype)|e('html_attr') }}"
+         data-index="{{ form.panelists|length }}"
+    >
+        <div id="panelistas" class="collection-items">
+            {% for item in form.panelists %}
+                {{ formMacros.printStepPrototypePanelist(item)|replace({'__name__': loop.index0})|raw }}
+            {% endfor %}
+        </div>
+
+        <div class="invalid-feedback">
+            {% if form.vars['errors']|length > 0 %}
+                {% for error in form.vars['errors'] %}
+                    {{ error.message| trans }} <br/>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 btPainelista">
+                <a id="btPanelistAdd" class="btn btn-sm btn-primary float-right add btn-add-collection-item">
+                    {{ 'Adicionar Outro Painelista'|trans }}
+                    <i class="fas fa-plus-circle"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+site_annotations:
+    # loads routes from the PHP annotations of the controllers found in that directory
+    resource: '@Base/Controller/Site'
+    type:     annotation
+    prefix:
+        en: '/en/' # don't prefix URLs for English, the default locale
+        pt_br: '/pt_br/'
+        es: '/es/'
+api_annotations:
+    # loads routes from the PHP annotations of the controllers found in that directory
+    resource: '@Base/Controller/Api/VersionOne'
+    type:     annotation
+    prefix: '/api/v1'

@@ -1,0 +1,3 @@
+twig:
+    default_path: '%kernel.project_dir%/src/Bundle/Base/Resources'
+    paths: ["%kernel.project_dir%/src/Bundle/Base/Resources/bundles/TwigBundle/Exception", "%kernel.project_dir%/src/Bundle/Base/Resources/layouts", "%kernel.project_dir%/src/Bundle/Base/Resources/layouts/partials", "%kernel.project_dir%/src/Bundle/Base/Resources/views"]

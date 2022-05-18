@@ -1,0 +1,336 @@
+{% if edition.id != '' %}
+    {{ form_start(form, {'attr': {'id':'editionForm', 'class': 'form', 'action':path('manager_editions_edit', {id: edition.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% else %}
+    {{ form_start(form, {'attr': {'id':'editionForm', 'class': 'form', 'action':path('manager_editions_new', {eventId: event.id, id: edition.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% endif %}
+<style type="text/css">
+    .form .input-group-append .input-group-text, .form .input-group-prepend .input-group-text {
+        border: 1px solid #e9ecef;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-4 col-md-10 form-group">
+        <label>{{ 'Status'|trans }}</label>
+        <div class="radiocheck center">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.status, {'attr': {'id':'status', 'class': 'form-check-input'}}) }}
+                {% if form.status.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.status.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.isHomolog, {'attr': {'id':'isHomolog', 'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="edition_isHomolog">{{ 'GESTOR_INFO_LABEL_HOM'|trans }}</label>
+                {% if form.isHomolog.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.isHomolog.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-2 form-group">
+        <label for="edition_position">{{ 'SYS_EV_REPORT_AUTHOR_ORDER'|trans }}</label>
+        {{ form_widget(form.position, {'attr': {'id':'position', 'class': 'form-control'}}) }}
+        {% if form.position.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.position.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3 form-group">
+        <label for="edition_color">{{ 'MANAGER_EDITIONS_COLOR'|trans }}</label>
+        {{ form_widget(form.color, {'attr': {'id':'color', 'class': 'form-control'}}) }}
+        {% if form.color.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.color.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3 form-group">
+        <label for="edition_place">{{ 'EVENT_DETAILS_LABEL_LOCAL'|trans }}</label>
+        {{ form_widget(form.place, {'attr': {'id':'place', 'class': 'form-control'}}) }}
+        {% if form.place.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.place.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 form-group">
+        <label for="edition_dateStart">{{ 'SIGNUP_STARTDATE'|trans }}</label>
+        {{ form_widget(form.dateStart, {'attr': {'id':'dateStart', 'class': 'form-control'}}) }}
+        {% if form.dateStart.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.dateStart.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3 form-group">
+        <label for="edition_dateEnd">{{ 'SIGNUP_ENDDATE'|trans }}</label>
+        {{ form_widget(form.dateEnd, {'attr': {'id':'dateEnd', 'class': 'form-control'}}) }}
+        {% if form.dateEnd.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.dateEnd.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-6 form-group">
+        <label for="edition_signupDeadline">{{ 'Data limite inscrição trabalhos aprovados'|trans }}</label>
+        <div class="row">
+            <div class="col-lg-6">
+                {{ form_widget(form.signupDeadline, {'attr': {'id':'signupDeadline', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+        {% if form.signupDeadline.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.signupDeadline.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="card mt-3 validCard">
+    <div class="card-header" id="edition-header1" data-toggle="collapse" data-target="#edition-collapse1" data-toggle="tooltip">
+        {{ 'EDITIONS_NEW_DESC'|trans }} ({{ 'LANG_PT'|trans }})
+    </div>
+    <div id="edition-collapse1" class="collapse" aria-labelledby="edition-header1">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-md-12 form-group">
+                    <label class="form-check-label" for="edition_namePortuguese">{{ 'Name'|trans }}</label>
+                    {{ form_widget(form.namePortuguese, {'attr': {'id':'namePortuguese', 'class': 'form-control'}}) }}
+                    {% if form.namePortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.namePortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-12 form-group">
+                    <label class="form-check-label">{{ 'Nome por extenso (com número da edição)'|trans }}</label>
+                    {{ form_widget(form.longnamePortuguese, {'attr': {'class': 'form-control'}}) }}
+                    {% if form.longnamePortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.longnamePortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="edition_descriptionPortuguese">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.descriptionPortuguese, {'attr': {'id':'descriptionPortuguese', 'class': 'htmleditor'}}) }}
+                    {% if form.descriptionPortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.descriptionPortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3 validCard">
+    <div class="card-header" id="edition-header2" data-toggle="collapse" data-target="#edition-collapse2">
+        {{ 'EDITIONS_NEW_DESC'|trans }} ({{ 'LANG_EN'|trans }})
+    </div>
+    <div id="edition-collapse2" class="collapse" aria-labelledby="edition-header2">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-md-12 form-group">
+                    <label class="form-check-label" for="edition_nameEnglish">{{ 'Name'|trans }}</label>
+                    {{ form_widget(form.nameEnglish, {'attr': {'id':'nameEnglish', 'class': 'form-control'}}) }}
+                    {% if form.nameEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.nameEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-12 form-group">
+                    <label class="form-check-label">{{ 'Nome por extenso (com número da edição)'|trans }}</label>
+                    {{ form_widget(form.longnameEnglish, {'attr': {'class': 'form-control'}}) }}
+                    {% if form.longnameEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.longnameEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12  form-group">
+                    <label class="form-check-label" for="edition_descriptionEnglish">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.descriptionEnglish, {'attr': {'id':'descriptionEnglish', 'class': 'htmleditor'}}) }}
+                    {% if form.descriptionEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.descriptionEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3 validCard">
+    <div class="card-header" id="edition-header3" data-toggle="collapse" data-target="#edition-collapse3">
+        {{ 'EDITIONS_NEW_DESC'|trans }} ({{ 'LANG_ES'|trans }})
+    </div>
+    <div id="edition-collapse3" class="collapse" aria-labelledby="edition-header3">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-md-12 form-group">
+                    <label class="form-check-label" for="edition_nameSpanish">{{ 'Name'|trans }}</label>
+                    {{ form_widget(form.nameSpanish, {'attr': {'id':'nameSpanish', 'class': 'form-control'}}) }}
+                    {% if form.nameSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.nameSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-12 form-group">
+                    <label class="form-check-label">{{ 'Nome por extenso (com número da edição)'|trans }}</label>
+                    {{ form_widget(form.longnameSpanish, {'attr': {'class': 'form-control'}}) }}
+                    {% if form.longnameSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.longnameSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="edition_descriptionSpanish">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.descriptionSpanish, {'attr': {'id':'descriptionSpanish', 'class': 'htmleditor'}}) }}
+                    {% if form.descriptionSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.descriptionSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-6 form-group">
+        <label>&nbsp;</label>
+        <div class="radiocheck center">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.isShowHome, {'attr': {'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="edition_isShowHome">{{ 'Exibir no Carrossel da Home'|trans }}</label>
+                {% if form.isShowHome.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.isShowHome.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-6 form-group">
+        <label>{{ 'Posição de exibição'|trans }}</label>
+        {{ form_widget(form.homePosition, {'attr': {'class': 'form-control'}}) }}
+
+        {% if form.homePosition.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.homePosition.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-6 form-group">
+        <label>{{ 'Carga Horária'|trans }}</label>
+        {{ form_widget(form.workload, {'attr': {'class': 'form-control'}}) }}
+
+        {% if form.workload.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.workload.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-6 form-group">
+        <label>{{ 'Carga Horária para Voluntário'|trans }}</label>
+        {{ form_widget(form.voluntaryWorkload, {'attr': {'class': 'form-control'}}) }}
+
+        {% if form.voluntaryWorkload.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.voluntaryWorkload.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-12 form-group">
+        <label>Arquivo para Layout de Certificados</label>
+        <div class="custom-file" lang="{{ app.request.locale }}">
+            {{ form_widget(form.certificateLayoutPath, {'attr': {'class': 'custom-file-input'}}) }}
+            <label class="custom-file-label">{{ 'Nenhum arquivo selecionado'|trans }}</label>
+        </div>
+        {% if form.certificateLayoutPath.vars['errors']|length > 0 %}
+            {% for error in form.certificateLayoutPath.vars['errors'] %}
+                <div class="invalid-feedback d-block">
+                    {{ error.message|trans }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-4 form-group">
+        <label>{{ 'Tamanho do QR Code dos Certificas'|trans }}</label>
+        <div class="input-group">
+            {{ form_widget(form.certificateQrcodeSize, {'attr': {'class': 'form-control'}}) }}
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">px</span>
+            </div>
+        </div>
+
+        {% if form.certificateQrcodeSize.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.certificateQrcodeSize.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-4 form-group">
+        <label>{{ 'Margem Direita do QR Code'|trans }}</label>
+        <div class="input-group">
+            {{ form_widget(form.certificateQrcodePositionRight, {'attr': {'class': 'form-control'}}) }}
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">px</span>
+            </div>
+        </div>
+
+        {% if form.certificateQrcodePositionRight.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.certificateQrcodePositionRight.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-4 form-group">
+        <label>{{ 'Margem Inferior do QR Code'|trans }}</label>
+        <div class="input-group">
+            {{ form_widget(form.certificateQrcodePositionBottom, {'attr': {'class': 'form-control'}}) }}
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">px</span>
+            </div>
+        </div>
+
+        {% if form.certificateQrcodePositionBottom.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.certificateQrcodePositionBottom.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary" href="{{ path('manager_editions_index', {'eventId': event.id}) }}">{{ 'CANCEL'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}

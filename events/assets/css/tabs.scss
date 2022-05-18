@@ -1,0 +1,83 @@
+.nav-tabs {
+  border-bottom: none;
+  .nav-item.nav-link {
+    color: $dark;
+    background-color: $grey-dark;
+    border: none;
+    font-size: 12px;
+    font-weight: 900;
+    opacity: 0.8;
+    text-transform: uppercase;
+    border-radius: 10px 10px 0 0;
+    margin-right: 2px;
+    min-height: 40px;
+    &.active {
+      background-color: $grey-superlight;
+      opacity: 1;
+    }
+    > span {
+      display: block;
+      text-align: center;
+    }
+    @media only screen and (max-width: $mobile-vp) {
+      margin-right: 0;
+      &.tab-2 {
+        flex: 0 0 16.66667%;
+        max-width: 16.66667%;
+      }
+      &.tab-4 {
+        flex: 0 0 33.33333%;
+        max-width: 33.33333%
+      }
+      &.tab-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+      &.tab-8 {
+        flex: 0 0 66.66667%;
+        max-width: 66.66667%;
+      }
+    }
+  }
+}
+
+.tab-content {
+  .tab-pane {
+    padding: 35px 30px;
+    background-color: $grey-superlight;
+    border-radius: 0 10px 10px 10px;
+    @media only screen and (max-width: $mobile-vp) {
+      border-top-right-radius: 0;
+    }
+    .table-striped tbody tr {
+      color: $dark;
+      &:nth-of-type(odd) {
+        background-color: rgba($grey-light, .5);
+      }
+    }
+    .nav-item.nav-link {
+      // margin-right: 0;
+      &.active {
+        background-color: $gray-medium;
+      }
+    }
+    .tab-content > .tab-pane {
+      background-color: $gray-medium;
+
+      .div-readonly {
+        margin-bottom: 8px;
+        .label {
+          color: #666666;
+        }
+        .value {
+          color: $dark;
+          border-left: 1px solid $grey-superlight;
+          border-bottom: 1px solid $grey-superlight;
+        }
+      }
+    }
+    .card {
+      background-color: $grey-light;
+    }
+  }
+}

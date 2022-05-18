@@ -1,0 +1,41 @@
+{# layouts/base.html.twig #}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}ANPAD{% endblock %}</title>
+    {% block stylesheets %}
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900" rel="stylesheet">
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% include 'navbar.html.twig' %}
+{% set breadcumb = {
+  'title': 'Cadastro de Usuários',
+  'route' : ['ANPAD', 'Usuários', 'Cadastro'],
+  'subtitle_': {
+    'text': 'Data Limite: 19/05/2020 às 17:59',
+    'color': 'danger'
+  },
+  'label_': 'EnANPAD 2020'
+} %}
+<div class="content {{ breadcumb is defined ? 'hasBreadcumb' : '' }}">
+    {% if breadcumb is defined %}
+    {% include 'breadcrumb.html.twig' with breadcumb %}
+    {% endif %}
+    {% block body %}{% endblock %}
+</div>
+
+{% include 'footer.html.twig' %}
+{% include 'modal/delete.html.twig' %}
+{% include 'cookieconsent.html.twig' %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('login') }}
+{% endblock %}
+</body>
+</html>

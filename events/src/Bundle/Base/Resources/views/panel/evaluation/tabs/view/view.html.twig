@@ -1,0 +1,83 @@
+{{ form_start(formView, {'method':'GET', 'attr': {'id':'panelViewForm','action':path('panel_evaluation_index'), 'novalidate':'novalidate' }}) }}
+
+{% if panels|length %}
+
+  {% set panelLog2 = panelLog ?? null %}
+
+  <div class="stepsTab" data-step="3">
+
+    <div class="row">
+      <div class="col-md-10">
+        <h1>{{ 'PEVAL_STEP3_HEAD'|trans }}</h1>
+      </div>
+      <div class="col-md-2">
+        <a class="btn btn-info float-right ml-2" data-toggle="modal" data-target="#panelStats" title="{{ 'PEVAL_STATS_LINK'|trans }}"><i class="far fa-list-alt"></i></a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <label for="panel-edit-id">{{ 'Panel'|trans }}</label>
+        <select name="panel-edit-id" id="panel-edit-id" class="form-control" disabled="disabled">
+          <option value="{{ panel.id }}">{{ panel.title }}</option>
+        </select>
+      </div>
+
+      <div class="col-md-6 form-group">
+      <label for="panel-edit-edition">{{ 'TEVAL_EDITION'|trans }}</label>
+        <select name="panel-edit-edition" id="panel-edit-edition" class="form-control" disabled="disabled">
+          <option value="{{ panel.editionId.id }}">{{ panel.editionId.namePortuguese }}</option>
+        </select>
+      </div>
+    </div>
+
+    <nav class="mt-3">
+      <div class="nav nav-tabs" id="nav-tab-panel" role="tablist">
+        <a class="nav-item nav-link text-center tab-2 mr-1 {{ stepDet==1 ? 'active':'' }}" id="nav-panel-1" data-toggle="tab" href="#tab-panel-1" role="tab">
+          {{ 'PANEL_STEP1'|trans|raw }}
+        </a>
+        <a class="nav-item nav-link text-center tab-2 mr-1 {{ stepDet==2 ? 'active':'' }}" id="nav-panel-2" data-toggle="tab" href="#tab-panel-2" role="tab">
+          {{ 'PANEL_STEP2'|trans|raw }}
+        </a>
+        <a class="nav-item nav-link text-center tab-2 mr-1 {{ stepDet==3 ? 'active':'' }}" id="nav-panel-3" data-toggle="tab" href="#tab-panel-3" role="tab">
+          {{ 'PANEL_STEP3'|trans|raw }}
+        </a>
+        <a class="nav-item nav-link text-center tab-2 mr-1 {{ stepDet==4 ? 'active':'' }}" id="nav-panel-4" data-toggle="tab" href="#tab-panel-4" role="tab">
+          {{ 'TEVAL_CONSIDERATIONS'|trans|raw }}
+        </a>
+        <a class="nav-item nav-link text-center tab-2 mr-1 {{ stepDet==5 ? 'active':'' }}" id="nav-panel-5" data-toggle="tab" href="#tab-panel-5" role="tab">
+          {{ 'Logs'|trans }}
+        </a>
+      </div>
+    </nav>
+
+    <div class="tab-content">
+      <div class="tab-pane fade {{ stepDet==1 ? 'show active':'' }}" id="tab-panel-1" role="tabpanel">
+        {% include 'panel/evaluation/tabs/view/tabs/one.html.twig' %}
+      </div>
+      <div class="tab-pane fade {{ stepDet==2 ? 'show active':'' }}" id="tab-panel-2" role="tabpanel">
+        {% include 'panel/evaluation/tabs/view/tabs/two.html.twig' %}
+      </div>
+      <div class="tab-pane fade {{ stepDet==3 ? 'show active':'' }}" id="tab-panel-3" role="tabpanel">
+        {% include 'panel/evaluation/tabs/view/tabs/three.html.twig' %}
+      </div>
+      <div class="tab-pane fade {{ stepDet==4 ? 'show active':'' }}" id="tab-panel-4" role="tabpanel">
+        {% include 'panel/evaluation/tabs/view/tabs/four.html.twig' %}
+      </div>
+      <div class="tab-pane fade {{ stepDet==5 ? 'show active':'' }}" id="tab-panel-5" role="tabpanel">
+        {% include 'panel/evaluation/tabs/view/tabs/five.html.twig' %}
+      </div>
+    </div>
+
+  </div>
+
+{% else %}
+  <h1>{{ 'PEVAL_ACTION_NOPANEL'|trans }}.
+{% endif %}
+
+<input type="hidden" id="panelId" name="panelId" value="{{ panelId }}">
+<input type="hidden" id="stepDet" name="stepDet" value="{{ stepDet }}">
+<input type="hidden" name="step" value="3">
+{{ form_end(formView, {'render_rest': false}) }}
+
+{% include "@Base/panel/evaluation/tabs/view/modal/stats.html.twig" %}

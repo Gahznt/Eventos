@@ -1,0 +1,156 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="formDiv">
+
+            {{ form_start(form, {'attr': {novalidate: true, 'enctype':'multipart/form-data'}}) }}
+            <div class="form">
+                <h1>{{ 'Dados da Tese'|trans }}</h1>
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message |trans }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger">
+                        {{ message |trans }}
+                    </div>
+                {% endfor %}
+
+                <div class="row">
+                    <div class="col-md-9 form-group">
+                        <label>{{ 'Título'|trans }}</label>
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        {% if form.title.vars['errors']|length > 0 %}
+                            {% for error in form.title.vars['errors'] %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error.message|trans }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label>{{ 'Idioma da Tese'|trans }}</label>
+                        {{ form_widget(form.language, {'attr': {'class': 'form-control'}}) }}
+                        {% if form.language.vars['errors']|length > 0 %}
+                            {% for error in form.language.vars['errors'] %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error.message|trans }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label>{{ 'Divisão Acadêmica'|trans }}</label>
+                        {{ form_widget(form.division, {'attr': {'class': 'form-control'}}) }}
+                        {% if form.division.vars['errors']|length > 0 %}
+                            {% for error in form.division.vars['errors'] %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error.message|trans }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8 form-group">
+                        <label>{{ 'Tema de Interesse'|trans }}</label>
+                        {{ form_widget(form.userThemes, {'attr': {'class': 'form-control', 'data-route': path('get_by_division'), 'data-select': 'Select'|trans}}) }}
+                        {% if form.userThemes.vars['errors']|length > 0 %}
+                            {% for error in form.userThemes.vars['errors'] %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error.message|trans }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label>{{ 'Modalidade'|trans }}</label>
+                        {{ form_widget(form.modality, {'attr': {'class': 'form-control'}}) }}
+                        {% if form.modality.vars['errors']|length > 0 %}
+                            {% for error in form.modality.vars['errors'] %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error.message|trans }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-8 form-group">
+                        <label>{{ 'Nome do Orientador da Tese'|trans }}</label>
+                        {{ form_widget(form.advisorName, {'attr': {'class': 'form-control'}}) }}
+                        {% if form.advisorName.vars['errors']|length > 0 %}
+                            {% for error in form.advisorName.vars['errors'] %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error.message|trans }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row mt-6">
+                    <div class="col-md-6 form-group">
+                        <div class="alert alert-warning">
+                            <h5>IMPORTANTE:</h5>
+                            <p>Para submeter seu arquivo você ter salvo ele com o formato</p>
+                            <h5>.PDF</h5>
+                        </div>
+
+                        <div class="custom-file">
+                            {{ form_widget(form.thesisFilePath, {'attr': {'class': 'custom-file-input'}}) }}
+                            <label class="custom-file-label">{{ 'Upload do Arquivo da Tese'|trans }}</label>
+                        </div>
+                        {% if form.thesisFilePath.vars['errors']|length > 0 %}
+                            {% for error in form.thesisFilePath.vars['errors'] %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error.message|trans }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <div class="alert alert-warning">
+                            <h5>IMPORTANTE:</h5>
+                            <p>Assinada pelo(a) orientador(a), coordenador(a) ou diretor(a) do programa ou do curso de doutorado.</p>
+                            <p>Para submeter seu arquivo você ter salvo ele com o formato</p>
+                            <h5>.PDF</h5>
+                        </div>
+
+                        <div class="custom-file">
+                            {{ form_widget(form.agreementFilePath, {'attr': {'class': 'custom-file-input'}}) }}
+                            <label class="custom-file-label">{{ 'Declaração de Concordância da Submissão'|trans }}</label>
+                        </div>
+                        {% if form.agreementFilePath.vars['errors']|length > 0 %}
+                            {% for error in form.agreementFilePath.vars['errors'] %}
+                                <div class="invalid-feedback d-block">
+                                    {{ error.message|trans }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 mt-5">
+                </div>
+                <div class="col-lg-6 mt-5">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">{{ 'Enviar'|trans }} <i id="btnLoad"></i></button>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('thesisSubmission') }}
+{% endblock %}

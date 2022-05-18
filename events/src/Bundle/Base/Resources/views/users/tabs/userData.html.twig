@@ -1,0 +1,391 @@
+{% set identifierLabel = '' %}
+
+{% if (constant('USER_RECORD_TYPE_BRAZILIAN', user) == user.recordType) %}
+    {% set identifierLabel = 'CPF' %}
+{% else %}
+    {% if (constant('USER_FOREIGN_USE_CPF_YES', user) == user.isForeignUseCpf) %}
+        {% set identifierLabel = 'CPF' %}
+    {% else %}
+        {% if (constant('USER_FOREIGN_USE_PASSPORT_YES', user) == user.isForeignUsePassport) %}
+            {% set identifierLabel = 'Passport' %}
+        {% else %}
+            {% set identifierLabel = 'Identifier' %}
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+<div class="row pt-3">
+    <div class="col-lg-4 form-group div-readonly">
+        <label class="label">{{ 'Nationality' | trans }}</label>
+        <div class="value">{{ constant('USER_RECORD_TYPE', user)|array_flip()[user.recordType]|trans }}</div>
+    </div>
+
+    <div class="col-md-8 div-readonly">
+        <div class="label">{{ 'PANEL_COUNTRY'|trans }}</div>
+        <div class="value">{{ user.city.country.name }}</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3 div-readonly">
+        <div class="label">{{ identifierLabel|trans }}</div>
+        <div class="value">{{ user.identifier }}</div>
+    </div>
+    <div class="col-md-6 div-readonly">
+        <div class="label">{{ 'Full Name'|trans }}</div>
+        <div class="value">{{ user.name }}</div>
+    </div>
+    <div class="col-md-3 div-readonly">
+        <div class="label">{{ 'Birthday'|trans }}</div>
+        <div class="value">{{ user.birthday|format_datetime('short', 'none') }}</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 div-readonly">
+        <div class="label">{{ 'Zipcode'|trans }}</div>
+        <div class="value">{{ user.zipcode }}</div>
+    </div>
+    <div class="col-md-6 div-readonly">
+        <div class="label">{{ 'USER_STREET'|trans }}</div>
+        <div class="value">{{ user.street }}</div>
+    </div>
+    <div class="col-md-2 div-readonly">
+        <div class="label">{{ 'USER_STREETNUM'|trans }}</div>
+        <div class="value">{{ user.number }}</div>
+    </div>
+    <div class="col-md-2 div-readonly">
+        <div class="label">{{ 'Complement'|trans }}</div>
+        <div class="value">{{ user.complement }}</div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3 div-readonly">
+        <div class="label">{{ 'Neighborhood'|trans }}</div>
+        <div class="value">{{ user.neighborhood }}</div>
+    </div>
+    <div class="col-md-3 div-readonly">
+        <div class="label">{{ 'State'|trans }}</div>
+        <div class="value">{{ user.city.state }}</div>
+    </div>
+    <div class="col-md-6 div-readonly">
+        <div class="label">{{ 'City'|trans }}</div>
+        <div class="value">{{ user.city }}</div>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col-md-4 div-readonly">
+        <div class="label">{{ 'E-mail'|trans }}</div>
+        <div class="value">{{ user.email }}</div>
+    </div>
+    <div class="col-md-3 div-readonly">
+        <div class="label">{{ 'Cellphone'|trans }}</div>
+        <div class="value">
+            {% if user.cellphone|length >= 11 %}
+                ({{ user.cellphone|slice(0,2) }}) {{ user.cellphone|slice(2,5) }}-{{ user.cellphone|slice(7) }}
+            {% else %}
+                ({{ user.cellphone|slice(0,2) }}) {{ user.cellphone|slice(2,4) }}-{{ user.cellphone|slice(6) }}
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-3 div-readonly">
+        <div class="label">{{ 'Phone'|trans }}</div>
+        <div class="value">
+            {% if user.phone|length >= 11 %}
+                ({{ user.phone|slice(0,2) }}) {{ user.phone|slice(2,5) }}-{{ user.phone|slice(7) }}
+            {% else %}
+                ({{ user.phone|slice(0,2) }}) {{ user.phone|slice(2,4) }}-{{ user.phone|slice(6) }}
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-2 div-readonly">
+        <div class="label">{{ 'Extension'|trans }}</div>
+        <div class="value">{{ user.extension }}</div>
+    </div>
+</div>
+
+{% if user.institutionsPrograms|length > 0 %}
+
+    <div id="accordion5">
+        <div class="card mt-3">
+            <div class="card-header" id="heading5">
+        <span data-toggle="collapse" data-target="#collapse5"
+              aria-expanded="true" aria-controls="collapse5">
+          {{ 'USER_INSTITUTES_PROGRAMS'|trans }}
+        </span>
+            </div>
+            <div id="collapse5" class="collapse"
+                 aria-labelledby="heading5"
+                 data-parent="#accordion5">
+                <div class="card-body">
+                    {% if(user.institutionsPrograms.institutionFirstId is not empty) %}
+                        <div class="row">
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'SIGNUP_PRIME_CO'|trans }}</div>
+                                <div class="value">
+                                    {{ user.institutionsPrograms.institutionsFirst }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'SIGNUP_PROGRAM'|trans }}</div>
+                                <div class="value">
+                                    {{ user.institutionsPrograms.programsFirst }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'SIGNUP_STATE'|trans }}</div>
+                                <div class="value">{{ user.institutionsPrograms.stateFirstId }}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if(user.institutionsPrograms.institutionSecondId is not empty) %}
+                        <div class="row">
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'SIGNUP_SECN_CO'|trans }}</div>
+                                <div class="value">
+                                    {{ user.institutionsPrograms.institutionsSecond }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'SIGNUP_PROGRAM'|trans }}</div>
+                                <div class="value">
+                                    {{ user.institutionsPrograms.programsSecond }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'SIGNUP_STATE'|trans }}</div>
+                                <div class="value">{{ user.institutionsPrograms.stateSecondId }}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if user.academics|length > 0 %}
+    <div id="accordion1">
+        <div class="card mt-3">
+            <div class="card-header" id="heading1">
+            <span data-toggle="collapse"
+                  data-target="#collapse1"
+                  aria-expanded="true"
+                  aria-controls="collapse1">
+              {{ 'USER_ACADEMIC_COUNT'|trans }} ({{ user.academics|length }})
+            </span>
+            </div>
+            <div id="collapse1" class="collapse" aria-labelledby="heading1" data-parent="#accordion1">
+                {% for key, academic in user.academics %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 div-readonly">
+                                <div class="label">{{ 'Level'|trans }}</div>
+                                <div class="value">{{ academic.getLevelString|trans }}</div>
+                            </div>
+                            <div class="col-md-6 div-readonly">
+                                <div class="label">{{ 'Progress'|trans }}</div>
+                                <div class="value">{{ academic.getStatusString|trans }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% if key +1 < user.academics|length %}
+                        <div class="card-body">
+                            <hr style="border: 3px solid #3c4f80;"/>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if user.methods|length > 0 %}
+    <div id="accordion2">
+        <div class="card mt-3">
+            <div class="card-header" id="heading2">
+        <span data-toggle="collapse" data-target="#collapse2"
+              aria-expanded="true" aria-controls="collapse2">
+          {{ 'USER_METHODS_TITLE'|trans }} ({{ user.methods|length }})
+        </span>
+            </div>
+            <div id="collapse2" class="collapse"
+                 aria-labelledby="heading2"
+                 data-parent="#accordion2">
+
+                {% for key, method in user.methods %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'Name'|trans }}</div>
+                                <div class="value">{{ method.name }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% if key + 1 < user.methods|length %}
+                        <div class="card-body">
+                            <hr style="border: 3px solid #3c4f80;"/>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if user.userEvaluationArticles|length > 0 %}
+
+    <div id="accordion4">
+        <div class="card mt-3">
+            <div class="card-header" id="heading4">
+        <span data-toggle="collapse" data-target="#collapse4"
+              aria-expanded="true" aria-controls="collapse4">
+          {{ 'SIGNUP_STEP3_HEAD'|trans }}
+        </span>
+            </div>
+            <div id="collapse4" class="collapse"
+                 aria-labelledby="heading4"
+                 data-parent="#accordion4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 div-readonly">
+                            <div class="label">{{ 'SIGNUP_ACADEMIC_DIVISION'|trans }}</div>
+                            <div class="value">
+                                {% if user.userEvaluationArticles.divisionFirstId is not empty %}
+                                    {{ user.userEvaluationArticles.divisionFirstId.name }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 div-readonly">
+                            <div class="label">{{ 'SIGNUP_ACADEMIC_DIVISION2'|trans }}</div>
+                            <div class="value">
+                                {% if user.userEvaluationArticles.divisionSecondId is not empty %}
+                                    {{ user.userEvaluationArticles.divisionSecondId.name }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 div-readonly">
+                            <div class="label">{{ 'SIGNUP_INTEREST_THEME'|trans }}</div>
+                            <div class="value">
+                                {% if user.userEvaluationArticles.themeFirstId is not empty %}
+                                    {{ user.userEvaluationArticles.themeFirstId.position }} - {{ user.userEvaluationArticles.themeFirstId.details.title }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 div-readonly">
+                            <div class="label">{{ 'SIGNUP_INTEREST_THEME'|trans }}</div>
+                            <div class="value">
+                                {% if user.userEvaluationArticles.themeSecondId is not empty %}
+                                    {{ user.userEvaluationArticles.themeSecondId.position }} - {{ user.userEvaluationArticles.themeSecondId.details.title }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>{{ 'Languages'|trans }}</h2>
+                    <div class="row">
+                        <div class="col-md-4 div-readonly">
+                            <div class="label">{{ 'LANG_PT'|trans }}</div>
+                            <div class="value">{% if user.userEvaluationArticles.portuguese %} {{ 'YES'|trans }} {% else %} {{ 'NO'|trans }} {% endif %}</div>
+                        </div>
+                        <div class="col-md-4 div-readonly">
+                            <div class="label">{{ 'LANG_EN'|trans }}</div>
+                            <div class="value">{% if user.userEvaluationArticles.english %} {{ 'YES'|trans }} {% else %} {{ 'NO'|trans }} {% endif %}</div>
+                        </div>
+                        <div class="col-md-4 div-readonly">
+                            <div class="label">{{ 'LANG_ES'|trans }}</div>
+                            <div class="value">{% if user.userEvaluationArticles.spanish %} {{ 'YES'|trans }} {% else %} {{ 'NO'|trans }} {% endif %}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if user.associations|length > 0 %}
+
+    <div id="accordion6">
+        <div class="card mt-3">
+            <div class="card-header" id="heading6">
+        <span data-toggle="collapse" data-target="#collapse6"
+              aria-expanded="true" aria-controls="collapse6">
+          {{ 'USER_ASSOCIATION'|trans }}
+        </span>
+            </div>
+            <div id="collapse6" class="collapse"
+                 aria-labelledby="heading6"
+                 data-parent="#accordion6">
+                {% for key, association in user.associations %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'Level'|trans }}</div>
+                                <div class="value"> {{ association.level|nivel_associacao('label')|trans }}</div>
+                            </div>
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'Institution'|trans }}</div>
+                                <div class="value">
+                                    {{ association.institutions }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'Program'|trans }}</div>
+                                <div class="value">
+                                    {{ association.programs }}
+                                </div>
+                            </div>
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'USER_ASSOCIATION_TYPE'|trans }}</div>
+                                <div class="value"> {{ association.getTypeString|trans }}</div>
+                            </div>
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'USER_PAYMENT_STATUS'|trans }}</div>
+                                <div class="value"> {{ association.statusPay|status_pagamento('label')|trans }}</div>
+                            </div>
+
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'USER_PRIME_DIVISION'|trans }}</div>
+                                <div class="value"> {{ association.division }}</div>
+                            </div>
+
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'USER_EMISSION'|trans }}</div>
+                                <div class="value"> {{ association.createdAt|format_datetime('short', 'medium') }}</div>
+                            </div>
+
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'USER_VALUE'|trans }}</div>
+                                <div class="value"> {{ (association.getValue == 0) ? association.getValueString|format_currency('BRL') : association.getValue|format_currency('BRL') }}</div>
+                            </div>
+
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'USER_PAYMENT_DATE'|trans }}</div>
+                                <div class="value"> {{ association.lastPay is empty ? "" : association.lastPay|format_datetime('short', 'medium') }}</div>
+                            </div>
+
+                            <div class="col-md-4 div-readonly">
+                                <div class="label">{{ 'USER_EXPIRE_DATE'|trans }}</div>
+                                <div class="value">{{ association.expiredAt is empty ? "" : association.expiredAt|format_datetime('short', 'medium') }}</div>
+                            </div>
+
+                            <div class="offset-md-4 col-md-4">
+                                {% include '@Base/users/tabs/associations/form.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if key + 1 < user.associations|length %}
+                        <div class="card-body">
+                            <hr style="border: 3px solid #3c4f80;"/>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+

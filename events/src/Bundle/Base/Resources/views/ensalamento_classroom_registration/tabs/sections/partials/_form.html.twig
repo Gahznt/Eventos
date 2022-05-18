@@ -1,0 +1,241 @@
+{% import _self as formMacros %}
+
+{% macro printArticlePrototype(item) %}
+    <tr class="collection-item">
+        <td>
+            <span class="d-none">
+                {{ form_widget(item.userArticles) }}
+                {{ form_widget(item.articleTitleFake) }}
+            </span>
+            <span class="article-title-fake">{{ item.articleTitleFake.vars.data }}</span>
+
+            {% if item.userArticles.vars['errors']|length > 0 %}
+                <div class="form-error invalid-feedback">
+                    {{ item.userArticles.vars['errors'][0].message }}
+                </div>
+            {% endif %}
+        </td>
+        <td class="text-center">
+            <a data-toggle="tooltip" class="btn-remove-article hover-danger ml-1 setClipboard" title="Excluir">
+                <i class="fas fa-times"></i>
+            </a>
+        </td>
+    </tr>
+{% endmacro %}
+
+{% if entity.id != '' %}
+    {{ form_start(form, {'attr': {'id':'sectionScheduleForm', 'class': 'row', 'action':path('ensalement_sections_edit', {id: entity.id}), 'method': 'GET', 'novalidate': 'novalidate'}}) }}
+{% else %}
+    {{ form_start(form, {'attr': {'id':'sectionScheduleForm', 'class': 'row', 'action':path('ensalement_sections_new', {edition: edition.id}), 'method': 'GET', 'novalidate': 'novalidate'}}) }}
+{% endif %}
+
+<div class="col-12 col-md-6 form-group">
+    {{ form_label(form.division, 'Divisão') }}
+    {{ form_widget(form.division, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.division.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.division.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-6 form-group">
+    {{ form_label(form.userThemes, 'Tema') }}
+    {{ form_widget(form.userThemes, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.userThemes.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.userThemes.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-6 form-group">
+    {{ form_label(form.title, 'Título da Seção') }}
+    {{ form_widget(form.title, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.title.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.title.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.format, 'Formato da Seção') }}
+    {{ form_widget(form.format, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.format.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.format.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.language, 'Idioma') }}
+    {{ form_widget(form.language, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.language.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.language.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 mt-4">
+    <h3>Seleção de Coordenador e Debatedor</h3>
+</div>
+
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.coordinatorDebater1Type, 'Tipo') }}
+    {{ form_widget(form.coordinatorDebater1Type, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.coordinatorDebater1Type.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.coordinatorDebater1Type.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<!--Select 2 para selecionar a pessoa-->
+<div class="col-12 col-md-9 form-group">
+    {{ form_label(form.coordinatorDebater1, 'Selecione a Pessoa') }}
+    {{ form_widget(form.coordinatorDebater1, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.coordinatorDebater1.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.coordinatorDebater1.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.coordinatorDebater2Type, 'Tipo') }}
+    {{ form_widget(form.coordinatorDebater2Type, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.coordinatorDebater2Type.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.coordinatorDebater2Type.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<!--Select 2 para selecionar a pessoa-->
+<div class="col-12 col-md-9 form-group">
+    {{ form_label(form.coordinatorDebater2, 'Selecione a Pessoa') }}
+    {{ form_widget(form.coordinatorDebater2, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.coordinatorDebater2.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.coordinatorDebater2.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 mt-4">
+    <div class="col-md-12 bgcGray rounded-10">
+        <div class="row">
+            <div class="col-12 mt-4">
+                <h3>Seleção de Artigos</h3>
+            </div>
+
+            <!--Só libera artigo após selecionar tema - Usar Select 2-->
+            <div class="col-12 col-md-9 form-group">
+                {{ form_label(form._article, 'Artigo') }}
+                {{ form_widget(form._article, {'attr': {'class': 'filter form-control'}}) }}
+                {% if form._article.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form._article.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col-12 col-md-3 mt-4">
+                <button type="button" disabled class="btn-add-article btn btn-primary btn-lg btn-block">Adicionar<i id="btnAddArticle"></i></button>
+            </div>
+
+            <div id="article_exists" class="col-12 form-error invalid-feedback mt-0 mb-3 d-none">
+                Este Artigo já foi adicionado
+            </div>
+
+            <div class="col-12">
+                <p id="activity_indicator_article" class="activity-indicator d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+            </div>
+
+            <!--TABELA-->
+            <div class="col-12 mb-4">
+                <div class="tabela table-responsive">
+                    <table id="articles_prototype" class="table table-striped table-sm collection-container{% if form.articles|length == 0 %} d-none{% endif %}" data-prototype="{{ formMacros.printArticlePrototype(form.articles.vars.prototype)|e('html_attr') }}">
+                        <thead>
+                        <tr>
+                            <th class="">Artigo</th>
+                            <th class="text-center">Ações</th>
+                        </tr>
+                        </thead>
+                        {# A collection é montada dinamicamente a partir dos itens selecionados em _article #}
+                        <tbody class="collection-items">
+                        {% for item in form.articles %}
+                            {{ formMacros.printArticlePrototype(item)|replace({'__name__': loop.index0})|raw }}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div id="articles_empty" class="mb-0{% if form.articles|length > 0 %} d-none{% endif %}">
+                        <p class="mb-0">Nenhum Artigo adicionado.</p>
+                        {% if form.articles.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-feedback">
+                                {{ form.articles.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if form.articles|length == 0 %}
+                        <div class="d-none">
+                            {{ form_row(form.articles) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 mt-4">
+    <h3>Ensalamento e Agendamento da Apresentação</h3>
+    <p>Para ensalar e agendar as seções de trabalho, você poderá filtrar a data e horário de preferência. Em seguida, selecione o slot com a sala e local, de acordo com a disponibilidade. Atenção, quando possível, tente deixar as seções de mesmo tema em salas e horários próximos para facilitar o transito dos participantes.</p>
+</div>
+
+<div class="col-12 col-md-4 form-group">
+    {{ form_label(form.date, 'Data') }}
+    {{ form_widget(form.date, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.date.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.date.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+<!---Só habilita após selecionar data.-->
+<div class="col-12 col-md-8 form-group">
+    {{ form_label(form.systemEnsalementSessions, 'Horário') }}
+    {{ form_widget(form.systemEnsalementSessions, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.systemEnsalementSessions.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.systemEnsalementSessions.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<!---Libera após selecionar data e horário e clicar no botão "btnFilterSlots" acima.-->
+<div class="col-12 form-group">
+    {{ form_label(form.systemEnsalementSlots, 'Slots de ensalamento') }}
+    {{ form_widget(form.systemEnsalementSlots, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.systemEnsalementSlots.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.systemEnsalementSlots.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12">
+    <p id="activity_indicator_slot" class="activity-indicator d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+</div>
+
+<!---Libera após selecionar o slot.-->
+<div class="col-md-6 offset-md-6 mt-4">
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Salvar Agendamento da Seção <i id="btnLoad"></i></button>
+</div>
+
+{{ form_end(form) }}

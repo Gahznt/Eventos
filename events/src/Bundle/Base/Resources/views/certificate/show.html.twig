@@ -1,0 +1,19 @@
+{# src/layouts/base.html.twig #}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div id="certificate-html-container" class="container">
+        <style type="text/css">
+            #certificate-html-container div.back {
+                zoom: 61.666%;
+            }
+        </style>
+        {{ html|raw }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('certificateShow') }}
+    {{ parent() }}
+{% endblock %}
+

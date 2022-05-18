@@ -1,0 +1,40 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<div class="container">
+    <p style="color:red;">Não tomar como base para layout de CSS e HTML</p>
+    <div class="row">
+
+        <a class="btn btn-primary" href="{{ path('example_new') }}">Create new</a>
+    </div>
+    <div class="row">
+        <div class="col-md-12 ml-md-auto" style="background: white;color: black;">
+    <h1>Example</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ example.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ example.name }}</td>
+            </tr>
+            <tr>
+                <th>Dependent</th>
+                <td>{{ example.subDependentExample}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary"  href="{{ path('example_index') }}">back to list</a>
+
+    <a class="btn btn-primary"  href="{{ path('example_edit', {'id': example.id}) }}">edit</a>
+
+    {{ include('example/_delete_form.html.twig') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

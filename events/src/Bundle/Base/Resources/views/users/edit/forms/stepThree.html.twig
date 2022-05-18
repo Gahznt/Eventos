@@ -1,0 +1,63 @@
+{% import _self as formMacros %}
+
+    {% macro printStepPrototype(defaultStep) %}
+        <div class="fieldsetBg">
+            <div class="row">
+                <div class="col-lg-6 form-group">
+                    <label class="required-{{ defaultStep.level.vars.required }}" for="level">{{ 'SIGNUP_LEVEL'|trans }}</label>
+                    {{ form_widget(defaultStep.level, {'attr': {'id':'level','class': 'form-control'}}) }}
+                    {% if defaultStep.level.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {% for error in defaultStep.level.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label class="required-{{ defaultStep.status.vars.required }}" for="status">{{ 'SIGNUP_STATUS'|trans }}</label>
+                    {{ form_widget(defaultStep.status, {'attr': {'id':'status','class': 'form-control'}}) }}
+                    {% if defaultStep.status.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {% for error in defaultStep.status.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endmacro %}
+
+
+<div id="academic-container-form" data-index="{{ form.academics|length }}"
+     data-prototype="{{ formMacros.printStepPrototype(form.academics.vars.prototype)|e('html_attr') }}">
+    {% if form.academics|length > 0 %}
+        {% for academic in form.academics %}
+            <div class="formacao mb-5">
+                {{ formMacros.printStepPrototype(academic)|replace({'__name__': loop.index0})|raw }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% if form.academics.vars['errors']|length > 0 %}
+    <div class="form-error invalid-feedback">
+        {% for error in form.academics.vars['errors'] %}
+            {{ error.message }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="row">
+    <div id="addRow" class="col-lg-12 mt-0">
+        <a id="btAcademicAdd" class="btn btn-primary float-right">{{ 'SIGNUP_ADD_ACADEMIC'|trans }} <i class="fas fa-plus-circle"></i></a>
+    </div>
+</div>
+
+<div id="academic-remove" class="d-none">
+    <a class="btn btn-sm btn-outline-danger float-left del">
+        <i class="fas fa-minus-circle"></i> {{ 'SIGNUP_REMOVE_ACADEMIC'|trans }}
+    </a>
+</div>

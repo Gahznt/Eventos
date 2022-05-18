@@ -1,0 +1,76 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a href="{{ path('system_evaluation_panels', {'edition' : edition.id}) }}" class="nav-item nav-link tab-6" id="nav-1">
+                    {{ 'LISTAGEM DE<br/>PAINÉIS'|trans|raw }}
+                </a>
+                <a class="nav-item nav-link tab-6 active" id="nav-2" data-toggle="tab" href="#tab-2" role="tab">
+                    {{ 'DADOS DO<br/>PAINEL'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane show active" id="tab-2" role="tabpanel">
+
+                <h3>
+                    Painel #{{ panel.title }}
+                    <span class="badge badge-nl badge-{{ panel.statusEvaluation|article_evaluation_status('color') }}">
+                        {{ constant('PANEL_EVALUATION_STATUS', panel)|array_flip()[panel.statusEvaluation]|trans }}
+                    </span>
+                </h3>
+                <div class="card-body">
+                    <div class="row form mt-0">
+                        <div class="col-md-12 div-readonly">
+                            <div class="label">{{ 'Título'|trans }}</div>
+                            <div class="value">{{ panel.title }}</div>
+                        </div>
+
+                        <div class="col-md-9 div-readonly">
+                            <div class="label">{{ 'Divisão'|trans }}</div>
+                            <div class="value">{{ panel.divisionId.name }}</div>
+                        </div>
+
+                        <div class="col-md-3 div-readonly">
+                            <div class="label">{{ 'Idioma'|trans }}</div>
+                            <div class="value">{{ constant('LANGUAGE', panel)|array_flip()[panel.language]|trans }}</div>
+                        </div>
+
+                        <div class="col-md-6 div-readonly">
+                            <div class="label">{{ 'Justificativa'|trans }}</div>
+                            <div class="value">{{ panel.justification }}</div>
+                        </div>
+
+                        <div class="col-md-6 div-readonly">
+                            <div class="label">{{ 'Sugestão'|trans }}</div>
+                            <div class="value">{{ panel.suggestion }}</div>
+                        </div>
+
+                        <div class="col-12 col-lg-12 mt-3 mb-2 div-readonly">
+                            <h3>{{ 'Proponente'|trans }}</h3>
+                        </div>
+                        <div class="col-md-12 div-readonly">
+                            <div class="label">{{ 'Name'|trans }}</div>
+                            <div class="value">{{ panel.proponentId.name }}</div>
+                        </div>
+
+                        {% if panel.panelsPanelists|length > 0 %}
+                            <div class="col-12 col-lg-12 mt-3 mb-2 div-readonly">
+                                <h3>{{ 'Painelistas'|trans }} ({{ panel.panelsPanelists|length }})</h3>
+                            </div>
+                            {% for panelist in panel.panelsPanelists %}
+                                <div class="col-md-12 div-readonly">
+                                    <div class="label">{{ 'Name'|trans }}</div>
+                                    <div class="value">{{ panelist.panelistId.name }}</div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+<div class="stepsTab" data-step="2">
+    <h1>{{ 'ARTICLE_STEP2'|trans }}</h1>
+    <div class="row">
+        <div class="col-lg-4">
+            <label>{{ 'ARTICLE_ABSTRACT_MSG'|trans({'%number_words%': userArticles.editionId.event.numberWords ? userArticles.editionId.event.numberWords : 200}) }}.</label>
+        </div>
+        <div class="col-lg-8">
+            <label for="resumo">{{ 'ARTICLE_ABSTRACT_LBL'|trans }}</label>
+            {{ form_widget(form.resume, {'attr': {'id':'resume', 'class': 'form-control', 'rows': 5, 'data-number_words': userArticles.editionId.event.numberWords}}) }}
+            <p class="text-right">{{ 'TEXT_REMAINING_WORDS'|trans }}: <span id="remaining_words_counter">{{ userArticles.editionId.event.numberWords }}</span></p>
+            {% if form.resume.vars['errors']|length > 0 %}
+                <div class="form-error invalid-feedback d-block">
+                    {% for error in form.resume.vars['errors'] %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

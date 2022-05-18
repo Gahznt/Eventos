@@ -1,0 +1,48 @@
+<div class="stepsTab" data-step="3">
+    <h1>{{ 'PANEL_STEP3_HEAD'|trans }}</h1>
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="proponentIdFake">{{ 'Full Name'|trans }}</label>
+            {{ form_widget(form.proponentIdFake, {'id': 'proponentIdFake', 'attr': {'class': 'form-control disable'}}) }}
+
+            {% set value = form.proponentId.vars['data'].id is defined ? form.proponentId.vars['data'].id : form.proponentId.vars['data'] %}
+            {{ form_widget(form.proponentId, {'id': 'proponentId','attr': {'class': 'form-control disable', 'value': value}}) }}
+            {% if form.proponentId.vars['errors']|length > 0 %}
+                <div class="form-error invalid-feedback">
+                    {{ form.proponentId.vars['errors'][0].message|raw }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-6 form-group">
+            <label for="proponentCurriculumLattesLink">{{ 'LATTES_LINK'|trans }}</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text btn btn-primary-alt"><i class="fas fa-link"></i></span>
+                </div>
+                {{ form_widget(form.proponentCurriculumLattesLink, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            {% if form.proponentCurriculumLattesLink.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.proponentCurriculumLattesLink.vars['errors'] %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-6">
+            <label for="curriculumpdf-0">{{ 'PANEL_CV_PDF'|trans }}</label>
+            <div class="custom-file">
+                {{ form_widget(form.proponentCurriculumPdfPath, {'attr': {'data-count':'proponent', 'class': 'custom-file-input'}}) }}
+                <label data-count="proponent" id="custom-file-label_proponent" class="custom-file-label" for="curriculumpdf-0"
+                       data-label="{{ 'PANEL_UPLOAD_NOFILE'|trans }}">{{ 'PANEL_UPLOAD_NOFILE'|trans }}</label>
+            </div>
+            {% if form.proponentCurriculumPdfPath.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.proponentCurriculumPdfPath.vars['errors'] %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

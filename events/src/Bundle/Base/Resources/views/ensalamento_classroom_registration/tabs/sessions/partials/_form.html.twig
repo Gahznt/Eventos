@@ -1,0 +1,55 @@
+{{ form_start(form, {'attr': {'id':'sessionsForm', 'class': 'row', 'action':path('ensalement_sessions_new', {edition: edition.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+
+<!--Preencher os options do select com as datas do evento!-->
+<div class="col-12 col-md-4 col-lg-2 form-group">
+    {{ form_label(form.date, 'Data') }}
+    {{ form_widget(form.date, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.date.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.date.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-4 col-lg-3 form-group">
+    {{ form_label(form.name, 'Nome ou Id da Sessão') }}
+    {{ form_widget(form.name, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.name.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.name.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+<div class="col-6 col-md-4 col-lg-2 form-group">
+    {{ form_label(form.start, 'Horário Início') }}
+    {{ form_widget(form.start, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.start.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.start.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+<div class="col-6 col-md-4 col-lg-2 form-group">
+    {{ form_label(form.end, 'Horário Fim') }}
+    {{ form_widget(form.end, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.end.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.end.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+
+<div class="col-12 col-md-4 col-lg-3 form-group">
+    {{ form_label(form.type, 'Tipo de Sessão') }}
+    {{ form_widget(form.type, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.type.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.type.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+<div class="col-12 col-md-4 offset-lg-8 mt-md-4  mt-lg-0">
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar sessão <i id="btnLoad"></i></button>
+</div>
+{{ form_end(form) }}

@@ -1,0 +1,44 @@
+<div id="proponent-container-form">
+    <div class="fieldsetBg painelista mb-3" data-count="__name__">
+        <div class="row">
+            {% set city = "" %}
+            {% set identifier = "" %}
+            {% set name = "" %}
+
+            {% if panel.proponentId is defined and panel.proponentId is not null %}
+                {% set city = panel.proponentId.city.country.name %}
+                {% set identifier = panel.proponentId.identifier %}
+                {% set name = panel.proponentId.name %}
+            {% endif %}
+            <div class="col-lg-6 form-group">
+                <label for="countryId">{{ 'PANEL_COUNTRY'|trans }}</label>
+                <div class="form-control">{{ city }}</div>
+            </div>
+
+            <div class="col-lg-6 form-group">
+                <label id="label-cpf-__name__" for="cpf-__name__">CPF</label>
+                <div class="form-control">{{ identifier }}</div>
+            </div>
+
+            <div class="col-12 form-group">
+                <label for="panelistIdFake">{{ 'PANEL_FULLNAME'|trans }}</label>
+                <div class="form-control">{{ name }}</div>
+            </div>
+            <div class="col-lg-6 form-group">
+                <label for="curriculum-0">{{ 'LATTES_LINK'|trans }}</label>
+                <div class="form-control">{{ panel.proponentCurriculumLattesLink }}</div>
+            </div>
+            <div class="col-lg-6">
+                <label for="curriculumpdf-0">{{ 'PANEL_CV_PDF'|trans }}</label>
+                <div class="form-control">
+                    {% if panel.proponentCurriculumPdfPath %}
+                        <a href="javascript:void(0)" class="panelDownload" data-file="{{ panel.proponentCurriculumPdfPath }}">{{ 'PEVAL_LINK_DOWN'|trans }}</a>
+                    {% else %}
+                        {{ 'PEVAL_NOFILE'|trans }}.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

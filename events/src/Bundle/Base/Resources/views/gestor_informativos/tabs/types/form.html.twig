@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-md-8">
+    <h1 class="mb-0">{{ 'GESTOR_INFO_TYPE_TITLE_DATA'|trans }}</h1>
+  </div>
+  <div class="col-md-4 align-self-end">
+    <a class="btn btn-sm btn-outline-danger float-right d-none delForm" id="delType" data-form="typeForm" data-modal-title="{{ 'GESTOR_INFO_TOOLTIP_DELETE_TYPE'|trans }}" data-path="/delete_success" data-token="{{ csrf_token('delete') }}" data-type="{{ 'GESTOR_INFO_DELETE_TYPE'|trans }}">
+      {{ 'GESTOR_INFO_TOOLTIP_DELETE_TYPE'|trans }} <i class="fas fa-times ml-2"></i>
+    </a>
+  </div>
+</div>
+<form action="/gestor_informativos" method="post" id="typeForm" class="form">
+  <input type="hidden" name="type-id" id="type-id">
+  <div class="row">
+    <div class="col-lg-4">
+      <label>{{ 'Status'|trans }}</label><br/>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="type-status" id="type-ativo" value="1" required>
+        <label class="form-check-label" for="type-ativo">{{ 'Ativo'|trans }}</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="type-status" id="type-inativo" value="0" required>
+        <label class="form-check-label" for="type-inativo">{{ 'Inativo'|trans }}</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="type-hom" id="type-hom">
+        <label class="form-check-label" for="type-hom">{{ 'GESTOR_INFO_LABEL_HOM'|trans }}</label>
+      </div>
+    </div>
+    <div class="col-lg-2 form-group">
+      <label for="type-order">{{ 'GESTOR_INFO_LABEL_ORDER'|trans }}</label>
+      <select name="type-order" id="type-order" class="form-control">
+        <option value="">{{ 'Select'|trans }}</option>
+        {% for i in 1..10 %}
+        <option value="{{ i }}">{{ i }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-4 form-group">
+      <label class="form-check-label" for="type-title-pt">{{ 'GESTOR_INFO_LABEL_TITLE'|trans }} (PT)</label>
+      <input type="text" name="type-title-pt" id="type-title-pt" class="form-control" required>
+      <div class="form-error invalid-feedback"></div>
+    </div>
+    <div class="col-md-4 form-group">
+      <label class="form-check-label" for="type-title-en">{{ 'GESTOR_INFO_LABEL_TITLE'|trans }} (EN)</label>
+      <input type="text" name="type-title-en" id="type-title-en" class="form-control" required>
+      <div class="form-error invalid-feedback"></div>
+    </div>
+    <div class="col-md-4 form-group">
+      <label class="form-check-label" for="type-title-es">{{ 'GESTOR_INFO_LABEL_TITLE'|trans }} (ES)</label>
+      <input type="text" name="type-title-es" id="type-title-es" class="form-control" required>
+      <div class="form-error invalid-feedback"></div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-lg btn-outline-primary text-uppercase">{{ 'CANCEL'|trans }}</button>
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-lg btn-block btn-primary text-uppercase">
+        {{ 'SAVE'|trans }}
+      </button>
+    </div>
+  </div>
+</form>

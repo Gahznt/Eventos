@@ -1,0 +1,937 @@
+{% macro interval(start, end) %}
+    {% set date = start|format_datetime(pattern="yyyyMMd") %}
+    {% set date2 = end|format_datetime(pattern="yyyyMMd") %}
+
+    {% if date == date2 %}
+        {{ start|format_datetime('medium', 'none') }}
+    {% else %}
+        {% set d = start|format_datetime(pattern="d") %}
+        {% set d2 = end|format_datetime(pattern="d") %}
+
+        {% set m = start|format_datetime(pattern="MM") %}
+        {% set m2 = end|format_datetime(pattern="MM") %}
+
+        {% set y = start|format_datetime(pattern="yyyy") %}
+        {% set y2 = end|format_datetime(pattern="yyyy") %}
+
+        {% if y == y2 %}
+            {% if m == m2 %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MMM d") }} - {{ end|format_datetime(pattern="d, yyyy") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d") }} - {{ end|format_datetime('medium', 'none') }}
+                {% endif %}
+            {% else %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MM/d") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d/MM") }}
+                {% endif %}
+                - {{ end|format_datetime('short', 'none') }}
+            {% endif %}
+        {% else %}
+            {{ start|format_datetime('short', 'none') }} - {{ end|format_datetime('short', 'none') }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro date_dm(date) %}
+    {% if app.request.getLocale() == 'en' %}
+        {{ date|format_datetime(pattern="MM/d") }}
+    {% else %}
+        {{ date|format_datetime(pattern="d/MM") }}
+    {% endif %}
+{% endmacro %}
+
+{% import _self as dateMacro %}
+
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalRemove">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ 'Atenção!'|trans }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'Tem certeza que deseja continuar?'|trans }}</p>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-success m-2 px-4" data-dismiss="modal">{{ 'NO'|trans }}</button>
+                        <a href="#" type="submit" class="btn btn-danger m-2 px-5" id="remove">{{ 'YES'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="fieldset">
+            <div class="dashboardAdmin">
+
+                {% for message in app.flashes('success.dashboard') %}
+                    <div class="alert alert-success mb-4">
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error.dashboard') %}
+                    <div class="alert alert-danger mb-4">
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+
+                <div class="row gutter-5 align-items-stretch">
+                    {# fica visível para coordenador/comitê quando avaliação de temas estiver habilitado #}
+                    {% if (isDivisionCoordinator or isDivisionCommittee) and isThemeSubmissionEvaluationAvailable %}
+                        <div class="col mb-2">
+                            <a href="{{ path('theme_submission_index') }}"
+                               class="dash-button-md bgcSuccess normal mb-0 h-100">
+                                <div class="icon calendar"></div>
+                                <p>Submissão <br/>de Temas</p>
+                            </a>
+                        </div>
+                        <div class="col mb-2">
+                            <a href="{{ path('theme_evaluation_index') }}"
+                               class="dash-button-md bgcWarning normal mb-0 h-100">
+                                <div class="fa-gavel icon"></div>
+                                <p>Avaliação <br/>de Temas</p>
+                            </a>
+                        </div>
+                    {% endif %}
+                    <div class="col mb-2">
+                    </div>
+                    <div class="col mb-2">
+                    </div>
+                    <div class="col mb-2">
+                    </div>
+                    <div class="col mb-2">
+                    </div>
+                    <div class="col mb-2">
+                    </div>
+                </div>
+
+                {% if events|length > 0 %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h3 class="text-uppercase">{{ 'DASHBOARD_SUBMISSIONS_TITLE'|trans }}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" data-toggle="collapse" href="#event-1" aria-expanded="true"
+                                     aria-controls="event-1">
+                                    {{ 'DASHBOARD_SUBMISSIONS_NEW_SUBMISSION'|trans }}
+                                </div>
+                                <div class="collapse show" id="event-1">
+                                    <div class="card-body">
+                                        <div class="alert alert-info icon exclamation">
+                                            <p class="just-text">
+                                                {{ 'DASHBOARD_SUBMISSIONS_NEW_SUBMISSION_ALERT'|trans }}
+                                            </p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6 form-group">
+                                                <label for="eventoId">{{ 'Events'|trans }}</label>
+                                                <select id="eventoId" name=""
+                                                        class="form-control select2-hidden-accessible">
+                                                    <option selected="selected">{{ 'DASHBOARD_LBL_SELECT'|trans }}</option>
+                                                    {% for event in events %}
+                                                        <option value="{{ event.id }}"
+                                                                data-locale="{{ app.request.getLocale() }}"
+                                                                data-editions="{{ event.editions|json_encode }}">{{ event.name_i18n[app.request.getLocale()] }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <!--Após o usuário selecionar o evento, carrega dados e libera disabled do select.-->
+                                            <div class="col-lg-6 form-group">
+                                                <label for="editionId">{{ 'DASHBOARD_LBL_EDITION'|trans }}</label>
+                                                <select id="editionId" name=""
+                                                        class="form-control select2-hidden-accessible" disabled>
+                                                    <option value="">{{ 'DASHBOARD_LBL_SELECT'|trans }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!--Após o usuário selecionar o evento e edição, tirar disabled da classe dos botões.-->
+                                        <div id="dashboard-actions" class="row">
+                                            {% if is_granted('ROLE_ADMIN_OPERATIONAL') %}
+                                                <div class="col-4 col-md-2">
+                                                    <a href="#"
+                                                       data-route="{{ path('article_evaluation_index', {'edition': '__route__'}) }}"
+                                                       id="btnAvalArticle" class="dash-button-md bgcSuccess disabled">
+                                                        <div class="icon check-circle"></div>
+                                                        <p>Avaliação de artigos</p>
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_DIVISION_COORDINATOR') or is_granted('ROLE_COMMITTEE') %}
+                                                <div class="col-4 col-md-2">
+                                                    <a href="#"
+                                                       data-route="{{ path('activity_submission_index', {'edition': '__route__'}) }}"
+                                                       id="btnSubActivity" class="dash-button-md bgcAlert disabled">
+                                                        <div class="icon calendar-check"></div>
+                                                        <p>Submissão de atividades</p>
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+
+                                            <div class="col-4 col-md-2">
+                                                <a href="#" id="btnSubPainel"
+                                                   data-route="{{ path('panel_submission_index', {'edition':'__route__'}) }}"
+                                                   class="dash-button-md bgcSuccess disabled">
+                                                    <div class="icon calendar"></div>
+                                                    <p>
+                                                        {{ 'DASHBOARD_SUBMISSIONS_NEW_PANEL_SUBMISSION'|trans|raw }} 
+                                                    </p>
+                                                </a>
+                                            </div>
+
+                                            {% if is_granted('ROLE_ADMIN_OPERATIONAL') or is_granted('ROLE_USER_GUEST') %}
+                                                <div class="col-4 col-md-2">
+                                                    <a href="#"
+                                                       data-route="{{ path('article_submission_index', {'edition': '__route__'}) }}"
+                                                       id="newArticleSubmission" class="dash-button-md bgcSuccess disabled">
+                                                        <div class="icon file"></div>
+                                                        <p>
+                                                            {{ 'DASHBOARD_SUBMISSIONS_NEW_ARTICLE_SUBMISSION'|trans|raw }}
+                                                        </p>
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+
+                                            {% if is_granted('ROLE_ADMIN_OPERATIONAL') or is_granted('ROLE_USER_GUEST') %}
+                                                <div class="col-4 col-md-2">
+                                                    <a href="#"
+                                                       data-route="{{ path('thesis_submission', {'edition': '__route__'}) }}"
+                                                       id="newThesisSubmission" class="dash-button-md bgcSuccess disabled">
+                                                        <div class="icon file"></div>
+                                                        <p>
+                                                            {{ 'DASHBOARD_SUBMISSIONS_NEW_THESIS_SUBMISSION'|trans|raw }}
+                                                        </p>
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if articles|length > 0 %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" data-toggle="collapse" href="#event-2" aria-expanded="true"
+                                     aria-controls="event-2">
+                                    {{ 'DASHBOARD_SUBMISSIONS_ARTICLE_SUBMISSIONS'|trans }}
+                                </div>
+                                <div class="collapse show" id="event-2">
+                                    <div class="card-body">
+
+                                        <!--TABELA-->
+                                        <div class="tabela table-responsive">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ 'DASHBOARD_LBL_EVENT'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_EDITION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_ID'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_TITLE'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_THEME'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_STATUS'|trans }}</th>
+                                                    <th class="text-center" width="100">{{ 'DASHBOARD_LBL_ACTIONS'|trans }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for article in articles %}
+                                                    <tr>
+                                                        <td>{{ article.event_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>{{ article.edition_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>{{ article.id }}</td>
+                                                        <td>{{ article.title }}</td>
+                                                        <td>{{ article.theme_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>
+                                                            <span class="badge badge-{{ article.status|article_evaluation_status('color') }}">
+                                                                {{ article.status|article_evaluation_status('label')|trans }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+
+                                                            {% if 1 == article.edition_config.resultsAvaliable
+                                                                and article.status == constant('\\App\\\Bundle\\Base\\Entity\\UserArticles::ARTICLE_EVALUATION_STATUS_APPROVED') %}
+                                                                <a href="{{ path('article_submission_declaration', {'article': article.id}) }}" target="_blank" data-toggle="tooltip" class="mr-2 hover-success download" title="{{ 'Imprimir Declaração de Aceite'|trans }}">
+                                                                    <i class="fas fa-file-pdf"></i>
+                                                                </a>
+                                                            {% endif %}
+
+                                                            <a href="{{ path('article_submission_show' , {'article' : article.id}) }}" data-toggle="tooltip"
+                                                               class="hover-success"
+                                                               title="{{ 'DASHBOARD_LBL_SEE_DETAILS'|trans }}">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+
+                                                            {% if article.edition_config.articeSubmissionAvaliable == 1
+                                                                and article.status == constant('\\App\\\Bundle\\Base\\Entity\\UserArticles::ARTICLE_EVALUATION_STATUS_WAITING') %}
+                                                                <a data-toggle="tooltip"
+                                                                   class="hover-danger ml-1 setClipboard deleteSubmission"
+                                                                   title="{{ 'DASHBOARD_LBL_DELETE'|trans }}"
+                                                                   data-title="{{ 'Deseja cancelar o artigo?' }}"
+                                                                   data-route="{{ path('article_submission_delete', {'id': article.id}) }}">
+                                                                    <i class="fas fa-times"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% set schedulingsCount = 0 %}
+                {% for scheduling in schedulings %}
+                    {% if scheduling.edition.systemEvaluationConfigs[0].detailedSchedulingAvailable == 1 %}
+                        {% set schedulingsCount = schedulingsCount + 1 %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if schedulingsCount > 0 %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" data-toggle="collapse" href="#event-2" aria-expanded="true"
+                                     aria-controls="event-2">
+                                    {{ 'DASHBOARD_USER_SCHEDULE'|trans }}
+                                </div>
+                                <div class="collapse show" id="event-2">
+                                    <div class="card-body">
+
+                                        <!--TABELA-->
+                                        <div class="tabela table-responsive">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ 'DASHBOARD_LBL_EVENT'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_EDITION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_TYPE'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_DATE'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_HOUR'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_ROOM'|trans }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for date_schedulings in schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getDate')|ksort %}
+                                                    {% for start_schedulings in date_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getStart')|ksort %}
+                                                        {% for room_schedulings in start_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementRooms.getName')|ksort %}
+                                                            {% for scheduling in room_schedulings %}
+                                                                {% if scheduling.edition.systemEvaluationConfigs[0].detailedSchedulingAvailable == 1 %}
+                                                                    <tr>
+                                                                        <td>{{ scheduling.edition.event.name }}</td>
+                                                                        <td>{{ scheduling.edition.name }}</td>
+                                                                        <td>
+                                                                            {% set types = {} %}
+                                                                            {% if scheduling.coordinatorDebater1 == user %}
+                                                                                {% set tmp = constant('COORDINATOR_DEBATER_TYPES', scheduling)|array_flip()[scheduling.coordinatorDebater1Type] %}
+                                                                                {% set types = types|merge({
+                                                                                    (tmp): tmp|trans
+                                                                                }) %}
+                                                                            {% endif %}
+                                                                            {% if scheduling.coordinatorDebater2 == user %}
+                                                                                {% set tmp = constant('COORDINATOR_DEBATER_TYPES', scheduling)|array_flip()[scheduling.coordinatorDebater2Type] %}
+                                                                                {% set types = types|merge({
+                                                                                    (tmp): tmp|trans
+                                                                                }) %}
+                                                                            {% endif %}
+                                                                            {% if scheduling.systemEnsalementSlots.systemEnsalementSessions.type is not empty %}
+                                                                                {% set tmp = constant('SESSION_TYPES', scheduling.systemEnsalementSlots.systemEnsalementSessions)|array_flip()[scheduling.systemEnsalementSlots.systemEnsalementSessions.type] %}
+                                                                                {% set types = types|merge({
+                                                                                    (tmp): tmp|trans
+                                                                                }) %}
+                                                                            {% endif %}
+
+                                                                            {{ types|join(', ') }}
+                                                                        </td>
+                                                                        <td>{{ dateMacro.date_dm(scheduling.systemEnsalementSlots.systemEnsalementSessions.date)|trim }}</td>
+                                                                        <td>{{ scheduling.systemEnsalementSlots.systemEnsalementSessions.start|format_datetime('none', 'short') }}-{{ scheduling.systemEnsalementSlots.systemEnsalementSessions.end|format_datetime('none', 'short') }}</td>
+                                                                        <td>{{ scheduling.systemEnsalementSlots.systemEnsalementRooms.name }}</td>
+                                                                    </tr>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if editionsSignUp|length > 0 %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" data-toggle="collapse" href="#event-4" aria-expanded="true"
+                                     aria-controls="event-4">
+                                    {{ 'DASHBOARD_EDITIONS_SIGNUP_EDITIONS'|trans }}
+                                </div>
+                                <div class="collapse show" id="event-4">
+                                    <div class="card-body">
+                                        <!-- TABELA -->
+                                        <div class="tabela table-striped">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ 'DASHBOARD_LBL_EVENT'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_EDITION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_ID'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_EDITION_SIGNUP_MODE'|trans }}</th>
+                                                    <th class="text-center">{{ 'DASHBOARD_LBL_STATUS_PAID'|trans }}</th>
+                                                    <th class="text-center" width="100">{{ 'DASHBOARD_LBL_ACTIONS'|trans }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for editionSignup in editionsSignUp %}
+                                                    <tr>
+                                                        <td>{{ editionSignup.event_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>{{ editionSignup.edition_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>{{ editionSignup.edition_id ~ '-' ~ editionSignup.id }}</td>
+                                                        <td>{{ editionSignup.edition_payment_mode_name }}</td>
+                                                        <td class="text-center">
+                                                                <span class="badge badge-{{ editionSignup.status_pay|status_pagamento('color') }}">
+                                                                    {{ editionSignup.status_pay ? 'PAYMENT_STATUS_PAID'|trans : 'PAYMENT_STATUS_DEBT'|trans }}
+                                                                </span>
+                                                        </td>
+                                                        <!-- ACTIONS -->
+                                                        <td class="text-center">
+                                                            <a href="{{ path('event_signUp_show' , {'signUp' : editionSignup.id}) }}" data-toggle="tooltip"
+                                                               class="hover-success" title="{{ 'DASHBOARD_LBL_SEE_DETAILS'|trans }}">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+
+                                                            {% if editionSignup.edition_config.freeSignup == constant('\\App\\\Bundle\\Base\\Entity\\SystemEvaluationConfig::ENABLE')
+                                                                and not(editionSignup.status_pay) %}
+                                                                <a data-toggle="tooltip"
+                                                                   class="hover-danger ml-1 setClipboard deleteSubmission"
+                                                                   title="{{ 'DASHBOARD_LBL_SIGNUP_DELETE'|trans }}"
+                                                                   data-title="{{ 'Deseja cancelar a inscrição?' }}"
+                                                                   data-original-title="{{ 'DASHBOARD_LBL_SIGNUP_DELETE'|trans }}"
+                                                                   data-modal-title="{{ 'Cancelamento da inscrição' }}"
+                                                                   data-route="{{ path('event_signUp_delete', {'signUp' : editionSignup.id}) }}">
+                                                                    <i class="fas fa-times"></i>
+                                                                </a>
+
+                                                                <a href="{{ path('event_signUp_edition_payment', {'edition': editionSignup.edition_id, 'editionSignup' : editionSignup.id}) }}"
+                                                                   data-toggle="tooltip" class="hover-success ml-1" title="{{ 'DASHBOARD_LBL_SIGNUP_PAYMENT'|trans }}">
+                                                                    <i class="fas fa-money-bill"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>  <!-- ./class="card-body" -->
+                                </div>  <!-- ./class="collapse show" id="event-4" -->
+                            </div>  <!-- ./class="card" -->
+                        </div>  <!-- ./class="col-12" -->
+                    </div>  <!-- ./class="row mt-4" -->
+                {% endif %}
+
+                {% if panels|length > 0 %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" data-toggle="collapse" href="#event-5" aria-expanded="true"
+                                     aria-controls="event-5">
+                                    {{ 'DASHBOARD_EDITIONS_PANELS'|trans }}
+                                </div>
+                                <div class="collapse show" id="event-5">
+                                    <div class="card-body">
+                                        <!-- TABELA -->
+                                        <div class="tabela table-striped">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ 'DASHBOARD_LBL_EVENT'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_EDITION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_ID'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_TITLE'|trans }}</th>
+                                                    <th class="text-center">{{ 'DASHBOARD_LBL_STATUS'|trans }}</th>
+                                                    <th class="text-center" width="100">{{ 'DASHBOARD_LBL_ACTIONS'|trans }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for panel in panels %}
+                                                    <tr>
+                                                        <td>{{ panel.event_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>{{ panel.edition_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>{{ panel.edition_id ~ '-' ~ panel.id }}</td>
+                                                        <td>{{ panel.title }}</td>
+                                                        <td class="text-center">
+                                                                <span class="badge badge-{{ panel.status_evaluation|painel_avaliacao_status('color') }}">
+                                                                    {{ constant('\\App\\\Bundle\\Base\\Entity\\Panel::PANEL_EVALUATION_STATUS')|array_flip()[panel.status_evaluation]|trans }}
+                                                                </span>
+                                                        </td>
+                                                        <!-- ACTIONS -->
+                                                        <td class="text-center">
+                                                            <a href="{{ path('panel_show' , {'panel' : panel.id }) }}" data-toggle="tooltip"
+                                                               class="hover-success" title="{{ 'DASHBOARD_LBL_SEE_DETAILS'|trans }}">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+
+                                                            {% if panel.edition_config.panelSubmissionAvailable == constant('\\App\\\Bundle\\Base\\Entity\\SystemEvaluationConfig::ENABLE')
+                                                                and panel.proponent_id == app.user.id %}
+                                                                <a data-toggle="tooltip"
+                                                                   class="hover-danger ml-1 setClipboard deleteSubmission"
+                                                                   title="{{ 'DASHBOARD_LBL_PANEL_DELETE'|trans }}"
+                                                                   data-title="{{ 'Deseja cancelar a submissão de painel?' }}"
+                                                                   data-original-title="{{ 'DASHBOARD_LBL_PANEL_DELETE'|trans }}"
+                                                                   data-modal-title="{{ 'Cancelamento do Painel' }}"
+                                                                   data-route="{{ path('panel_submission_delete', {'panel': panel.id}) }}">
+                                                                    <i class="fas fa-times"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>  <!-- ./class="card-body" -->
+                                </div>  <!-- ./class="collapse show" id="event-4" -->
+                            </div>  <!-- ./class="card" -->
+                        </div>  <!-- ./class="col-12" -->
+                    </div>  <!-- ./class="row mt-4" -->
+                {% endif %}
+
+                {% if themes|length > 0 %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+
+                                <div class="card-header" data-toggle="collapse" href="#event-3" aria-expanded="true"
+                                     aria-controls="event-3">
+
+                                    {{ 'DASHBOARD_SUBMISSIONS_THEME_SUBMISSIONS'|trans }}
+                                </div>
+                                <div class="collapse show" id="event-3">
+                                    <div class="card-body">
+
+                                        <!--TABELA-->
+                                        <div class="tabela table-responsive">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ 'DASHBOARD_LBL_DIVISION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_TITLE'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_STATUS'|trans }}</th>
+                                                    <th class="text-center">{{ 'DASHBOARD_LBL_ACTIONS'|trans }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% set isGranted = isAdmin or isAdminOperational or isDivisionCoordinator or isDivisionCommittee %}
+
+                                                {% for theme in themes %}
+                                                    {% set isInEvaluationStatus = (
+                                                        theme.status == constant('THEME_EVALUATION_STATUS_WAITING', theme)
+                                                        or theme.status == constant('THEME_EVALUATION_STATUS_NOT_SELECTED', theme)
+                                                        or theme.status == constant('THEME_EVALUATION_STATUS_SELECTED', theme)
+                                                        ) %}
+
+                                                    <tr>
+                                                        <td>{{ theme.division.name }}</td>
+                                                        <td>{{ theme.details.title }}</td>
+                                                        <td>
+                                                            {% if (not theme.themeSubmissionConfig.isResultAvailable) and isInEvaluationStatus and (not isGranted) %}
+                                                                <span class="badge badge-{{ constant('THEME_EVALUATION_STATUS_WAITING', theme)|tema_avaliacao_status('color') }}">
+                                                                    {{ constant('THEME_EVALUATION_STATUS_WAITING', theme)|tema_avaliacao_status('label')|trans }}
+                                                                </span>
+                                                            {% else %}
+                                                                <span class="badge badge-{{ theme.status|tema_avaliacao_status('color') }}">
+                                                                    {{ theme.status|tema_avaliacao_status('label')|trans }}
+                                                                </span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="{{ path('theme_submission_show', {'id' : theme.id}) }}" data-toggle="tooltip"
+                                                               class="hover-success"
+                                                               title="{{ 'DASHBOARD_LBL_SEE_DETAILS'|trans }}"
+                                                            >
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                            {% if isInEvaluationStatus %}
+                                                                <a data-toggle="tooltip" href="#remove"
+                                                                   class="hover-danger ml-1 setClipboard deleteSubmission"
+                                                                   data-title="{{ 'Deseja remover o tema?' }}"
+                                                                   title="{{ 'DASHBOARD_LBL_DELETE'|trans }}"
+                                                                   data-route="{{ path('theme_submission_delete', {'id': theme.id}) }}"
+                                                                >
+                                                                    <i class="fas fa-times"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if thesis|length > 0 %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header" data-toggle="collapse" href="#event-4" aria-expanded="true"
+                                     aria-controls="event-4">
+                                    {{ 'Minhas Submissões no Consórcio Doutoral'|trans }}
+                                </div>
+                                <div class="collapse show" id="event-4">
+                                    <div class="card-body">
+                                        <!-- TABELA -->
+                                        <div class="tabela table-striped">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ 'DASHBOARD_LBL_EVENT'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_EDITION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_TITLE'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_DIVISION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_THEME'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_STATUS'|trans }}</th>
+                                                    <th class="text-center">{{ 'DASHBOARD_LBL_FILES'|trans }}</th>
+                                                    <th class="text-center" width="100">{{ 'DASHBOARD_LBL_ACTIONS'|trans }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for entity in thesis %}
+                                                    <tr>
+                                                        <td>{{ entity.edition.event.name }}</td>
+                                                        <td>{{ entity.edition.name }}</td>
+                                                        <td>{{ entity.title }}</td>
+                                                        <td>{{ entity.division.name }}</td>
+                                                        <td>{{ entity.userThemes.position }} - {{ entity.userThemes.details.title }}</td>
+                                                        <td class="text-center">
+                                                            <span class="badge badge-{{ entity.status|article_evaluation_status('color') }}">
+                                                                {{ constant('EVALUATION_STATUS', entity)|array_flip()[entity.status]|trans }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {% if entity.thesisFilePath is not empty %}
+                                                                <a href="{{ asset(constant('PUBLIC_PATH', entity) ~ entity.edition.id ~ '/' ~ entity.thesisFilePath) }}" data-toggle="tooltip" class="hover-success" target="_blank" title="{{ 'Arquivo da Tese'|trans }}">
+                                                                    <i class="fas fa-download"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                            {% if entity.agreementFilePath is not empty %}
+                                                                <a href="{{ asset(constant('PUBLIC_PATH', entity) ~ entity.edition.id ~ '/' ~ entity.agreementFilePath) }}" data-toggle="tooltip" class="hover-success ml-2" target="_blank" title="{{ 'Declaração de Concordância'|trans }}">
+                                                                    <i class="fas fa-download"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+                                                        <!-- ACTIONS -->
+                                                        <td class="text-center">
+                                                            <a href="{{ path('thesis_submission_show' , {'id' : entity.id}) }}" data-toggle="tooltip"
+                                                               class="hover-success" title="{{ 'DASHBOARD_LBL_SEE_DETAILS'|trans }}">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+
+                                                            {% if entity.edition.systemEvaluationConfigs[0].thesisSubmissionAvailable == 1
+                                                                and entity.status == constant('EVALUATION_STATUS_WAITING', entity) %}
+                                                                <a data-toggle="tooltip"
+                                                                   class="hover-danger ml-1 setClipboard deleteSubmission"
+                                                                   title="{{ 'DASHBOARD_LBL_SIGNUP_DELETE'|trans }}"
+                                                                   data-title="{{ 'Deseja cancelar a Tese?'|trans }}"
+                                                                   data-original-title="{{ 'DASHBOARD_LBL_SIGNUP_DELETE'|trans }}"
+                                                                   data-modal-title="{{ 'Cancelamento da Tese'|trans }}"
+                                                                   data-route="{{ path('thesis_submission_delete', {'id' : entity.id}) }}">
+                                                                    <i class="fas fa-times"></i>
+                                                                </a>
+                                                            {% endif %}
+
+                                                            <!--
+                                                            {% if entity.edition.signupDeadline|date_modify("+1 day")|date('U')  >= date("now")|date('U') and
+                                                                entity.status == constant('EVALUATION_STATUS_APPROVED', entity) and
+                                                                0 == entity.confirmed %}
+                                                                <a href="{{ path('thesis_confirm_participation', {'id' : entity.id}) }}" data-toggle="tooltip"
+                                                                   class="hover-success" title="{{ 'DASHBOARD_LBL_CONFIRM_PARTICIPATION'|trans }}">
+                                                                    <i class="fas fa-check"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+-->
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>  <!-- ./class="card-body" -->
+                                </div>  <!-- ./class="collapse show" id="event-4" -->
+                            </div>  <!-- ./class="card" -->
+                        </div>  <!-- ./class="col-12" -->
+                    </div>  <!-- ./class="row mt-4" -->
+                {% endif %}
+
+                <!--Histórico-->
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <h3 class="text-uppercase">Meu Histórico</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="card">
+
+                            <div class="card-header flatBase">Meus Certificados</div>
+                            <div id="historico">
+                                <div class="card-body">
+                                    {% set certificateCount = 0 %}
+                                    {% for certificate in certificates %}
+                                        {% if certificate.edition.systemEvaluationConfigs[0].freeCertiticates == 1 %}
+                                            {% set certificateCount = certificateCount + 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if certificateCount > 0 %}
+                                        <div class="tabela table-responsive">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ 'DASHBOARD_LBL_EDITION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_TYPE'|trans }}</th>
+                                                    <th class="text-center">{{ 'DASHBOARD_LBL_STATUS'|trans }}</th>
+                                                    <th class="text-right">Download</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for certificate in certificates %}
+                                                    {% if certificate.edition.systemEvaluationConfigs[0].freeCertiticates == 1 %}
+                                                        <tr>
+                                                            <td>{{ certificate.edition.name }}</td>
+                                                            <td>{{ constant('CERTIFICATE_TYPES', certificate)|array_flip()[certificate.type]|trans }}</td>
+                                                            <td class="text-center">
+                                                                <span class="badge badge-success">{{ 'CERTIFICATES_LABEL_ACTIVE'|trans }}</span>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <a href="{{ path('certificate_download', {'certificate': certificate.id}) }}" target="_blank" title="{{ 'CERTIFICATES_ACTION_DOWNLOAD'|trans }}"><i class="fas fa-download"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    {% else %}
+                                        <p class="mb-0">Nenhum certificado encontrado.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Associação Em dia-->
+                    <!--Substitui a associação em dia pelos itens abaixo quando necessário-->
+                    {% if  association.expiredAt is defined %}
+                        <div class="col-12 col-md-6">
+                            <div class="card">
+                                <div class="card-header flatBase">
+                                    Minha Associação
+                                </div>
+                                <div id="associacao">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            {% if (association.statusPay) and ((associationNow|date('U')) <= (association.expiredAt|date('U'))) %}
+                                                <div class="col-8">
+                                                    <h3 class="text-success">Sua associação está em dia</h3>
+                                                    <p>
+                                                        <span>Assinatura: </span>{{ association.createdAt|date('d/m/Y') }}
+                                                        <br/><span>Valido até: </span>{{ association.expiredAt|date('d/m/Y') }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-4">
+                                                    <a href="{{ path('user_show', { id : user.id }) }}"
+                                                       class="dash-button-md bgcSuccess block pt-2">
+                                                        <div class="icon check-circle"></div>
+                                                        <p class="text-uppercase mt-2">Ver Associação</p>
+                                                    </a>
+                                                </div>
+                                            {% else %}
+                                                {% set numberDays = constant('USER_ASSOCIATIONS_NUMBER_DAYS', association) %}
+                                                {% set dueDate = association.createdAt|date_modify('+' ~ numberDays ~ ' day') %}
+
+                                                {% if(dueDate|date('U') >= date("now")|date('U')) and not(association.statusPay) and ((associationNow|date('U')) <= (association.expiredAt|date('U'))) %}
+                                                    <div class="col-7">
+                                                        <h3 class="text-warning">Associação pendente.</h3>
+                                                        <p>
+                                                            <span>Clique no botão para acessar o seu boleto.</span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        {% include '@Base/users/tabs/associations/form.html.twig' %}
+                                                    </div>
+                                                {% else %}
+                                                    <div class="col-8">
+                                                        <h3 class="text-danger">Sua associação está vencida.</h3>
+                                                        <p>
+                                                            <span>Clique no botão para renovar.</span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <a href="{{ path('associate_new', { id : user.id }) }}" class="dash-button-md bgcSuccess block pt-2">
+                                                            <div class="icon check-circle"></div>
+                                                            <p class="text-uppercase mt-2">Nova Associação</p>
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <!--/Associação em dia-->
+                        <!--Associação - Não associado-->
+                        <!--Substitui a associação em dia, acima-->
+                        <!--Para mostrar tire a classe d-none-->
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-header flatBase">
+                                    Minha Associação
+                                </div>
+                                <div id="associacao">
+                                    <div class="card-body">
+                                        <div class="row">
+
+                                            <div class="col-8">
+                                                <h3 class="text-danger">Você não é um associado</h3>
+                                                <p>Clique no botão ao lado para criar ou renovar a sua associação.</p>
+                                            </div>
+                                            <div class="col-4">
+                                                <a href="{{ path('associate_new', {'id' : user.id}) }}" class="dash-button-md bgcSuccess block pt-2">
+                                                    <div class="icon edit"></div>
+                                                    <p class="text-uppercase mt-2">Associe-se</p>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!--Associação - Não associado-->
+                </div>
+                <!--Cards-->
+                {% if current_editions|length > 0 %}
+                    <h3 class="mt-5 text-uppercase">{{ 'DASHBOARD_STATS_TITLE'|trans }}</h3>
+                    <div class="row">
+
+                        {% for edition in current_editions %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="eventCard {{ edition.color }} mediumCard">
+                                    <div class="title">{{ edition.name_i18n[app.request.getLocale()] }}</div>
+                                    <div class="data">
+                                        {{ dateMacro.interval(edition.date_start, edition.date_end) }}
+                                    </div>
+                                    <div class="label">- {{ edition.place|raw }} -</div>
+
+                                    <div class="items">
+                                        <div class="item secondLabel mt-1">
+                                            <div class="float-left">
+                                                <i class="fas fa-file-alt"></i>
+                                                <span>{{ 'DASHBOARD_STATS_APROVED_ARTICLES_COUNT'|trans }}</span>
+                                            </div>
+                                            <span class="float-right">{{ edition.approved_articles_count }}</span>
+                                        </div>
+
+                                        <div class="item secondLabel mt-1">
+                                            <div class="float-left">
+                                                <i class="fas fa-edit"></i>
+                                                <span>{{ 'DASHBOARD_STATS_MY_ASSIGNMENTS_COUNT'|trans }}</span>
+                                            </div>
+                                            <span class="float-right">{{ edition.my_assignments_count }}</span>
+                                        </div>
+
+                                        <div class="item secondLabel mt-1">
+                                            <div class="float-left">
+                                                <i class="fas fa-check-circle"></i>
+                                                <span>{{ 'DASHBOARD_STATS_APPROVED_THEMES_COUNT'|trans }}</span>
+                                            </div>
+                                            <span class="float-right">{{ edition.approved_themes_count }}</span>
+                                        </div>
+
+                                        <div class="item secondLabel mt-1">
+                                            <div class="float-left">
+                                                <i class="fas fa-address-card"></i>
+                                                <span>{{ 'DASHBOARD_STATS_IS_SIGNED_UP'|trans }}</span>
+                                            </div>
+                                            <span class="float-right"><i class="fa fa-{{ edition.is_user_signed_up ? 'check text-success' : 'times text-danger' }} mr-0"></i></span>
+                                        </div>
+                                    </div>
+
+                                    {% if edition.is_active %}
+                                        <a href="{{ path('event_details', {'edition': edition.id}) }}"
+                                           class="bottom text-uppercase">{{ 'DASHBOARD_STATS_SEE_PUBLISHED_EVENT'|trans }}</a>
+                                    {% else %}
+                                        <div class="bottom text-uppercase clear">
+                                            <div class="col-sm-6 pr-1">
+                                                <a href="{{ path('event_details', {'edition': edition.id}) }}"
+                                                   class="btn btn-outline-primary btn-sm btn-block btCadastro">{{ 'DASHBOARD_STATS_SEE_DETAILS'|trans }}</a>
+                                            </div>
+
+                                            {% if edition.config.freeSignup is defined and edition.config.freeSignup == 1 %}
+
+                                                <div class="col-sm-6 pl-1">
+                                                    <a href="{{ path('event_signUp_edition', {'edition': edition.id}) }}"
+                                                       class="btn btn-outline-primary btn-sm btn-block btCadastro">{{ 'DASHBOARD_STATS_SIGNUP'|trans }}</a>
+                                                </div>
+
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('dashboard/user') }}
+{% endblock %}

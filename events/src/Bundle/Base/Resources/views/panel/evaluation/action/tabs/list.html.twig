@@ -1,0 +1,95 @@
+{{ form_start(formList, {'method':'GET', 'attr': {'id':'panelListForm','action':path('panel_evaluation_action'), 'novalidate':'novalidate' }}) }}
+<div class="stepsTab" data-step="1">
+
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{ 'PEVAL_STEP2_HEAD'|trans }}</h1>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-lg-3 col-md-6 form-group">
+      <label for="panel-list-division">{{ 'ACADEMIC_DIVISION'|trans }}</label>
+      {{ form_widget(formList.divisionId, {'attr': {'id':'divisionId', 'class': 'form-control'}}) }}
+      {% if formList.divisionId.vars['errors']|length > 0 %}
+          <div class="invalid-feedback">
+              {% for error in formList.divisionId.vars['errors'] %}
+                  {{ error.message }}
+              {% endfor %}
+          </div>
+      {% endif %}
+      <div class="form-error invalid-feedback"></div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 form-group">
+      <label for="panel-list-id">{{ 'Panel'|trans }}</label>
+      {{ form_widget(formList.id, {'attr': {'id':'id', 'class': 'form-control'}}) }}
+      {% if formList.id.vars['errors']|length > 0 %}
+          <div class="invalid-feedback">
+              {% for error in formList.id.vars['errors'] %}
+                  {{ error.message }}
+              {% endfor %}
+          </div>
+      {% endif %}
+      <div class="form-error invalid-feedback"></div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 form-group">
+      <label for="panel-list-status">{{ 'Status'|trans }}</label>
+      {{ form_widget(formList.statusEvaluation, {'disabled': true, 'attr': {'id':'statusEvaluation', 'class': 'form-control'}}) }}
+      {% if formList.statusEvaluation.vars['errors']|length > 0 %}
+          <div class="invalid-feedback">
+              {% for error in formList.statusEvaluation.vars['errors'] %}
+                  {{ error.message }}
+              {% endfor %}
+          </div>
+      {% endif %}
+      <div class="form-error invalid-feedback"></div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 form-group">
+        <label for="panel-list-search">{{ 'Search'|trans }}</label>
+        <a id="panelEvalSearchBtn" class="inputSearchBtn"><i class="fas fa-search"></i></a>
+        {{ form_widget(formList.search, {'attr': {'id':'search', 'class': 'filter form-control', 'style': 'height:calc(1.5em + 0.75rem + 12px);'}}) }}
+    </div>
+    
+  </div>
+
+  <div class="tabela my-2">
+    <table class="table table-sm table-striped table-responsive-md w-100" id="panelsTable">
+      <thead>
+        <tr>
+          <th data-data="cod" data-title="{{ 'THEME_LIST_ID'|trans }}" width="10%">{{ 'THEME_LIST_ID'|trans }}</th>
+          <th data-data="title" data-title="{{ 'Título'|trans }}" width="70%">{{ 'THEME_TITLE_FORM'|trans }}</th>
+          <th data-title="{{ 'Status'|trans }}" width="10%">{{ 'Status'|trans }}</th>
+          <th data-title="{{ 'Actions'|trans }}" width="10%" toggle="tooltip" class="text-right">{{ 'Actions'|trans }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for panel in panels %}
+        <tr>
+            <td>{{ panel.id }}</td>
+            <td>{{ panel.title }}</td>
+            <td>
+              <span class="badge badge-{{ panel.statusEvaluation|painel_avaliacao_status('color') }}">
+                {{ panel.statusEvaluation|painel_avaliacao_status('label')|trans|upper }}
+              </span>
+            </td>         
+            <td class="text-right">
+                <a href="{{ path('panel_evaluation_action' , {id: panel.id, step: 2}) }}" data-toggle="tooltip"
+                    class="hover-success" title="{{ 'TOOLTIP_USER_EVALUATE'|trans }}">
+                    <i class="fas fa-gavel"></i>
+                </a>
+            </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+
+</div>
+
+<input type="hidden" id="step" name="step" value="1">
+{{ form_end(formList) }}

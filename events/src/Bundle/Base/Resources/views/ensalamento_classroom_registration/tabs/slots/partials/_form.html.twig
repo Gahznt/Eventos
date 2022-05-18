@@ -1,0 +1,72 @@
+{{ form_start(form, {'attr': {'id':'slotsForm', 'class': 'row', 'action':path('ensalement_slots_new', {edition: edition.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+
+<!--Puxa do cadastro: as datas do evento-->
+<div class="col-12 col-md-4 form-group">
+    {{ form_label(form.date, 'Data') }}
+    {{ form_widget(form.date, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.date.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.date.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+    <p id="sessionsLoad" class="d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+</div>
+
+<!--Puxa do cadastro: todas as salas cadastradas no evento-->
+
+<div class="col-12 col-md-8 form-group">
+    {{ form_label(form.systemEnsalementRooms, 'Sala') }}
+    {{ form_widget(form.systemEnsalementRooms, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.systemEnsalementRooms.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.systemEnsalementRooms.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<!--Após escolher a data e a sala, o sistema tem que mostrar os horários das sessões da data selecionada.-->
+
+{% if form.systemEnsalementSessions is defined %}
+    <div class="col-12 mt-4">
+
+        <h5>Sessões disponíveis para este dia:</h5>
+
+        <div class="slotsCheckboxes">
+            <div class="form-check">
+                <input type="checkbox" id="slotsCheckAll" name="slotsCheckAll" required="required" class="form-check-input" value="1">
+                <label class="form-check-label" for="slotsCheckAll">Marcar / Desmarcar Todas as sessões</label>
+            </div>
+
+            {% for checkbox in form.systemEnsalementSessions.children %}
+                <div class="form-check">
+                    {{ form_widget(checkbox, {attr: {class: "form-check-input"}}) }}
+                    {{ form_label(checkbox, null, {label_attr: {class: "form-check-label"}}) }}
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if form.systemEnsalementSessions.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.systemEnsalementSessions.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-4 mt-3 mb-4">
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar Slot(s) <i id="btnLoad"></i></button>
+    </div>
+{% else %}
+    <div class="col-12">
+        <div class="alert alert-info icon info-circle pb-1">
+            <i id="sessionsLoad" class="icon icon-danger"></i>
+            <h4>Selecione a data e a sala para mostrar os horários.</h4>
+        </div>
+    </div>
+
+    <div class="col-md-4 mt-3 mb-4">
+        <button type="button" disabled class="btn btn-primary btn-lg btn-block">Cadastrar Slot(s) <i id="btnLoad"></i></button>
+    </div>
+{% endif %}
+
+{{ form_end(form) }}
+

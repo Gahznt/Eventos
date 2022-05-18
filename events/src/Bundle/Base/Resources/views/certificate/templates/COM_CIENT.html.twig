@@ -1,0 +1,79 @@
+{% macro interval(start, end) %}
+    {% set date = start|format_datetime(pattern="yyyyMMd") %}
+    {% set date2 = end|format_datetime(pattern="yyyyMMd") %}
+
+    {% if date == date2 %}
+        {{ start|format_datetime('medium', 'none') }}
+    {% else %}
+        {% set d = start|format_datetime(pattern="d") %}
+        {% set d2 = end|format_datetime(pattern="d") %}
+
+        {% set m = start|format_datetime(pattern="MM") %}
+        {% set m2 = end|format_datetime(pattern="MM") %}
+
+        {% set y = start|format_datetime(pattern="yyyy") %}
+        {% set y2 = end|format_datetime(pattern="yyyy") %}
+
+        {% if y == y2 %}
+            {% if m == m2 %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MMM d") }} - {{ end|format_datetime(pattern="d, yyyy") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d") }} - {{ end|format_datetime('medium', 'none') }}
+                {% endif %}
+            {% else %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MM/d") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d/MM") }}
+                {% endif %}
+                - {{ end|format_datetime('short', 'none') }}
+            {% endif %}
+        {% else %}
+            {{ start|format_datetime('short', 'none') }} - {{ end|format_datetime('short', 'none') }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% import _self as dateMacro %}
+
+{% set type = 'pdf' %}
+
+{% block stylesheets %}
+    {% include "@Base/certificate/templates/certificate.styles.twig" %}
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="{% if type == 'html' %} back-desktop {% else %} back {% endif %}">
+
+        <div class="{% if type == 'html' %} title-desktop {% else %} title {% endif %}">CERTIFICADO DE COMITÊ CIENTÍFICO</div>
+
+        <div class="{% if type == 'html' %} text-desktop {% else %} text {% endif %}">
+            A ANPAD - Associação Nacional de Pós-Graduação e Pesquisa em Administração - confere o presente certificado por seu desempenho como Comitê Científico no {{ certificate.edition.longname }} a
+        </div>
+
+        <div class="{% if type == 'html' %} text-desktop {% else %} text {% endif %}">
+            {{ certificate.user.name }}
+
+            {% if certificate.divisions|length > 0 %}
+                {% for division in certificate.divisions %}
+                    <br/>{{ division.initials }}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {#        <div class="{% if type == 'html' %} footer-desktop {% else %} footer {% endif %}">#}
+        {#            {{ certificate.edition.place }}, {{ dateMacro.interval(certificate.edition.dateStart, certificate.edition.dateEnd) }}#}
+        {#        </div>#}
+
+        {% if qrCode != '' %}
+
+            <div class="qr-code"></div>
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}

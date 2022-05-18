@@ -1,0 +1,58 @@
+<h1>{{ 'Resultado Final'|trans }}</h1>
+
+{% set isRejected = false %}
+{% set hasFormtError = false %}
+
+{% if data.evaluations|length > 0 %}
+    {% for evaluation in data.evaluations %}
+        {% if '' != evaluation.rejectAt %}
+            {% set isRejected = true %}
+        {% elseif '' != evaluation.formatErrorAt %}
+            {% set hasFormtError = true %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<div>
+    {% if constant('ARTICLE_EVALUATION_STATUS_APPROVED', data) == data.status %}
+        <p class="alert alert-success">{{ 'Selecionado para Apresentação e Publicação. Parabéns!'|trans }}</p>
+        <p class="alert alert-warning">{{ 'Atenção! Você terá até o dia %date% para efetuar a inscrição ao evento. Depois desta data o trabalho será eliminado, conforme consta na Chamada de Trabalhos, em nosso site.'|trans({'%date%': data.editionId.signupDeadline|format_datetime('long', 'none')}) }}</p>
+    {% elseif constant('ARTICLE_EVALUATION_STATUS_REPROVED', data) == data.status %}
+        {% if true == isRejected %}
+            <p class="alert alert-danger">{{ 'Recusado na Pré-seleção'|trans }}</p>
+        {% elseif true == hasFormtError %}
+            <p class="alert alert-danger">{{ 'Reprovado por Formato'|trans }}</p>
+        {% else %}
+            <p class="alert alert-warning">{{ 'Trabalho não selecionado para apresentação e publicação'|trans }}</p>
+        {% endif %}
+    {% endif %}
+</div>
+<div id="evaluation">
+    {% if data.evaluations|length > 0 %}
+        {% for evaluation in data.evaluations %}
+            {% if (
+                constant('ARTICLE_EVALUATION_STATUS_APPROVED', data) == data.status
+                or (constant('ARTICLE_EVALUATION_STATUS_REPROVED', data) == data.status and false == isRejected and false == hasFormtError)
+                ) %}
+                <div class="card mt-3 evaluation">
+                    <div class="card-header" id="header-{{ loop.index }}" data-toggle="collapse" data-target="#collapse-{{ loop.index }}">
+                        <span>{{ 'Avaliador'|trans }} #{{ loop.index }}</span>
+                    </div>
+                    <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="header-{{ loop.index }}">
+                        <div class="card-body">
+                            <p>{{ evaluation.justification|nl2br }}</p>
+
+                            {% set form = forms[loop.index0] %}
+
+                            {% include 'user_articles/tabs/partials/author_rate_form.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            {{ 'Nenhum resultado encontrado.'|trans }}
+        </div>
+    {% endif %}
+</div>

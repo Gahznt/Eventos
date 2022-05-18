@@ -1,0 +1,126 @@
+{{ form_start(form, {'attr': {'id':'priorityScheduleForm', 'class': 'row', 'action':path('ensalement_priority_new', {edition: edition.id}), 'method': 'GET', 'novalidate': 'novalidate'}}) }}
+
+<!--Preencher os options do select com as divisões-->
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.division, 'Divisão') }}
+    {{ form_widget(form.division, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.division.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.division.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.activityType, 'Tipo') }}
+    {{ form_widget(form.activityType, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.activityType.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.activityType.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+{% if form.activity is defined %}
+    <!--Aqui vai carregar o nome de todas as atividade ou paineis que sirvam na divisão e tipo selecionados anteriormente.-->
+    <div class="col-12 col-md-6 form-group">
+        {{ form_label(form.activity, 'Atividade / Painel') }}
+        {{ form_widget(form.activity, {'attr': {'class': 'filter form-control'}}) }}
+        {% if form.activity.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.activity.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if form.panel is defined %}
+    <!--Aqui vai carregar o nome de todas as atividade ou paineis que sirvam na divisão e tipo selecionados anteriormente.-->
+    <div class="col-12 col-md-6 form-group">
+        {{ form_label(form.panel, 'Atividade / Painel') }}
+        {{ form_widget(form.panel, {'attr': {'class': 'filter form-control'}}) }}
+        {% if form.panel.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.panel.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+<!--Segunda Etapa-->
+
+{% if form.timeRestriction is defined %}
+    <!--Após selecionar o título da atividade/painel, atualiza o texto digitado em atividades como restrição de horário. Caso não tenha nada, inserir o texto "Sem restrição de horário."-->
+
+    <div class="col-12 col-md-12 form-group">
+        {{ form_label(form.timeRestriction, 'Solicitação de Restrição de Horário') }}
+        {{ form_widget(form.timeRestriction, {'attr': {'class': 'filter form-control'}}) }}
+        {% if form.timeRestriction.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.timeRestriction.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+{% endif %}
+
+{% if form.date is defined %}
+    <div class="col-12 mt-4">
+        <h3>Segunda Etapa - Ensalamento</h3>
+        <p>Para ensalar e agendar as atividades, você poderá filtrar a data e horário de acordo com a restrição solicitada acima ou conforme a sua preferência. Em seguida, selecione o slot com a sala e local, de acordo com a disponibilidade de dia e horário escolhido.</p>
+    </div>
+    <div class="col-12 col-md-4 form-group">
+        {{ form_label(form.date, 'Data') }}
+        {{ form_widget(form.date, {'attr': {'class': 'filter form-control'}}) }}
+        {% if form.date.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.date.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-12 col-md-8 form-group">
+        {{ form_label(form.systemEnsalementSessions, 'Horário e Tipo de Sessão') }}
+        {{ form_widget(form.systemEnsalementSessions, {'attr': {'class': 'filter form-control'}}) }}
+        {% if form.systemEnsalementSessions.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.systemEnsalementSessions.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-12 form-group">
+        {{ form_label(form.systemEnsalementSlots, 'Slots de ensalamento') }}
+        {{ form_widget(form.systemEnsalementSlots, {'attr': {'class': 'filter form-control'}}) }}
+        {% if form.systemEnsalementSlots.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.systemEnsalementSlots.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-12">
+        <p class="activity-indicator d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+    </div>
+
+    <div class="col-12 col-md-4 offset-md-8">
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Salvar Ensalamento <i id="btnLoad"></i></button>
+    </div>
+{% else %}
+    <div class="col-12">
+        <p class="activity-indicator d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+    </div>
+
+    <div class="col-12">
+        <div class="alert alert-info icon info-circle pb-1">
+            <i id="sessionsLoad" class="icon icon-danger"></i>
+            <h4>Selecione uma Atividade / Painel para mostrar os horários.</h4>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4 offset-md-8">
+        <button type="button" disabled class="btn btn-primary btn-lg btn-block">Salvar Ensalamento <i id="btnLoad"></i></button>
+    </div>
+{% endif %}
+
+{{ form_end(form) }}

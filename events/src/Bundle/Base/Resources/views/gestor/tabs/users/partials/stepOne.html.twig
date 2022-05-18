@@ -1,0 +1,216 @@
+<div class="row">
+    <div class="col-lg-4 form-group">
+        <label for="typeRecord">{{ 'Type record' | trans }}</label>
+        {{ form_widget(form.recordType, {'attr': {'class': 'form-control'}}) }}
+        {% if form.recordType.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.recordType.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-8 form-group">
+        <label for="city">{% trans %}Country{% endtrans %}</label>
+        {{ form_widget(form.country, {'attr': {'class': 'form-control'}}) }}
+        {% if form.country.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.country.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 form-group">
+        <label for="identifier">{% trans %}Document{% endtrans %}</label>
+        {{ form_widget(form.identifier, {'attr': {'class': 'form-control'}}) }}
+        {% if form.identifier.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.identifier.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-6 form-group">
+        <label for="name">{% trans %}Full Name{% endtrans %}</label>
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        {% if form.name.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.name.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3 form-group">
+        <label for="birthday">{% trans %}Birthday{% endtrans %}</label>
+        {{ form_widget(form.birthday, {'attr': {'class': 'form-control date'}}) }}
+        {% if form.birthday.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.birthday.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<input type="hidden" style="height:0px;border:none;padding:0;">
+<div class="row">
+    <div class="col-lg-2 form-group">
+        <label for="zipcode">{% trans %}Zipcode{% endtrans %}</label>
+        {{ form_widget(form.zipcode, {'attr': {'class': 'form-control'}}) }}
+        {% if form.zipcode.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.zipcode.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-6 form-group">
+        <label for="street">{% trans %}Street{% endtrans %}</label>
+        {{ form_widget(form.street, {'attr': {'class': 'form-control'}}) }}
+        {% if form.street.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.street.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-2 form-group">
+        <label for="number">{% trans %}Number{% endtrans %}</label>
+        {{ form_widget(form.number, {'attr': {'class': 'form-control'}}) }}
+        {% if form.number.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.number.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-2 form-group">
+        <label for="complement">{% trans %}Complement{% endtrans %}</label>
+        {{ form_widget(form.complement, {'attr': {'class': 'form-control'}}) }}
+        {% if form.complement.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.complement.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 form-group">
+        <label for="neighborhood">{% trans %}Neighborhood{% endtrans %}</label>
+        {{ form_widget(form.neighborhood, {'attr': {'class': 'form-control'}}) }}
+        {% if form.neighborhood.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.neighborhood.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3 form-group">
+        <label for="state">{% trans %}State{% endtrans %}</label>
+        {{ form_widget(form.state, {'attr': {'class': 'form-control','route': path('state_by_country'), 'select' : 'Select'|trans}}) }}
+        {% if form.state.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.state.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-6 form-group">
+        <label for="city">{% trans %}City{% endtrans %}</label>
+        {{ form_widget(form.city, {'attr': {'class': 'form-control','data-route': path('city_by_state_and_country'), 'select' : 'Select'|trans}}) }}
+        {% if form.city.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.city.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 form-group">
+        <label for="email">{% trans %}E-mail{% endtrans %}</label>
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        {% if form.email.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.email.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3 form-group">
+        <label for="cellphone">{% trans %}Cellphone{% endtrans %}</label>
+        {{ form_widget(form.cellphone, {'attr': {'class': 'form-control phone'}}) }}
+        {% if form.cellphone.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.cellphone.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3 form-group">
+        <label for="phone">{% trans %}Phone{% endtrans %}</label>
+        {{ form_widget(form.phone, {'attr': {'class': 'form-control phone'}}) }}
+        {% if form.phone.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.phone.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-2 form-group">
+        <label for="extension">{% trans %}Extension{% endtrans %}</label>
+        {{ form_widget(form.extension, {'attr': {'class': 'form-control'}}) }}
+        {% if form.extension.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.extension.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 text-left">
+        <div class="password-tip alert alert-warning">
+            <ul>
+                <li>
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <b>{{ 'Password setting rules' | trans }}</b>
+                </li>
+                <li>- {{ '8 characters minimum' | trans }}</li>
+                <li>- {{ 'Minimum 1 number and 1 letter' | trans }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-3 form-group">
+        {{ form_label(form.password.first, "Password") }}
+        {{ form_widget(form.password.first, {'attr': {'id':'password', 'class': 'form-control', 'autocomplete': 'new-password'}}) }}
+        {% if form.password.first.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.password.first.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3 form-group">
+        {{ form_label(form.password.second, "Confirm") }}
+        {{ form_widget(form.password.second, {'attr': {'id':'confirm', 'class': 'form-control', 'autocomplete': 'new-password'}}) }}
+    </div>
+</div>

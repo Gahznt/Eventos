@@ -1,0 +1,6 @@
+framework:
+    default_locale: pt_br
+    translator:
+        default_path: '@Base/Resources/translations'
+        fallbacks:
+            - en

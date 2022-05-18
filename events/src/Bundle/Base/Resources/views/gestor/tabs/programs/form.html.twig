@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_index') }}">
+                    {{ 'Programs'|trans }}
+                </a>
+                <a class="nav-item nav-link active" href="{{ path('manager_programs_index', {'institution': institution.id}) }}" role="tab">
+                    {{ 'MANAGER_EDITIONS'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link" href="{{ path('manager_programs_index', {'institution': institution.id}) }}" role="tab">
+                            {{ 'LISTA DE<br>PROGRAMAS'|trans|raw }}
+                        </a>
+                        <a class="nav-item nav-link active" href="#dados" role="tab">
+                            {{ 'DADOS DO<br>PROGRAMA'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+
+                        {% if institution.id != '' %}
+                            <h1>{{ 'Dados de edição'|trans}} {{ institution.name }}</h1>
+                        {% else %}
+                            <h1>{{ 'Dados de edição'|trans }}</h1>
+                        {% endif %}
+
+                        {% include "gestor/tabs/programs/partials/_form.html.twig" %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorPrograms') }}
+    {{ parent() }}
+{% endblock %}

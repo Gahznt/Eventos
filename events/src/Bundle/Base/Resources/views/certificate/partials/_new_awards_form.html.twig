@@ -1,0 +1,44 @@
+{% if entity.id != '' %}
+    {{ form_start(form, {'attr': {'id':'certificateForm', 'class': 'form', 'action':path('certificate_new_awards', {id: entity.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% else %}
+    {{ form_start(form, {'attr': {'id':'certificateForm', 'class': 'form', 'action':path('certificate_new_awards', {edition: edition.id, id: entity.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% endif %}
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label for="certificate_awards_type">Tipo</label>
+        {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+        {% if form.type.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.type.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-6 form-group">
+        <label for="certificate_awards_userArticles">Artigo</label>
+        {{ form_widget(form.userArticles, {'attr': {'class': 'form-control', 'data-api-url': path('articles_find', {'edition': edition.id})}}) }}
+        {% if form.userArticles.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.userArticles.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary" href="{{ path('certificate_list', {'edition': edition.id}) }}">{{ 'CANCEL'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}
+
+<style type="text/css">
+    .select2-dropdown{
+        max-width: 500px !important;
+    }
+</style>

@@ -1,0 +1,19 @@
+  <h1>{{ 'PANEL_STEP1_HEAD'|trans|raw }}</h1>
+  <div class="row">
+    <div class="col-lg-8 form-group">
+      <label for="divisionId">{{ 'ACADEMIC_DIVISION'|trans }}</label>
+        {{ form_widget(formView.divisionId, {'attr': {'id':'divisionId', 'class': 'form-control'}, 'disabled': true}) }}
+    </div>
+    <div class="col-lg-4 form-group">
+      <label for="language">{{ 'PANEL_LANGUAGE'|trans }}</label>
+        {{ form_widget(formView.language, {'attr': {'id':'language', 'class': 'form-control'}, 'disabled': true}) }}
+    </div>    
+    <div class="col-lg-6 form-group">
+      <label for="justification">{{ 'PANEL_JUSTIFY'|trans }}</label>
+        {{ form_widget(formView.justification, {'attr': {'id':'justification', 'class': 'form-control', 'rows': 5}, 'disabled': true}) }}
+    </div>
+    <div class="col-lg-6 form-group">
+      <label for="suggestion">{{ 'PANEL_SUGGESTION'|trans }}</label>
+        {{ form_widget(formView.suggestion, {'attr': {'id':'suggestion', 'class': 'form-control', 'rows': 5}, 'disabled': true}) }}
+    </div>
+  </div>

@@ -1,0 +1,69 @@
+{% if file.id != '' %}
+    {{ form_start(form, {'attr': {'id':'fileForm', 'class': 'form', 'action':path('manager_files_edit', {id: file.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% else %}
+    {{ form_start(form, {'attr': {'id':'fileForm', 'class': 'form', 'action':path('manager_files_new', {editionId: edition.id, id: file.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% endif %}
+
+<div class="row">
+    <div class="col-lg-6 form-group">
+        <label for="edition_file_description">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+
+
+        {{ form_widget(form.description, {'attr': {'id':'description', 'class': 'form-control'}}) }}
+        {% if form.description.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.description.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+
+
+    </div>
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-12">
+                <label>{{ 'FILES_TAB'|trans }}</label>
+            </div>
+            <div class="col-12">
+                <label for="edition_file_file" class="fileDropzone position-relative overflow-hidden" id="articleDropzone">
+                    <i class="fas fa-upload fa-3x mr-5"></i>
+
+                    <span>{{ 'FILES_UPLOAD_MSG'|trans|raw }}</span>
+
+                    {{ form_widget(form.file, {'attr': {'id':'file', 'class': 'custom-file-input', 'style': 'position: absolute; top: -100px; left: -10%; width: 120%; height: 400px;'}}) }}
+                </label>
+            </div>
+            <div class="col-12">
+                <div class="fileList mt-1">
+                    <div class="file">
+                        {% if file.fileName != '' %}
+                            <span id="filename-label">{{ file.fileName }}</span>
+                        {% else %}
+                            <span id="filename-label">{{ 'PANEL_UPLOAD_NOFILE'|trans }}</span>
+                        {% endif %}
+
+                        <a id="btn-remove-file" class="btn small btn-outline-primary float-right remove d-none">{{ 'ARTICLE_REMOVE_FILE'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                {% if form.file.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.file.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary" href="{{ path('manager_files_index', {'editionId': edition.id}) }}">{{ 'CANCEL'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}

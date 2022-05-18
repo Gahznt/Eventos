@@ -1,0 +1,159 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+
+        <div class="fieldset">
+            <h2>Designações</h2>
+            <div class="form mb-3">
+                {{ form_start(form) }}
+
+                <div class="col-6 col-md-6 form-group">
+                    <label for="division">Divisão</label>
+                    {{ form_widget(form.division, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+                <div class="col-6 col-md-6 form-group">
+                    <label for="theme">Temas</label>
+                    {{ form_widget(form.theme, {'attr': {'class': 'form-control','route': path('get_by_division'), 'select': 'Select'|trans}}) }}
+                </div>
+
+                <div class="col-6 col-md-6 form-group">
+                    <label for="themes">Nível</label>
+                    {{ form_widget(form.level, {'attr': {'id':'level', 'class': 'filter form-control'}}) }}
+                </div>
+
+                <div class="col-6 col-md-6 form-group">
+                    <label for="search">{{ 'Search'|trans }}</label>
+                    <button type="submit" id="indicationFormSearchBtn" class="inputSearchBtn" style="border: none; background: none;"><i class="fas fa-search"></i></button>
+                    {{ form_widget(form.search, {'attr': {'id':'search', 'class': 'filter form-control'}}) }}
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+            <hr/>
+            <br/>
+
+            <form method="post">
+                <div>
+                    <h4>Artigo : #{{ article.id }}</h4>
+                    <table class="table table-striped table-sm">
+                        <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Autores</th>
+                            <th>Divisão</th>
+                            <th>Tema</th>
+                            <th>Data de criação</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td width="25%">{{ article.title }}</td>
+                            <td width="30%">{{ article.userId.name }}</td>
+                            <td width="10%">{{ article.divisionId }}</td>
+                            <td width="10%">{{ article.userThemes.position }} - {{ article.userThemes.details.title }}</td>
+                            <td width="15%">{{ article.createdAt | date('d/m/Y H:i:s') }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tabela table-responsive">
+                    <h4>Avaliadores</h4>
+
+                    {% if data is empty %}
+                        <div class="alert alert-warning" role="alert">
+                            Nenhum resultado encontrado.
+                        </div>
+                    {% else %}
+
+                        <table class="table table-striped table-sm">
+                            <thead>
+                            <tr>
+                                <th width="40%">Nome</th>
+                                <th width="20%">Formação</th>
+                                <th width="20%">Temas</th>
+                                <th width="20%">E-mail</th>
+                                <th width="5%">Indicar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for users in data %}
+                                {% set checked = false %}
+
+                                {% if users.id in savedList %}
+                                    {% set checked = true %}
+                                {% else %}
+                                    {% set checked = false %}
+                                {% endif %}
+
+                                {% set academic = [] %}
+                                {% set cad_themes = [] %}
+
+                                {% if users.academics is defined %}
+                                    {% for acad in users.academics %}
+                                        {% if acad.level|academic_level|trans not in academic %}
+                                            {% set academic = academic|merge({(loop.index): acad.level|academic_level|trans }) %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+                                {% if users.userEvaluationArticles is defined %}
+                                    {% if users.userEvaluationArticles.themeFirstId.details is defined %}
+                                        {% if users.userEvaluationArticles.themeFirstId.details.title not in cad_themes %}
+                                            {% set cad_themes = cad_themes|merge({0:users.userEvaluationArticles.themeFirstId.position ~ ' - ' ~ users.userEvaluationArticles.themeFirstId.details.title}) %}
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if users.userEvaluationArticles.themeSecondId.details is defined %}
+                                        {% if users.userEvaluationArticles.themeSecondId.details.title not in cad_themes %}
+                                            {% set cad_themes = cad_themes|merge({1:users.userEvaluationArticles.themeSecondId.position ~ ' - ' ~ users.userEvaluationArticles.themeSecondId.details.title}) %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+
+                                <tr>
+                                    <td>{{ users.name }}</td>
+                                    <td>{{ academic|join(', ') }}</td>
+                                    <td>{{ cad_themes|join(', ') }}</td>
+                                    <td>{{ users.email }}</td>
+
+                                    <td class="text-center">
+                                        <input type="checkbox" class="rbutton" {% if checked %} checked {% endif %} name="indications[]" value="{{ users.id }}"/>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <nav class="d-flex justify-content-between" style="float: right">
+                            {{ knp_pagination_render(data) }}
+                        </nav>
+
+                        <small class="text-muted">{{ 'Showing'|trans }} {{ data|length }} {{ 'of' |trans }} {{ data.getTotalItemCount }}</small>
+                        <br/><br/>
+                        <div class="form-group">
+                            <button type="submit" class="btn  btn-lg btn-block  btn-primary">SALVAR</button>
+                        </div>
+                    {% endif %}
+                </div>
+            </form>
+            {% for message in app.flashes('success') %}
+                <br/>
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <br/>
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('systemEvaluationIndication') }}
+{% endblock %}

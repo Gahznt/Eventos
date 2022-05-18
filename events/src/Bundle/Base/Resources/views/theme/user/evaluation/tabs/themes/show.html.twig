@@ -1,0 +1,32 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% if isAdmin or isAdminOperational %}
+                    <a class="nav-item nav-link text-center tab-1" id="nav-1" href="{{ path('theme_evaluation_index') }}" role="tab">
+                        {{ 'TEVAL_STEP1'|trans|raw }}
+                    </a>
+                {% endif %}
+                <a class="nav-item nav-link text-center tab-2" id="nav-2" href="{{ path('theme_evaluation_list') }}" role="tab">
+                    {{ 'TEVAL_STEP2'|trans|raw }}
+                </a>
+                <a class="nav-item nav-link text-center tab-3 active" id="nav-3" href="{{ path('theme_evaluation_show', {'id': userThemes.id}) }}" role="tab">
+                    {{ 'Detalhes<br/> do Tema'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-3" role="tabpanel">
+                {% include "@Base/theme/user/partials/_show.html.twig" %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

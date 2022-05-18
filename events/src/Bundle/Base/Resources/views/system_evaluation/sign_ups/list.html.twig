@@ -1,0 +1,97 @@
+<div class="col-lg-12">
+    <div class="row">
+        <div class="col-md-10">
+            <h1 class="mb-0">{{ 'Listagem de Inscrições'|trans }}</h1>
+        </div>
+        <div class="col-md-2">
+            <a href="{{ path('system_evaluation_sign_ups', {'edition' : edition.id, 'export': 'excel'}) }}"
+               class="btn btn-primary float-right" data-toggle="tooltip" title="{{ 'Baixar Excel'|trans }}">
+                <i class="fas fa-file-excel"></i> Inscritos
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    {% if signUps is empty %}
+        <div class="alert alert-warning mt-3" role="alert">
+            {{ 'Nenhum resultado encontrado.'|trans }}
+        </div>
+    {% else %}
+
+        <div class="form mb-3">
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    {{ form_label(form.status, 'Status') }}
+                    {{ form_widget(form.status, {'attr': {'class': 'filter form-control'}}) }}
+                </div>
+                <div class="col-6 col-md-3">
+                    {{ form_label(form.mode, 'Participação') }}
+                    {{ form_widget(form.mode, {'attr': {'class': 'filter form-control'}}) }}
+                </div>
+                <div class="col-6 col-md-3 col-lg-4">
+                    {{ form_label(form.q, 'Buscar') }}
+                    {{ form_widget(form.q, {'attr': {'class': 'filter form-control'}}) }}
+                </div>
+                <div class="col-6 col-md-3 col-lg-2" style="padding-top: 31px;">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Filtrar</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="tabela my-2">
+            <table class="table table-sm table-striped table-responsive-md">
+                <thead>
+                <tr>
+                    {#                    <th>{{ 'DASHBOARD_LBL_EVENT'|trans }}</th>#}
+                    {#                    <th>{{ 'DASHBOARD_LBL_EDITION'|trans }}</th>#}
+                    <th>{{ 'Inscrição'|trans }}</th>
+                    <th>{{ 'Nome do Inscrito'|trans }}</th>
+                    <th>{{ 'DASHBOARD_LBL_ID'|trans }}</th>
+                    <th>{{ 'Identificador'|trans }}</th>
+                    <th>{{ 'DASHBOARD_LBL_EDITION_SIGNUP_MODE'|trans }}</th>
+                    <th class="text-center">{{ 'DASHBOARD_LBL_STATUS_PAID'|trans }}</th>
+                    <th class="text-center" width="100">{{ 'DASHBOARD_LBL_ACTIONS'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for editionSignup in signUps %}
+                    <tr>
+                        {#                        <td>{{ editionSignup.edition.event.namePortuguese }}</td>#}
+                        {#                        <td>{{ editionSignup.edition.namePortuguese }}</td>#}
+                        <td>{{ editionSignup.edition.id ~ '-' ~ editionSignup.id }}</td>
+                        <td>{{ editionSignup.joined.name }}</td>
+                        <td>{{ editionSignup.joined.id }}</td>
+                        <td>{{ editionSignup.joined.identifier }}</td>
+                        <td>{{ editionSignup.paymentMode.name }}</td>
+                        <td class="text-center">
+                            <span class="badge badge-{{ editionSignup.statusPay|status_pagamento('color') }}">
+                                {{ editionSignup.statusPay ? 'PAYMENT_STATUS_PAID'|trans : 'PAYMENT_STATUS_DEBT'|trans }}
+                            </span>
+                        </td>
+                        <!-- ACTIONS -->
+                        <td class="text-center">
+                            {% if editionSignup.uploadedFilePath is not empty %}
+
+                                <a href="{{ asset(constant('PUBLIC_PATH', editionSignup) ~ editionSignup.edition.id ~ '/' ~ editionSignup.uploadedFilePath) }}"
+                                   target="_blank" data-toggle="tooltip" class="hover-success"
+                                   title="{{ 'Download do arquivo Anexado'|trans }}">
+                                    <i class="fas fa-download"></i>
+                                </a>
+
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav class="d-flex justify-content-between" style="float: right">
+                {{ knp_pagination_render(signUps) }}
+            </nav>
+            <small class="text-muted">{{ 'Showing'|trans }} {{ signUps|length }} {{ 'of' |trans }} {{ signUps.getTotalItemCount }}</small>
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,236 @@
+<div class="stepsTab" data-step="1" style="display: {{ step == 1 ? 'block' : 'none' }};">
+    <h1>{{ 'THEME_STEP1_HEAD'|trans }}</h1>
+
+    {% if form.division is defined %}
+        <div class="row mb-3">
+            <div class="col-lg-6 form-group">
+                <label for="division">{{ 'ACADEMIC_DIVISION'|trans }}</label>
+                {{ form_widget(form.division, {'attr': {'id':'divisionId', 'class': 'form-control'}}) }}
+                {% if form.division.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-input">
+                        {{ form.division.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="card theme">
+        <div class="card-header{% if submmited == true and form.details.portugueseTitle.vars['errors']|length <= 0 and form.details.portugueseDescription.vars['errors']|length <= 0 and form.details.portugueseKeywords.vars['errors']|length <= 0 %} valid {% else %} invalid {% endif %}"
+             id="header1" data-toggle="collapse" data-target="#collapse1"
+             data-toggle="tooltip">
+            {{ 'THEME_STEP1_HEAD'|trans }}&nbsp;({{ 'LANG_PT'|trans }})
+        </div>
+        <div id="collapse1" class="collapse" aria-labelledby="header1">
+            <div class="card-body">
+                <div class="row form mt-0">
+                    <div class="col-12 form-group">
+                        <label class="form-check-label" for="portugueseTitle">{{ 'THEME_TITLE_FORM'|trans }}</label>
+                        {{ form_widget(form.details.portugueseTitle, {'attr': {'id':'portugueseTitle', 'class': 'form-control'}}) }}
+                        {% if form.details.portugueseTitle.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-input">
+                                {{ form.details.portugueseTitle.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 form-group">
+                        <label class="form-check-label" for="portugueseDescription">{{ 'THEME_DESC'|trans }}</label>
+                        {% set minLength = constant('App\\Bundle\\Base\\Form\\UserThemesDetailsType::PORTUGUESE_DESCRIPTION_WORD_COUNT_MIN') %}
+                        {% set maxLength = constant('App\\Bundle\\Base\\Form\\UserThemesDetailsType::PORTUGUESE_DESCRIPTION_WORD_COUNT_MAX') %}
+                        {{ form_widget(form.details.portugueseDescription,
+                            {'attr': {
+                                'id':'portugueseDescription',
+                                'class': 'htmleditor',
+                                'data-min-number-words': minLength,
+                                'data-max-number-words': maxLength,
+                                'data-missing-words-counter': '#' ~ form.details.portugueseDescription.vars['id'] ~ '-missing-words-counter',
+                                'data-remaining-words-counter': '#' ~ form.details.portugueseDescription.vars['id'] ~ '-remaining-words-counter'
+                            }}
+                        ) }}
+                        <div class="row">
+                            <p class="col-md-6 text-left">
+                                {{ 'TEXT_MISSING_WORDS'|trans }}: <span id="{{ form.details.portugueseDescription.vars['id'] }}-missing-words-counter">{{ minLength }}</span>
+                            </p>
+                            <p class="col-md-6 text-right">
+                                {{ 'TEXT_REMAINING_WORDS'|trans }}: <span id="{{ form.details.portugueseDescription.vars['id'] }}-remaining-words-counter">{{ maxLength }}</span>
+                            </p>
+                        </div>
+                        {% if form.details.portugueseDescription.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-input">
+                                {{ form.details.portugueseDescription.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row form mt-0 gutter-10">
+                    <h1 class="col-12">{{ 'THEME_KEYWORDS'|trans }}</h1>
+
+                    {% set min = constant('App\\Bundle\\Base\\Form\\UserThemesDetailsType::PORTUGUESE_KEYWORDS_COUNT_MIN') %}
+                    {% set max = constant('App\\Bundle\\Base\\Form\\UserThemesDetailsType::PORTUGUESE_KEYWORDS_COUNT_MAX') %}
+                    {% set prototype %}
+                        {{ form_widget(form.details.portugueseKeywords.vars.prototype, {'attr': {'class': 'form-control'}}) }}
+                    {% endset %}
+                    {% for i in 0..(max-1) %}
+                        {% if form.details.portugueseKeywords[i] is defined %}
+                            <div class="col form-group">
+                                {{ form_widget(form.details.portugueseKeywords[i], {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        {% else %}
+                            <div class="col form-group">
+                                {{ prototype|replace({'__name__': i})|raw }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="col-12">
+                        {% if form.details.portugueseKeywords.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-input">
+                                {{ form.details.portugueseKeywords.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card theme mt-3">
+        <div class="card-header {% if submmited == true and form.details.englishTitle.vars['errors']|length <= 0 and form.details.englishDescription.vars['errors']|length <= 0 and form.details.englishKeywords.vars['errors']|length <= 0 %} valid {% else %} invalid {% endif %}"
+             id="header2" data-toggle="collapse" data-target="#collapse2"
+             data-toggle="tooltip">
+            {{ 'THEME_STEP1_HEAD'|trans }}&nbsp;({{ 'LANG_EN'|trans }})
+        </div>
+        <div id="collapse2" class="collapse" aria-labelledby="header2">
+            <div class="card-body">
+                <div class="row form mt-0">
+                    <div class="col-12 form-group">
+                        <label class="form-check-label" for="englishTitle">{{ 'THEME_TITLE_FORM'|trans }}</label>
+                        {{ form_widget(form.details.englishTitle, {'attr': {'id':'englishTitle', 'class': 'form-control'}}) }}
+                        {% if form.details.englishTitle.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-input">
+                                {{ form.details.englishTitle.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 form-group">
+                        <label class="form-check-label" for="theme-desc-en">{{ 'THEME_DESC'|trans }}</label>
+                        {% set minLength = constant('App\\Bundle\\Base\\Form\\UserThemesDetailsType::ENGLISH_DESCRIPTION_WORD_COUNT_MIN') %}
+                        {% set maxLength = constant('App\\Bundle\\Base\\Form\\UserThemesDetailsType::ENGLISH_DESCRIPTION_WORD_COUNT_MAX') %}
+                        {{ form_widget(form.details.englishDescription,
+                            {'attr': {
+                                'id':'portugueseDescription',
+                                'class': 'htmleditor',
+                                'data-min-number-words': minLength,
+                                'data-max-number-words': maxLength,
+                                'data-missing-words-counter': '#' ~ form.details.englishDescription.vars['id'] ~ '-missing-words-counter',
+                                'data-remaining-words-counter': '#' ~ form.details.englishDescription.vars['id'] ~ '-remaining-words-counter'
+                            }}
+                        ) }}
+                        <div class="row">
+                            <p class="col-md-6 text-left">
+                                {{ 'TEXT_MISSING_WORDS'|trans }}: <span id="{{ form.details.englishDescription.vars['id'] }}-missing-words-counter">{{ minLength }}</span>
+                            </p>
+                            <p class="col-md-6 text-right">
+                                {{ 'TEXT_REMAINING_WORDS'|trans }}: <span id="{{ form.details.englishDescription.vars['id'] }}-remaining-words-counter">{{ maxLength }}</span>
+                            </p>
+                        </div>
+                        {% if form.details.englishDescription.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-input">
+                                {{ form.details.englishDescription.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row form mt-0 gutter-10">
+                    <h1 class="col-12">{{ 'THEME_KEYWORDS'|trans }}</h1>
+
+                    {% set min = constant('App\\Bundle\\Base\\Form\\UserThemesDetailsType::ENGLISH_KEYWORDS_COUNT_MIN') %}
+                    {% set max = constant('App\\Bundle\\Base\\Form\\UserThemesDetailsType::ENGLISH_KEYWORDS_COUNT_MAX') %}
+                    {% set prototype %}
+                        {{ form_widget(form.details.englishKeywords.vars.prototype, {'attr': {'class': 'form-control'}}) }}
+                    {% endset %}
+                    {% for i in 0..(max-1) %}
+                        {% if form.details.englishKeywords[i] is defined %}
+                            <div class="col form-group">
+                                {{ form_widget(form.details.englishKeywords[i], {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        {% else %}
+                            <div class="col form-group">
+                                {{ prototype|replace({'__name__': i})|raw }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="col-12">
+                        {% if form.details.englishKeywords.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-input">
+                                {{ form.details.englishKeywords.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h1 class="my-3">{{ 'THEME_BIBLIOGRAPHY'|trans }}</h1>
+
+    {% import _self as formMacros %}
+
+    {% macro fieldsetBibliography(defaultStep) %}
+        <div class="g-collection-fieldset bibliographies-list mb-3">
+            <div class="row">
+                <div class="col-12 form-group">
+                    {{ form_widget(defaultStep.name, {'attr': {'class': 'form-control'}}) }}
+                    {% if defaultStep.name.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {{ defaultStep.name.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <a class="g-collection-remove btn btn-sm btn-outline-danger float-left del">
+                        <i class="fas fa-minus-circle"></i> {{ 'THEME_REMOVE_BIBLIO'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endmacro %}
+
+    {% set min = constant('App\\Bundle\\Base\\Form\\UserThemesType::USER_THEMES_BIBLIOGRAPHIES_COUNT_MIN') %}
+    {% set max = constant('App\\Bundle\\Base\\Form\\UserThemesType::USER_THEMES_BIBLIOGRAPHIES_COUNT_MAX') %}
+    {% set count = form.userThemesBibliographies|length %}
+    {% set index = count > 0 ? (form.userThemesBibliographies|keys|last) + 1 : 0 %}
+    {% set prototype %}
+        {{ formMacros.fieldsetBibliography(form.userThemesBibliographies.vars.prototype) }}
+    {% endset %}
+
+    <div class="g-collection {{ count == min ? 'g-collection-limit-min' }} {{ count == max ? 'g-collection-limit-max' }}" data-min="{{ min }}" data-max="{{ max }}" data-count="{{ count }}" data-index="{{ index }}" data-prototype="{{ prototype|e('html_attr') }}">
+        <div class="g-collection-fieldsets" id="bibliographies-container-form">
+            {% if count > 0 %}
+                {% for fieldset in form.userThemesBibliographies %}
+                    {{ formMacros.fieldsetBibliography(fieldset) }}
+                {% endfor %}
+            {% elseif min > 0 %}
+                {% for i in 0..(min-1) %}
+                    {{ prototype|replace({'__name__': i})|raw }}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {% if form.userThemesBibliographies.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {{ form.userThemesBibliographies.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <a class="g-collection-add btn btn-sm btn-outline-success float-right">
+                    <i class="fas fa-plus-circle"></i>
+                    {{ 'THEME_ADD_BIBLIOGRAPHY'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

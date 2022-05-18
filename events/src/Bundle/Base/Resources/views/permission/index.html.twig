@@ -1,0 +1,136 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="fieldset">
+
+            <div class="form mb-3">
+                {{ form_start(form) }}
+                <div class="col-lg-6 form-group">
+                    <label for="permissions">{{ 'PERMISSIONS_LABEL_CURRENT'|trans }}</label>
+                    {{ form_widget(form.permissions, {'attr': {'id':'permissions', 'class': 'filter form-control'}}) }}
+                </div>
+                <div class="col-lg-6 form-group">
+                    <label for="levels">{{ 'PERMISSIONS_LABEL_LEVEL'|trans }}</label>
+                    {{ form_widget(form.levels, {'attr': {'id':'levels', 'class': 'filter form-control'}}) }}
+                </div>
+
+                <div class="col-lg-10 form-group">
+                    <label for="search">{{ 'PERMISSIONS_LABEL_SEARCH'|trans }}</label>
+                    {{ form_widget(form.search, {'attr': {'id':'search', 'class': 'filter form-control'}}) }}
+                </div>
+                <div class="col-lg-2 form-group">
+                    <label for="btnFilter">&ensp;</label>
+                    <button type="submit" id="btnFilter" class="btn btn-block btn-primary">{{ 'PERMISSIONS_LABEL_FILTER'|trans }}</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+            {% if users is empty %}
+            <div class="alert alert-warning" role="alert">
+                Nenhum resultado encontrado.
+            </div>
+        {% else %}
+            <div class="tabela my-2">
+                <table class="table table-sm table-striped table-responsive-md">
+                    <thead>
+                    <tr>
+                        <th>{{ 'Id'|trans }}</th>
+                        <th width="35%">{{ 'PERMISSIONS_LABEL_NAME'|trans }}</th>
+                        <th>{{ 'PERMISSIONS_LABEL_LEVEL'|trans }}</th>
+                        <th width="20%" class="text-center">{{ 'PERMISSIONS_LABEL_OTHER'|trans }}</th>
+                        <th width="45%" class="text-right">{{ 'PERMISSIONS_LABEL_CHANGE'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for user in users %}
+                        {% set level = 0 %}
+                        {% set extra = [] %}
+
+                        {% for leader in user.userThemesResearchers %}
+                            {% if loop.last %}
+                                {% set extra = extra | merge(['ROLE_LEADER']) %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% for leader in user.userDivisionCoordinator %}
+                            {% if loop.last %}
+                                {% set extra = extra | merge(['ROLE_DIVISION_COORDINATOR']) %}
+                            {% endif %}
+                        {% endfor %}
+
+                        {% for association in user.associations %}
+                            {% if loop.last %}
+                                {% set level = association.level %}
+                            {% endif %}
+                        {% endfor %}
+                        <tr>
+
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>
+                                <span class="badge badge-{{ level|nivel_associacao('color') }}">
+                                  {{ level|nivel_associacao('label')|trans }}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                {{ extra|map(p => "<span class='badge badge-warning'>#{p|permission('label')|trans}</span>")|join(' ')|raw }}
+                            </td>
+                            <td class="admCheck text-right">
+                                <form action="{{ path('permission_set', {'id': user.id}) }}" method="post">
+
+                                    {% for i, value in permissions %}
+                                        {% set checked = false %}
+
+                                        {% if value in user.roles %}
+                                            {% set checked = true %}
+                                        {% endif %}
+
+                                        <div style="display: inline-block; padding-left: 15px;">
+                                            <input type="checkbox"
+                                                   id="{{ value }}_{{ user.id }}" {% if checked %} checked {% endif %}
+                                                   name="PERMISSIONS[]" value="{{ value }}">
+                                            <label for="{{ value }}_{{ user.id }}"> {{ value|permission('label')|trans }}</label>
+                                        </div>
+                                        {% set checked = false %}
+
+                                    {% endfor %}
+                                    <div style="display: inline-block; padding-left: 15px;">
+                                        <button type="submit" class="btn btn-sm btn-outline-primary"><i
+                                                    class="fas fa-save"></i></button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+                <nav class="d-flex justify-content-between" style="float: right">
+                    {{ knp_pagination_render(users) }}
+                </nav>
+
+                <small class="text-muted">{{ 'Showing'|trans }} {{ users|length }} {{ 'of' |trans }} {{ users.getTotalItemCount }}</small>
+                {% endif %}
+            </div>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <a href="{{ path('permission_index_coordinator') }}" class="btn btn-primary btn-lg btn-block mt-4">Coordenadores
+                de divisão</a>
+            <a href="{{ path('permission_index_committe') }}" class="btn btn-primary btn-lg btn-block">Comitê
+                de divisão</a>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('permissions') }}
+{% endblock %}

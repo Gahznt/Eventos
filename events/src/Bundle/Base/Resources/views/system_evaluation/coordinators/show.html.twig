@@ -1,0 +1,102 @@
+<h3>Coordenador #{{ user.name }}</h3>
+<div class="card-body">
+    <div class="row form mt-0">
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'PANEL_COUNTRY'|trans }}</div>
+            <div class="value">{{ user.city.country.name }}</div>
+        </div>
+        <div class="col-lg-3 col-md-3 div-readonly">
+            <div class="label">{{ 'USER_TYPE'|trans }}</div>
+            <div class="value">{{ user.getRecordTypeString|trans }}</div>
+        </div>
+        <div class="col-3 col-lg-3 div-readonly">
+            <div class="label">{{ 'Date'|trans }}</div>
+            <div class="value">{{ user.createdAt|date('d/m/Y H:i:s') }}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Full Name'|trans }}</div>
+            <div class="value">{{ user.name }}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Document'|trans }}</div>
+            <div class="value">{{ user.identifier }}</div>
+        </div>
+        <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'Zipcode'|trans }}</div>
+            <div class="value">{{ user.zipcode }}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'USER_STREET'|trans }}</div>
+            <div class="value">{{ user.street }}</div>
+        </div>
+        <div class="col-md-1 div-readonly">
+            <div class="label">{{ 'USER_STREETNUM'|trans }}</div>
+            <div class="value">{{ user.number }}</div>
+        </div>
+        <div class="col-md-2 div-readonly">
+            <div class="label">{{ 'Complement'|trans }}</div>
+            <div class="value">{{ user.complement }}</div>
+        </div>
+        <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'Neighborhood'|trans }}</div>
+            <div class="value">{{ user.neighborhood }}</div>
+        </div>
+        <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'City'|trans }}</div>
+            <div class="value">{{ user.city }}</div>
+        </div>
+        <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'State'|trans }}</div>
+            <div class="value">{{ user.city.state }}</div>
+        </div>
+        <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'Country'|trans }}</div>
+            <div class="value">{{ user.city.country }}</div>
+        </div>
+        <div class="col-md-4 div-readonly">
+            <div class="label">{{ 'E-mail'|trans }}</div>
+            <div class="value">{{ user.email }}</div>
+        </div>
+        <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'Cellphone'|trans }}</div>
+            <div class="value">{{ user.cellphone }}</div>
+        </div>
+        <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'Phone'|trans }}</div>
+            <div class="value">{{ user.phone }}</div>
+        </div>
+        <div class="col-md-2 div-readonly">
+            <div class="label">{{ 'Extension'|trans }}</div>
+            <div class="value">{{ user.extension }}</div>
+        </div>
+
+        {% if user.academics|length > 0 %}
+            <div class="col-12 col-lg-12 mt-3 mb-3 div-readonly">
+                <h3>{{ 'USER_ACADEMIC_COUNT'|trans }} ({{ user.academics|length }})</h3>
+            </div>
+            {% for academic in user.academics %}
+                <div class="col-md-6 div-readonly">
+                    <div class="label">{{ 'Level'|trans }}</div>
+                    <div class="value">{{ academic.getLevelString|trans }}</div>
+                </div>
+                <div class="col-md-6 div-readonly">
+                    <div class="label">{{ 'Progress'|trans }}</div>
+                    <div class="value">{{ academic.getStatusString|trans }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if user.methods|length > 0 %}
+            <div class="col-12 col-lg-12 mt-3 mb-3 div-readonly">
+                <h3>{{ 'Methods'|trans }} ({{ user.methods|length }})</h3>
+            </div>
+            {% for method in user.methods %}
+                <div class="col-md-12 div-readonly">
+                    <div class="label">{{ 'Name'|trans }}</div>
+                    <div class="value">{{ method.name }}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+

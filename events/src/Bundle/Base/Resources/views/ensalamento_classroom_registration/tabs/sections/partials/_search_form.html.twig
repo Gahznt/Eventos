@@ -1,0 +1,41 @@
+{{ form_start(form, {'attr': {'id':'sectionScheduleSearchForm', 'class': 'row', 'action':path('ensalement_sections_index', {edition: edition.id}), 'novalidate': 'novalidate'}, 'method': 'GET'}) }}
+<div class="col-12 col-md-4 form-group">
+    {{ form_label(form.division, 'Divisão') }}
+    {{ form_widget(form.division, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.division.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.division.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.theme, 'Tema') }}
+    {{ form_widget(form.theme, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.theme.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.theme.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+
+<div class="col-12 col-md-3 form-group">
+    {{ form_label(form.q, 'Buscar') }}
+    {{ form_widget(form.q, {'attr': {'class': 'filter form-control', 'style': 'height:calc(1.5em + 0.75rem + 12px);'}}) }}
+    {% if form.q.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.q.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-md-2 mt-4">
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Filtrar<i id="btnFilter"></i></button>
+</div>
+
+<div class="col-12">
+    <p class="activity-indicator d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+</div>
+
+{{ form_end(form) }}

@@ -1,0 +1,112 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'edition': app.request.get('edition').id, 'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="schedule">
+        <div class="container">
+            <nav>
+                <div class="nav nav-tabs" id="class-nav-tab" role="tablist">
+                    <div class="nav nav-tabs" id="class-nav-tab" role="tablist">
+                        <a class="nav-item nav-link tab-4" href="{{ path('ensalement_rooms_index', {edition: edition.id}) }}" role="tab">Cadastro de Salas</a>
+                        <a class="nav-item nav-link tab-4 active" id="back-route" href="{{ path('ensalement_sessions_index', {edition: edition.id}) }}" role="tab">Cadastro de Sessões</a>
+                        <a class="nav-item nav-link tab-4" href="{{ path('ensalement_slots_index', {edition: edition.id}) }}" role="tab">Cadastro de Slots</a>
+                        {% if ensalementPriorityEnable == true %}
+                            <a class="nav-item nav-link tab-4" href="{{ path('ensalement_priority_index', {edition: edition.id}) }}" role="tab">Ensalamento Prioritário</a>
+                        {% endif %}
+
+                        {% if secionsEnable == true %}
+                            <a class="nav-item nav-link tab-4" href="{{ path('ensalement_sections_index', {edition: edition.id}) }}" role="tab">Listagem de Seções</a>
+                        {% endif %}
+
+                        {% if ensalementGeneralEnable == true %}
+                            <a class="nav-item nav-link tab-4" href="{{ path('ensalement_general_index', {edition: edition.id}) }}" role="tab">Ensalamento Geral</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+
+            <div class="tab-content">
+
+                <!--ABA 2-->
+                <div class="tab-pane fade show active" role="tabpanel">
+                    <h2>Cadastro de Sessões</h2>
+
+                    <div class="form mb-4">
+
+                        {% include "ensalamento_classroom_registration/tabs/sessions/partials/_form.html.twig" %}
+
+                    </div>
+
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message |trans }}
+                        </div>
+                    {% endfor %}
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h3>Sessões Cadastradas</h3>
+                        </div>
+                    </div>
+
+                    {% if results|length > 0 %}
+                        <!--No campo horário mostrar: horário início, traço, horário fim. (ex. 10:00 - 11:00)-->
+                        <div class="tabela table-responsive">
+                            <table class="table table-striped table-sm">
+                                <thead>
+                                <tr>
+                                    {{ sortMacro.sortColumnHeader('', 'sess.date', 'Data') }}
+                                    {{ sortMacro.sortColumnHeader('', 'sess.name', 'Identificação da Sessão') }}
+                                    {{ sortMacro.sortColumnHeader('', 'sess.start', 'Horário') }}
+                                    {{ sortMacro.sortColumnHeader('', 'sess.type', 'Tipo de Sessão') }}
+                                    <th class="text-center">Ações</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for r in results %}
+                                    <tr>
+                                        <td>{{ r.date|format_datetime('short', 'none') }}</td>
+                                        <td>{{ r.name }}</td>
+                                        <td>{{ r.start|format_datetime('none', 'short') }} - {{ r.end|format_datetime('none', 'short') }}</td>
+                                        <td>{{ SESSION_TYPES[r.type] }}</td>
+                                        <td class="text-center">
+                                            <a data-toggle="tooltip" href="#excluir" class="hover-danger ml-2 tdDel" title="Apagar Sessão" data-path="{{ path('ensalement_sessions_remove', {'id': r.id}) }}" data-token="{{ csrf_token('delete' ~ r.id) }}" data-action="remove" data-type="{{ 'a sessão'|trans }}" data-name="{{ r.name }}">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <nav class="d-flex justify-content-between">
+                                <small class="text-muted">{{ 'Showing'|trans }} {{ results|length }} {{ 'of'|trans }} {{ results.getTotalItemCount }}</small>
+
+                                {{ knp_pagination_render(results) }}
+                            </nav>
+                        </div>
+                    {% else %}
+                        <p class="my-2">Nenhum resultado encontrado.</p>
+                    {% endif %}
+
+                </div><!--FIM ABA 2-->
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('ensalement/sessions') }}
+{% endblock %}

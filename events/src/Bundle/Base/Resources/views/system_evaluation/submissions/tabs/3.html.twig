@@ -1,0 +1,70 @@
+{% set logs = [] %}
+
+{% for xlogs in data.evaluations %}
+    {% for log in xlogs.logs %}
+        {% set logs = logs|merge({(loop.index):log}) %}
+    {% endfor %}
+{% endfor %}
+
+<div class="row mb-3">
+  <div class="col-md-6">
+    <h1>{{ 'Logs'|trans }}</h1>
+  </div>
+</div>
+<div class="row">
+  {% if data.confirmFilesCorrect == true %}
+  <div class="col-lg-4">
+    <h1>{{ 'Confirmação de Submissão'|trans }}</h1>
+    <div class="alert alert-success icon check-circle">
+      <h1 class="mb-2">{{ 'Submissão Confirmada'|trans }}</h1>
+      <div class="small div-dark">
+        {{ 'Um dos autores deste artigo confirmou os dados de submissão, informando a comissão deste evento que os dados aqui dispostos estão corretos.'|trans }}
+      </div>
+      <p class="small my-1"><b>{{ 'Data da Ação'|trans }}</b>: <span class="div-dark" id="confirmDate">{{  data.createdAt|date("d/m/Y H:i:s") }}</span></p>
+      <p class="small mb-1"><b>{{ 'IP'|trans }}</b>: <span class="div-dark" id="confirmIp">{{ data.ip }}</span></p>
+    </div>
+  </div>
+  {% endif %}
+  <div class="{% if data.confirmFilesCorrect == true %} col-lg-8 {% else %} col-lg-12 {% endif %}">
+    <h1>{{ 'Movimentação da Submissão'|trans }}</h1>
+
+    <div class="tabela">
+      <table class="table table-sm table-striped table-responsive-md w-100" id="submissionLogsTable">
+        <thead>
+          <tr>
+            <th width="180">{{ 'Data'|trans }}</th>
+            <th>{{ 'Content'|trans }}</th>
+            <th>{{ 'IP'|trans }}</th>
+            <th>{{ 'Status'|trans }}</th>
+          </tr>
+          {% for valueLog in logs %}
+          <tr>
+            <td>{{ valueLog.createdAt|date('d/m/Y H:i:s') }}</td>
+            <td>{{  valueLog.content }}</td>
+            <td>{{  valueLog.ip }}</td>
+            <td>{{  valueLog.status|article_evaluation_status('label')|trans }}</td>
+          </tr>
+        {% endfor %}
+        </thead>
+      </table>
+    </div>
+  </div>
+</div>
+{#<div class="card mt-3">#}
+  {#<div class="card-header" id="header-stats" data-toggle="collapse" data-target="#collapse-stats">#}
+    {#<span>{{ 'Acesso ao Stats'|trans }}</span>#}
+  {#</div>#}
+  {#<div id="collapse-stats" class="collapse show" aria-labelledby="header-stats">#}
+    {#<div class="tabela m-3">#}
+      {#<table class="table table-sm table-striped table-responsive-md w-100" id="statsTable">#}
+        {#<thead>#}
+          {#<tr>#}
+            {#<th data-title="{{ 'Id'|trans }}"></th>#}
+            {#<th data-title="{{ 'Data de Saída'|trans }}"></th>#}
+            {#<th data-title="{{ 'IP'|trans }}"></th>#}
+          {#</tr>#}
+        {#</thead>#}
+      {#</table>#}
+    {#</div>#}
+  {#</div>#}
+{#</div>#}

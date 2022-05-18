@@ -1,0 +1,13 @@
+<div class="col-12 form-group">
+    <input id="inputIdentifier" type="text" class="form-control" name="_identifier" required autofocus placeholder="E-mail / CPF / Passaport" autocomplete="off">
+</div>
+<div class="col-12 form-group">
+    <input id="inputPassword" type="password" class="form-control" name="_password" required placeholder="Senha" autocomplete="off">
+</div>
+<div class="col-12">
+    <button type="submit" class="btn btn-sm btn-primary btn-block follow" style="text-transform: none" id="BtFormLogin">
+        {{ 'LOGIN_BTN'|trans }}
+        <i id="btnLoginLoad" style="margin-left:10px;" class="fa fa-spinner fa-spin d-none"></i>
+    </button>
+</div>
+<input type="hidden" id="event" name="__csrf_token" value="{{ csrf_token('authenticate') }}"/>

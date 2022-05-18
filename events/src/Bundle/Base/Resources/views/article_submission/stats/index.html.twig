@@ -1,0 +1,149 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+  {% set files_sent = 'NO' %}
+  {% set pathArticle = '' %}
+  {% set lang_pt = 'NO' %}
+  {% set lang_en = 'NO' %}
+  {% set lang_es = 'NO' %}
+  {% set publish = 'NO' %}
+  {% set rac = 'NO' %}
+  {% set jobComplete = 'NO' %}
+
+    {% if submission.userArticlesFiles is not empty %}
+        {% set files_sent = 'YES' %}
+		{% for file in submission.userArticlesFiles %}
+			{% if file.realArticle %}
+				{% set pathArticle = file.path %}
+			{% endif %}
+		{% endfor %}
+    {% endif %}
+
+    {% if submission.portuguese == 1 %}
+        {% set lang_pt = 'YES' %}
+    {% endif %}
+
+    {% if submission.english == 1 %}
+        {% set lang_en = 'YES' %}
+    {% endif %}
+
+    {% if submission.spanish == 1 %}
+        {% set lang_es = 'YES' %}
+    {% endif %}
+
+    {% if submission.neverPublish == 1 %}
+        {% set publish = 'YES' %}
+    {% endif %}
+
+    {% if submission.racBar == 1 %}
+        {% set rac = 'YES' %}
+    {% endif %}
+
+    {% if submission.jobComplete == 1 %}
+        {% set jobComplete = 'YES' %}
+    {% endif %}
+
+<div class="container">
+  <div class="fieldset">
+    <h1>{{ 'ARTICLE_STATS_TITLE'|trans }}</h1>
+    <div class="row">
+      <div class="col-lg-4">
+        <h2>{{ 'ARTICLE_STATS_SHOW'|trans }}</h2>
+        <div class="alert alert-warning text-center">
+          <h1>{{ submission.divisionId.initials|upper }}{{ submission.id }}</h1>
+          <div class="div-primary-alt">
+            <p class="title mb-0">{{ 'ARTICLE_STATS_DATE'|trans }}</p>
+            <p>{{ submission.createdAt|date('d/m/Y H:i:s') }}</p>
+            <p class="title mb-0">{{ 'ARTICLE_STATS_STATUS'|trans }}</p>
+            <p>{{ submission.status|article_evaluation_status('label')|trans }}</p>
+            <p class="title mb-0">{{ 'ARTICLE_STATS_FILE_SENT'|trans }}</p>
+              <p>{{ (files_sent == 'YES') ? pathArticle : files_sent|trans }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <h2>{{ 'ARTICLE_STATS_DATA'|trans }}</h2>
+        <div class="row">
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_TITLE'|trans }}</div>
+            <div class="value">{{ submission.title }}</div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_DIVISION'|trans }}</div>
+            <div class="value">{{ submission.divisionId.name }}</div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_THEME'|trans }}</div>
+            <div class="value">{{ submission.userThemes.details.title}}</div>
+          </div>
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_KEYWORDS'|trans }}</div>
+            <div class="value">{{ submission.keywords|join(', ') }}</div>
+          </div>
+          <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_LANGUAGE'|trans }}</div>
+            <div class="value">{{ data.languages[submission.language] }}</div>
+          </div>
+          <div class="col-md-4 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_FIT'|trans }}</div>
+            <div class="value">{{ data.frames[submission.frame]|trans }}</div>
+          </div>
+          <div class="col-md-5 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_FLOW'|trans }}</div>
+            <div class="value">{{ data.result_from[submission.lastId]|trans }}</div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_METHOD'|trans }}</div>
+            <div class="value">{{ submission.methodId }}</div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_THEORY'|trans }}</div>
+            <div class="value">{{ submission.theoryId }}</div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_LANGUAGES'|trans }}</div>
+            <div class="value">{{ 'LANG_PT'|trans }}:{{ lang_pt|trans }} , {{ 'LANG_EN'|trans }}:{{ lang_en|trans }} , {{ 'LANG_ES'|trans }}:{{ lang_es|trans }}</div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_APPROVED'|trans }}</div>
+            <div class="value">{{ jobComplete|trans }}</div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_PERMISSION'|trans }}</div>
+            <div class="value">{{ data.premium[submission.premium]|trans }}</div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_CONFIRM'|trans }}</div>
+            <div class="value">{{ publish|trans }}</div>
+          </div>
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'ARTICLE_STATS_LABEL_RESUME'|trans }}</div>
+            <div class="value">{{ submission.resume }}</div>
+          </div>
+          <h1 class="col-12 mt-3">{{ 'ARTICLE_STATS_AUTHOR_TITLE'|trans }}</h1>
+
+            {% if submission.userArticlesAuthors is not empty %}
+              {% for authors in submission.userArticlesAuthors %}
+              <div class="col-12 pb-3">
+                <div class="border-left-info">
+                  <p class="mb-0"><b>{{ authors.userAuthorId.name }}</b></p>
+                  {% if authors.userAuthorId.academics is not empty %}
+                      {% for acad in authors.userAuthorId.academics %}
+                          <p class='mb-0'><b class='text-muted'>{{ acad.level|academic_level|trans }}</b></p>
+                      {% endfor %}
+                  {% else %}
+                      <p class='mb-0'><b class='text-muted'>Nenhuma Formação</b></p>
+                  {% endif %}
+                </div>
+              </div>
+              {% endfor %}
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

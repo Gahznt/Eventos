@@ -1,0 +1,47 @@
+<div class="container">
+  <div id="breadcumb" class="{{ label is defined and label is not empty and subtitle.text is not defined ? 'pb-md-5' }}">
+    <div class="route">
+      <span>::</span>
+      {{ wo_render_breadcrumbs({ viewTemplate: 'templates/breadcrumbs/views/breadcrumb.html.twig' }) }}
+    </div>
+
+    <div class="title">
+        {% if pageTitle is defined %}
+          {{ pageTitle | trans }}
+        {% endif %}
+
+
+    </div>
+      {% if userSubRole.text is defined and userSubRole.text is not empty %}
+        <div style="{{ userSubRole.color is defined and userSubRole.color is not empty ? "background: #{userSubRole.color};" : 'none;' }} {{ userSubRole.textColor is defined and userSubRole.textColor is not empty ? "color: #{userSubRole.textColor};" : 'color: #FFF;' }}; margin-top: -55px; " class="userSubRole text-left">{{ userSubRole.text|trans}}</div>
+      {% endif %}
+
+    {% if subtitle.text is defined and subtitle.text is not empty %}
+    <div class="subtitle {{ subtitle.color is defined and subtitle.color is not empty ? "div-#{subtitle.color}" : 'div-primary' }}">{{ subtitle.text }}</div>
+    {% endif %}
+
+    {% if label is defined and label is not empty %}
+    <div class="label">{{ label }}</div>
+    {% endif %}
+    {% if menuBreadcumb is defined %}
+    <nav class="navbar navbar-expand-lg navbar-light py-0 mt-3">
+      <ul class="navbar-nav mb-0 menuBreadcumb">
+        {% for menu in menuBreadcumb %}
+        <li class="nav-item">
+          {% if menu.href is iterable %}
+          <a class="nav-link {{ menu.active is defined and menu.active == true ? 'active' : '' }} dropdown-toggle" data-toggle="dropdown" href="#">{{ menu.label|trans }}</a>
+          <div class="dropdown-menu">
+          {% for submenu in menu.href %}
+          <a href="{{ submenu.href }}" class="dropdown-item">{{ submenu.label|trans }}</a>
+          {% endfor %}
+          </div>
+          {% else %}
+          <a class="nav-link {{ menu.active is defined and menu.active == true ? 'active' : '' }}" href="{{ menu.href }}">{{ menu.label|trans }}</a>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+</div>

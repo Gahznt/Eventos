@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-md-10">
+        <h1 class="mb-0">{{ 'Listagem de Avaliadores'|trans }}: <span class="info">{{ pageTitle }}</span></h1>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-danger float-right" data-toggle="tooltip" title="{{ 'Remover Avaliadores'|trans }}">
+            <i class="fas fa-times"></i>
+        </a>
+        <a class="btn btn-primary float-right mr-1" data-toggle="tooltip" title="{{ 'Cobrar Avaliação de Todos'|trans }}">
+            <i class="fas fa-envelope"></i>
+        </a>
+        <a href="{{ path('system_evaluation_evaluators', {'edition' : edition.id, 'export': 'excel'}) }}" class="btn btn-primary float-right mr-1" data-toggle="tooltip" title="{{ 'Baixar Excel'|trans }}">
+            <i class="fas fa-file-excel"></i>
+        </a>
+    </div>
+</div>
+
+<div class="form mt-3">
+    {{ form_start(form) }}
+    <div class="col-12 form-group">
+        <label for="filter-search">{{ 'Busca'|trans }}</label>
+        <a id="evaluatorsListBtn" class="inputSearchBtn"><i class="fas fa-search"></i></a>
+        {{ form_widget(form.search, {'attr': {'id':'search', 'class': 'filter form-control'}}) }}
+    </div>
+</div>
+{{ form_end(form) }}
+
+{% if evaluators is empty %}
+    <div class="alert alert-warning" role="alert">
+        Nenhum resultado encontrado.
+    </div>
+{% else %}
+    <div class="tabela my-2">
+        <table class="table table-sm table-striped table-responsive-md">
+            <thead>
+            <tr>
+                <th class="sort asc" width="100">{{ 'Nome'|trans }}</th>
+                <th class="">{{ 'Formação'|trans }}</th>
+                <th class="sort">{{ 'Temas Cad.'|trans }}</th>
+                <th class="sort" width="120">{{ 'Temas Desig.'|trans }}</th>
+                <th class="sort">{{ 'E-mail'|trans }}</th>
+                <th class="sort" width="120">{{ 'Telefone'|trans }}</th>
+                <th class="text-center" width="100">{{ 'Ações'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for e in evaluators %}
+                {% set cad_themes = [] %}
+                {% set indication_themes = [] %}
+                {% if e.userEvaluationArticles is defined %}
+                    {% if e.userEvaluationArticles.themeFirstId.details is defined %}
+                        {% set cad_themes = cad_themes|merge({0:e.userEvaluationArticles.themeFirstId.position ~ ' - ' ~ e.userEvaluationArticles.themeFirstId.details.title}) %}
+                    {% endif %}
+
+                    {% if e.userEvaluationArticles.themeSecondId.details is defined %}
+                        {% set cad_themes = cad_themes|merge({1:e.userEvaluationArticles.themeSecondId.position ~ ' - ' ~ e.userEvaluationArticles.themeSecondId.details.title}) %}
+                    {% endif %}
+                {% endif %}
+
+                {% if e.indications is defined %}
+                    {% for ind in e.indications %}
+                        {% set indication_themes = indication_themes|merge({(loop.index): ind.userArticles.userThemes.details.title }) %}
+                    {% endfor %}
+                {% endif %}
+
+                {% set levels_keys = {} %}
+                {% for x in e.academics %}
+                    {% if x.level not in levels_keys %}
+                        {% set levels_keys = levels_keys|merge({(x.level): x.level}) %}
+                    {% endif %}
+                {% endfor %}
+
+                {% set levels_labels = {} %}
+                {% for l in levels_keys %}
+                    {% set levels_labels = levels_labels|merge([USER_LEVELS[l]|trans]) %}
+                {% endfor %}
+
+                <tr>
+                    <td>{{ e.name }}</td>
+                    <td>{{ levels_labels|join(', ') }}</td>
+                    <td>{{ cad_themes|join(', ') }}</td>
+                    <td>{{ indication_themes|join(', ') }}</td>
+                    <td>{{ e.email }}</td>
+                    <td>{{ e.phone }}</td>
+                    <td class="text-center">
+                        {#<a data-toggle="tooltip" class="hover-success viewEvaluator" data-id="{{ e.id }}"#}
+                           {#title="{{ 'Ver Detalhes'|trans }}">#}
+                            {#<i class="fas fa-eye"></i>#}
+                        {#</a>#}
+                        <a data-toggle="tooltip" class="hover-success ml-1" title="{{ 'Cobrar Avaliação'|trans }}">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a data-toggle="tooltip" class="hover-danger ml-1 tdDel" data-id="{{ e.id }}"
+                           title="{{ 'Excluir avaliador' }}" data-path="/delete_success/{{ e.id }}"
+                           data-token="{{ csrf_token('delete' ~ e.id) }}" data-type="{{ 'o avaliador'|trans }}"
+                           data-name="{{ e.name }}" data-action="remove">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <nav class="d-flex justify-content-between" style="float: right">
+            {{ knp_pagination_render(evaluators) }}
+        </nav>
+        <small class="text-muted">{{ 'Showing'|trans }} {{ evaluators|length }} {{ 'of' |trans }} {{ evaluators.getTotalItemCount }}</small>
+    </div>
+{% endif %}

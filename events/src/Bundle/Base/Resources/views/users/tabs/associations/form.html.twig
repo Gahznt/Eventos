@@ -1,0 +1,27 @@
+    {% set numberDays = constant('USER_ASSOCIATIONS_NUMBER_DAYS', association) %}                     
+    {% set dueDate = association.createdAt|date_modify('+' ~ numberDays ~ ' day') %}                              
+                                
+    {% if dueDate >= date("now") %}    
+        {% set refTran = constant('USER_ASSOCIATIONS_AGREEMENT_NUMBER', association) ~ date("now")|date("Y") ~ association.id %}
+
+        <form id="form-boleto" name="form-boleto" method="POST" action="https://mpag.bb.com.br/site/mpag/" target="_blank"> 						
+            <input type="hidden" name="idConv" value="{{ constant('USER_ASSOCIATIONS_ECOMMERCE_NUMBER', association) }}">		
+            <input type="hidden" name="refTran" value="{{ refTran }}">		
+            <input type="hidden" name="valor" value="{{ association.value ~ '00'}}">		
+            <input type="hidden" name="dtVenc" value="{{ dueDate|date("dmY")}}">								
+            <input type="hidden" name="tpPagamento" value="21">		
+            <input type="hidden" name="urlRetorno" value="http://www.anpad.org.br">		
+            <input type="hidden" name="urlInforma" value="http://www.anpad.org.br">		
+            <input type="hidden" name="nome" value="{{ association.user.name }}">		
+            <input type="hidden" name="endereco" value="{{ association.user.street ~ ', ' ~ association.user.number ~ ' - ' ~ association.user.complement }}">		
+            <input type="hidden" name="cidade" value="{{ association.user.city.name }}">		
+            <input type="hidden" name="uf" value="{{ association.user.city.state.iso2 }}">		
+            <input type="hidden" name="cep" value="{{ association.user.zipcode }}">		
+            <input type="hidden" name="tpDuplicata" value="DS">		
+            <input type="hidden" name="cpfCnpj" value="{{ association.user.identifier }}">		
+            <input type="hidden" name="indicadorPessoa" value="1">		
+            <input type="hidden" name="msgLoja" value="ANPAD - Associação Nacional de Pós-Graduação e Pesquisa em Administração. <br>CNPJ: 42.595.652/0001-66. <br>Não receber após o vencimento. <br>Após autenticado, este boleto vale contabilmente como RECIBO.">																																																																																											                     
+            
+            <button id="btn-boleto" type="submit" class="btn btn-success">{{'PRINT BILL'|trans}}</button>								                                                                                                     
+        </form>	   
+    {% endif %}

@@ -1,0 +1,35 @@
+<div class="modal" tabindex="-1" role="dialog" id="modal-cancellation">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ 'Atenção!'|trans }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(formCancellation, {'attr': {'action': path('theme_evaluation_evaluation_cancellation', {'id': userThemes.id}), 'data-redirect-route': path('theme_evaluation_index'), 'novalidate':'novalidate'}}) }}
+
+                <div class="form mt-0">
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            <label class="form-check-label required" for="{{ formCancellation.reason.vars['id'] }}">{{ 'Informe o motivo do cancelamento'|trans }}</label>
+                            {{ form_widget(formCancellation.reason, {'attr': {'class': 'form-control xhtmleditor', 'rows': 3}}) }}
+                            {% if formCancellation.reason.vars['errors']|length > 0 %}
+                                <div class="form-error invalid-input">
+                                    {{ formCancellation.reason.vars['errors'][0].message }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-outline-success m-2 px-4" data-dismiss="modal">{{ 'Fechar'|trans|upper }}</button>
+                    <button type="submit" class="btn btn-danger m-2 px-5" id="btn-cancellation"><i class="fas fa-spinner fa-spin" style="display: none;"></i> {{ 'Continuar'|trans|upper }}</button>
+                </div>
+                {{ form_end(formCancellation) }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<h2>{{ 'USER_ASSOC_HISTORY'|trans }}</h2>
+{% if history is not null %}
+{% if history is empty %}
+<div class="alert alert-warning" role="alert">
+  {{ 'USER_ASSOC_NOFOUND'|trans }}.
+</div>
+{% else %}
+{% for a in history %}
+<div class="card mt-3" data-associacao="{{a|json_encode|url_encode}}">
+  <div class="card-header">
+    <span data-toggle="collapse" href="#associacao-{{loop.index}}" aria-expanded="false" aria-controls="associacao-{{loop.index}}">
+      {{ 'Type'|trans }}: {{ a.level|nivel_associacao('label')|trans }}. <span class="text-danger">{{ 'USER_EXPIRED'|trans }}</span>
+    </span>
+  </div>
+  <div class="collapse" id="associacao-{{loop.index}}">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2 div-readonly">
+          <div class="label">{{ 'USER_EMISSION'|trans }}</div>
+          <div class="value">{{ a.createdAt is empty ? "" : a.createdAt|date("d/m/Y") }}</div>
+        </div>
+        <div class="col-md-2 div-readonly">
+          <div class="label">{{ 'USER_VALUE'|trans }}</div>
+          <div class="value">{{ a.getValueString() }}</div>{# |format_currency('BRL') #}
+        </div>
+        <div class="col-md-2 div-readonly">
+          <div class="label">{{ 'USER_EXPIRE_DATE'|trans }}</div>
+          <div class="value">{{ a.expiredAt is empty ? "" : a.expiredAt|date("d/m/Y") }}</div>
+        </div>
+        <div class="col-md-2 div-readonly  {{ a.lastPay is empty ? "" : "div-success" }}">
+          <div class="label">{{ 'USER_PAYMENT_DATE'|trans }}</div>
+          <div class="value">{{ a.lastPay is empty ? "" : a.lastPay|date("d/m/Y") }}</div>
+        </div>
+        <div class="col-md-4 text-right">
+          {% if a.statusPay in [0, 1] %}
+          <a class="btn btn-primary box">
+            <i class="fas fa-dollar-sign"></i><span>{{ 'JOIN_BILLET_BTN'|trans }}</span>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endif %}

@@ -1,0 +1,44 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab-form" role="tablist">
+                <a class="nav-item nav-link tab-2 active" id="nav-form-1" data-toggle="tab" href="#tab-form-1" role="tab">
+                    {{ 'DADOS DA<br/>SUBMISSÃO'|trans|raw }}
+                </a>
+                <a class="nav-item nav-link tab-2" id="nav-form-2" data-toggle="tab" href="#tab-form-2" role="tab">
+                    {{ 'DADOS DOS<br/>AUTORES'|trans|raw }}
+                </a>
+                {% if 1 == data.editionId.systemEvaluationConfigs[0].resultsAvaliable
+                    and constant('ARTICLE_EVALUATION_STATUS_WAITING', data) != data.status
+                    and constant('ARTICLE_EVALUATION_STATUS_CANCELED', data) != data.status %}
+                    <a class="nav-item nav-link tab-4" id="nav-form-4" data-toggle="tab" href="#tab-form-4" role="tab">
+                        {{ 'RESULTADO<br/>FINAL'|trans|raw }}
+                    </a>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-form-1" role="tabpanel">
+                {% include 'user_articles/tabs/1.html.twig' %}
+            </div>
+            <div class="tab-pane fade" id="tab-form-2" role="tabpanel">
+                {% include 'user_articles/tabs/2.html.twig' %}
+            </div>
+            {% if 1 == data.editionId.systemEvaluationConfigs[0].resultsAvaliable
+                and constant('ARTICLE_EVALUATION_STATUS_WAITING', data) != data.status
+                and constant('ARTICLE_EVALUATION_STATUS_CANCELED', data) != data.status %}
+                <div class="tab-pane fade" id="tab-form-4" role="tabpanel">
+                    {% include 'user_articles/tabs/4.html.twig' %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('systemEvaluationAuthorRate') }}
+    {{ parent() }}
+{% endblock %}

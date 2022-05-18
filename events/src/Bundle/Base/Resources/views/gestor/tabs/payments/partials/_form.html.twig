@@ -1,0 +1,75 @@
+{% if editionPaymentMode.id != '' %}
+    {{ form_start(form, {'attr': {'id':'editionPaymentModeForm', 'class': 'form', 'action':path('manager_edition_payments_edit', {id: editionPaymentMode.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% else %}
+    {{ form_start(form, {'attr': {'id':'editionPaymentModeForm', 'class': 'form', 'action':path('manager_edition_payments_new', {editionId: edition.id, id: editionPaymentMode.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% endif %}
+
+<div class="row">
+    <div class="col-md-8 form-group">
+        <label for="edition_payment_mode_name">Nome</label>
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        {% if form.name.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.name.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-4 form-group">
+        <label for="edition_payment_mode_value">Valor</label>
+        {{ form_widget(form.value, {'attr': {'class': 'form-control'}}) }}
+        {% if form.value.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.value.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-6 form-group">
+        <label>Extensão da anuidade</label>
+        <div class="radiocheck center">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.hasFreeIndividualAssociation, {'attr': {'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="edition_payment_mode_hasFreeIndividualAssociation">{{ 'Extensão da anuidade de associação individual (12 meses)'|trans }}</label>
+                {% if form.hasFreeIndividualAssociation.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.hasFreeIndividualAssociation.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 form-group">
+        <label>Exibir para</label>
+        <div class="radiocheck center">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.type, {'attr': {'id':'type', 'class': 'form-check-input'}}) }}
+                {% if form.type.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.type.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 form-group">
+        <label for="edition_payment_mode_value">Tipo de Integração com Pagamento</label>
+        {{ form_widget(form.initials, {'attr': {'class': 'form-control'}}) }}
+        {% if form.initials.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.initials.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary" href="{{ path('manager_edition_payments_index', {'editionId': edition.id}) }}">{{ 'CANCEL'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}

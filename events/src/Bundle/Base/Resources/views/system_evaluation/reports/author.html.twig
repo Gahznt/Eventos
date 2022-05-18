@@ -1,0 +1,162 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <div class="row">
+      <div class="col-md-10">
+        <h1>{{ 'SYS_EV_REPORT_TITLE'|trans }}: {{ 'SYS_EV_REPORT_AUTHOR'|trans }}</h1>
+      </div>
+      <div class="col-md-2">
+        <!--a class="btn btn-primary btn-sm float-right mr-1" data-toggle="tooltip" title="{{ 'SYS_EV_REPORT_EXCEL'|trans }}"><i class="fas fa-file-excel"></i></a-->
+      </div>
+    </div>
+    <!--form action="/system_evaluation/reports/inprogress_evaluations" class="form mt-0">
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <label for="filter-theme">{{ 'SYS_EV_REPORT_FORM_THEME'|trans }}</label>
+          <select name="filter-theme" id="filter-theme" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-fit">{{ 'SYS_EV_REPORT_FORM_FIT'|trans }}</label>
+          <select name="filter-fit" id="filter-fit" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-search">{{ 'SYS_EV_REPORT_FORM_SEARCH'|trans }}</label>
+          <input type="text" name="filter-search" id="filter-search" class="form-control">
+          <a class="inputSearchBtn"><i class="fas fa-search"></i></a>
+        </div>
+      </div>
+    </form-->
+    <div class="tabela my-2">
+      <table class="table table-sm table-striped table-responsive-md">
+        <thead>
+          <tr class="fw-normal nlh">
+            <th class="">{{ 'Id'|trans }}</th>
+            <th class="" width="200">{{ 'SYS_EV_REPORT_TH_TITLE'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_FIT'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_THEME'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_WORK'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_KEYWORDS'|trans }}</th>
+            <th class="text-center">{{ 'SYS_EV_REPORT_TH_SEEM'|trans }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in tableData %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ FRAMES[item.fit]|trans }}</td>
+            <td>{{ item.theme }}</td>
+            <td>{{ item.work }}</td>
+            <td>{{ item.keywords|map(w => "<span class='badge badge-light badge-nl text-center' style='width:110px;'>#{w}</span>")|join('<br/>')|raw }}</td>
+            <td class="text-center">
+              <a class="hover-success" data-toggle="modal" data-target="#authorModal" data-data="{{ item|json_encode }}">
+                <i class="fas fa-eye" data-toggle="tooltip" data-title="{{ 'SYS_EV_REPORT_TOOLTIP_SEEM'|trans }}"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="authorModal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span>{{ 'SYS_EV_REPORT_AUTHOR_DETAILS'|trans }}</span> - <span class="value" data-field="id"></span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="fas fa-times-circle"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_TITLE'|trans }}</div>
+            <div class="value" data-field="title"></div>
+          </div>
+          <div class="col-6 col-md-1 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_ORDER'|trans }}</div>
+            <div class="value" data-field="order"></div>
+          </div>
+          <div class="col-6 col-md-1 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_TYPE'|trans }}</div>
+            <div class="value" data-field="type"></div>
+          </div>
+          <div class="col-md-5 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_FIT'|trans }}</div>
+            <div class="value" data-field="fit"></div>
+          </div>
+          <div class="col-md-5 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_THEME'|trans }}</div>
+            <div class="value" data-field="theme"></div>
+          </div>
+          <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_AUTHOR'|trans }}</div>
+            <div class="value" data-field="name"></div>
+          </div>
+          <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_DOC'|trans }}</div>
+            <div class="value" data-field="doc"></div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_EMAIL'|trans }}</div>
+            <div class="value" data-field="email"></div>
+          </div>
+          <div class="col-md-10 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_INST1'|trans }}</div>
+            <div class="value" data-field="program_primary"></div>
+          </div>
+          <div class="col-md-2 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_UF1'|trans }}</div>
+            <div class="value" data-field="state_primary"></div>
+          </div>
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_PROGRAM1'|trans }}</div>
+            <div class="value" data-field="program_primary"></div>
+          </div>
+          <div class="col-md-10 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_INST2'|trans }}</div>
+            <div class="value" data-field="program_secondary"></div>
+          </div>
+          <div class="col-md-2 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_UF2'|trans }}</div>
+            <div class="value" data-field="state_secondary"></div>
+          </div>
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_PROGRAM2'|trans }}</div>
+            <div class="value" data-field="program_secondary"></div>
+          </div>
+          <div class="col-md-4 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_GRADUATE'|trans }}</div>
+            <div class="value" data-field="graduate"></div>
+          </div>
+          <div class="col-md-4 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_MASTER'|trans }}</div>
+            <div class="value" data-field="master"></div>
+          </div>
+          <div class="col-md-4 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_DOCTORATE'|trans }}</div>
+            <div class="value" data-field="doctorate"></div>
+          </div>
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_AUTHOR_THANK'|trans }}</div>
+            <div class="value" data-field="thank"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('systemEvaluationReports') }}
+{% endblock %}

@@ -1,0 +1,68 @@
+<div class="stepsTab" data-step="3">
+    <div class="clearfix">
+        <h1 class="float-lg-left">{{ 'SIGNUP_STEP2_HEAD'|trans }}</h1>
+        <div class="alert alert-warning float-lg-right mb-5 py-1 px-3">
+            <h4 class="mt-1 mb-1"><i class="fa fa-lightbulb mr-2"></i> {{ 'Preenchimento Opcional!'|trans }}</h4>
+            <p class="mb-0">{{ 'Para incluir, clique em "%text%".'|trans({'%text%': 'SIGNUP_ADD_ACADEMIC'|trans|upper }) }}</p>
+        </div>
+    </div>
+
+    {% import _self as formMacros %}
+
+    {% macro printStepPrototype(defaultStep) %}
+        <div id="fieldset-academics-{{ defaultStep.vars.name }}" class="fieldset fieldset-academics fieldset-academics-{{ defaultStep.vars.name }} fieldsetBg mb-5">
+            <div class="row">
+                <div class="col-lg-6 form-group">
+                    <label class="required-{{ defaultStep.level.vars.required }}" for="level">{{ 'SIGNUP_LEVEL'|trans }}</label>
+                    {{ form_widget(defaultStep.level, {'attr': {'id':'level','class': 'form-control'}}) }}
+                    {% if defaultStep.level.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {% for error in defaultStep.level.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label class="required-{{ defaultStep.status.vars.required }}" for="status">{{ 'SIGNUP_STATUS'|trans }}</label>
+                    {{ form_widget(defaultStep.status, {'attr': {'id':'status','class': 'form-control'}}) }}
+                    {% if defaultStep.status.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {% for error in defaultStep.status.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="clearfix">
+                <a id="btn-remove-academics-{{ defaultStep.vars.name }}" class="btn btn-sm btn-outline-danger float-left del btn-remove btn-remove-academics btn-remove-academics-{{ defaultStep.vars.name }}">
+                    <i class="fas fa-minus-circle"></i> {{ 'SIGNUP_REMOVE_ACADEMIC'|trans }}
+                </a>
+            </div>
+        </div>
+    {% endmacro %}
+
+    <div id="collection-academics" class="collection collection-academics" data-prototype="{{ formMacros.printStepPrototype(form.academics.vars.prototype)|e('html_attr') }}" data-count="{{ form.academics|length }}">
+        <div id="fieldsets-academics" class="fieldsets fieldsets-academics">
+            {% if form.academics|length > 0 %}
+                {% for academic in form.academics %}
+                    {{ formMacros.printStepPrototype(academic)|replace({'__name__': loop.index0})|raw }}
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="actions clearfix">
+            <a id="btn-add-academics" class="btn btn-primary float-right btn-add btn-add-academics">{{ 'SIGNUP_ADD_ACADEMIC'|trans }} <i class="fas fa-plus-circle"></i></a>
+        </div>
+    </div>
+
+    {% if form.academics.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {% for error in form.academics.vars['errors'] %}
+                {{ error.message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</div>

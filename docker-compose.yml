@@ -1,0 +1,43 @@
+version: "3.1"
+services:
+
+    mysql:
+      image: mysql:5.7
+      command: mysqld --sql_mode="" --max_allowed_packet=32505856
+      container_name: anpad-mysql
+      working_dir: /anpad
+      volumes:
+        - .:/anpad:cached
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=anpad_events
+        - MYSQL_USER=anpad
+        - MYSQL_PASSWORD=anpad
+      ports:
+        - "3306:3306"
+
+    redis:
+      image: redis
+      volumes:
+        - .:/anpad:cached
+      ports:
+        - "6379:6379"
+
+    webserver:
+      image: nginx:alpine
+      container_name: anpad-webserver
+      working_dir: /anpad
+      volumes:
+          - .:/anpad:cached
+          - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+       - "80:80"
+
+    php-fpm:
+      build: docker/php-fpm
+      container_name: anpad-php-fpm
+      working_dir: /anpad/events
+      volumes:
+        - .:/anpad
+        - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
+        - ./docker/php-fpm/php.ini-development:/usr/local/etc/php/php.ini

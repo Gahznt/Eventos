@@ -1,0 +1,15 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base_generic.html.twig' %}
+
+{% block title %}ANPAD{% endblock %}
+
+{% block body %}
+    <div class="container pb-5">
+        {% if dashboard.next|length > 0 %}
+            {% include 'home/events/cards.html.twig' %}
+        {% endif %}
+        {% if dashboard.previous|length > 0 %}
+            {% include 'home/events/previous.html.twig' %}
+        {% endif %}
+    </div>
+{% endblock %}

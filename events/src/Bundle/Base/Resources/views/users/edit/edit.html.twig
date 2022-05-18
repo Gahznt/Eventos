@@ -1,0 +1,146 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if is_granted('ROLE_ADMIN') and isOwnerUser == false %}
+        {% set buttons = [
+            {'label': 'USER_BTN_REMOVE'|trans , 'class': 'btn-outline-danger delUser delete', 'href': '#'}
+        ] %}
+    {% else %}
+        {% set buttons = [] %}
+    {% endif %}
+
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="user-nav-tab" role="tablist">
+                <a class="nav-item nav-link tab-4" id="user-nav-1" href="{{ path('user_show', {'id' : user.id}) }}">
+                    {{ 'USER_STEP1'|trans|raw }}
+                </a>
+                <a href="#user-tab-4" class="nav-item nav-link tab-4 active" role="tab" data-toggle="tab"
+                   id="user-nav-4">
+                    {{ 'USER_EDIT_DATA'|trans|raw }}
+                </a>
+                <a href="{{ path('user_password_change', {'id' : user.id}) }}" class="nav-item nav-link tab-5" id="user-nav-5">
+                    {{ 'USER_PASSWORD_CHANGE'|trans|raw }}
+                </a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="nav-item nav-link tab-4" id="user-nav-2" data-toggle="tab" href="#user-tab-2" role="tab">
+                        {{ 'USER_STEP2'|trans|raw }}
+                    </a>
+                    <a class="nav-item nav-link tab-4" id="user-nav-3" data-toggle="tab" href="#user-tab-3" role="tab">
+                        {{ 'USER_STEP3'|trans|raw }}
+                    </a>
+                {% endif %}
+            </div>
+        </nav>
+
+        <div class="form mt-0 formDiv-without-border">
+            <div class="tab-content">
+                <div class="tab-pane fade" id="user-tab-2" role="tabpanel">
+                    {% include '@Base/users/partials/header.html.twig' with {
+                        title: 'USER_STEP2_HEAD'|trans,
+                        buttons: buttons
+                    } %}
+                    {% include '@Base/users/tabs/associations/show.html.twig' with { form: formAssociation} %}
+                </div>
+                <div class="tab-pane fade" id="user-tab-3" role="tabpanel">
+                    {% include '@Base/users/partials/header.html.twig' with {
+                        title: 'USER_STEP3_HEAD'|trans,
+                    } %}
+                    {% include '@Base/users/tabs/associations/index.html.twig' with { form: formAssociation} %}
+                </div>
+                <div class="tab-pane active" id="user-tab-4" role="tabpanel">
+                    <h2>{{ 'USER_EDIT_TITLE'|trans }} - # {{ user.name }}</h2>
+                    {# if errors|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in errors %}
+                                {{ error.message }} <br>
+                            {% endfor %}
+                        </div>
+                    {% endif #}
+
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message |trans }}
+                        </div>
+                    {% endfor %}
+
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                            {{ message |trans }}
+                        </div>
+                    {% endfor %}
+
+                    {% for message in app.flashes('warn') %}
+                        <div class="alert alert-warning">
+                            {{ message |trans }}
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(form, {'attr': {'id':'formUserEdit','action':path('user_edit', {id: user.id}), 'novalidate': 'novalidate'}}) }}
+                    <div class="card mt-3">
+                        <div class="card-header valid"
+                             id="subsection-header1" data-toggle="collapse"
+                             data-target="#subsection-collapse1" data-toggle="tooltip">
+                            {{ 'Personal data'|trans }}
+                        </div>
+                        <div id="subsection-collapse1" class="collapse" aria-labelledby="subsection-header1">
+                            <div class="card-body">
+                                {% include "@Base/users/edit/forms/stepOne.html.twig" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header valid"
+                             id="subsection-header2" data-toggle="collapse"
+                             data-target="#subsection-collapse2" data-toggle="tooltip">
+                            {{ 'SIGNUP_STEP4_HEAD'|trans }}
+                        </div>
+                        <div id="subsection-collapse2" class="collapse" aria-labelledby="subsection-header2">
+                            <div class="card-body">
+                                {% include "@Base/users/edit/forms/stepTwo.html.twig" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3 form">
+                        <div class="card-header valid"
+                             id="subsection-header3" data-toggle="collapse"
+                             data-target="#subsection-collapse3" data-toggle="tooltip">
+                            {{ 'SIGNUP_STEP2_HEAD'|trans }}
+                        </div>
+                        <div id="subsection-collapse3" class="collapse" aria-labelledby="subsection-header3">
+                            <div class="card-body">
+                                {% include "@Base/users/edit/forms/stepThree.html.twig" %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header valid"
+                             id="subsection-header4" data-toggle="collapse"
+                             data-target="#subsection-collapse4" data-toggle="tooltip">
+                            {{ 'SIGNUP_STEP3_HEAD'|trans }}
+                        </div>
+                        <div id="subsection-collapse4" class="collapse" aria-labelledby="subsection-header4">
+                            <div class="card-body">
+                                {% include "@Base/users/edit/forms/stepFour.html.twig" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 mt-5">
+                            <button class="btn btn-primary btn-lg btn-block">{{ 'SAVE'|trans }}</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('userEdit') }}
+{% endblock %}

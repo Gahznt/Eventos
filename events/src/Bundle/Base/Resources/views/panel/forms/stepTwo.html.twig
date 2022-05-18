@@ -1,0 +1,117 @@
+{% import _self as formMacros %}
+
+    {% macro printStepPrototypePanelist(defaultStep) %}
+        <div id="panelistas">
+            <div class="fieldsetBg mb-3" data-count="__name__">
+                <h1 id="title">
+                    {{ 'PANELIST_DATA_COUNT'|trans }}
+                </h1>
+                <div class="row">
+                    <div class="col-lg-6 form-group">
+                        <label for="countryId">{{ 'PANEL_COUNTRY'|trans }}</label>
+                        {{ form_widget(defaultStep.countryId, {'attr': {'class': 'countryPanelist form-control', 'data-count':"__name__"}}) }}
+                        {% if defaultStep.countryId.vars['errors']|length > 0 %}
+                            <div class="invalid-feedback">
+                                {% for error in defaultStep.countryId.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <label id="label-cpf-__name__" for="cpf-__name__">{{ 'Document'|trans }}</label>
+                        <div class="input-group">
+                            {{ form_widget(defaultStep.cpf, {'id':'cpf-__name__', 'attr': {'data-count': '__name__', 'class': 'form-control'}}) }}
+                            <div class="input-group-append searchCpf">
+                                <button type="button" class="btn btn-primary-alt cpfSearch" data-count="__name__" data-route="{{ path('user_by_country') }}">
+                                    {{ 'PANEL_SEARCH'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 form-group">
+                        <label for="panelistIdFake">{{ 'PANEL_FULLNAME'|trans }}</label>
+                        {{ form_widget(defaultStep.panelistIdFake, {'attr': {'class': 'form-control disable'}}) }}
+
+                        {% set value = defaultStep.panelistId.vars['data'].id is defined ? defaultStep.panelistId.vars['data'].id : defaultStep.panelistId.vars['data'] %}
+                        {{ form_widget(defaultStep.panelistId, {'attr': {'class': 'form-control disable', 'value': value}}) }}
+
+                        {% if defaultStep.panelistId.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-feedback">
+                                {{ defaultStep.panelistId.vars['errors'][0].message|raw }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <label for="curriculum-0">{{ 'LATTES_LINK'|trans }}</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text btn btn-primary-alt"><i class="fas fa-link"></i></span>
+                            </div>
+                            {{ form_widget(defaultStep.proponentCurriculumLattesLink, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        {% if defaultStep.proponentCurriculumLattesLink.vars['errors']|length > 0 %}
+                            <div class="invalid-feedback">
+                                {% for error in defaultStep.proponentCurriculumLattesLink.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="curriculumpdf-0">{{ 'PANEL_CV_PDF'|trans }}</label>
+                        <div class="custom-file">
+                            {{ form_widget(defaultStep.proponentCurriculumPdfPath, {'attr': {'data-count':'__name__', 'class': 'custom-file-input'}}) }}
+                            <label data-count="__name__" id="custom-file-label___name__" class="custom-file-label" for="curriculumpdf-0"
+                                   data-label="{{ 'PANEL_UPLOAD_NOFILE'|trans }}">{{ 'PANEL_UPLOAD_NOFILE'|trans }}</label>
+                        </div>
+                        {% if defaultStep.proponentCurriculumPdfPath.vars['errors']|length > 0 %}
+                            <div class="invalid-feedback">
+                                {% for error in defaultStep.proponentCurriculumPdfPath.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endmacro %}
+
+<div class="stepsTab" data-step="2">
+    <div id="panelist-container-form"
+         data-prototype="{{ formMacros.printStepPrototypePanelist(form.panelsPanelists.vars.prototype)|e('html_attr') }}">
+
+        {% if form.panelsPanelists|length > 0 %}
+            {% for key, panelsPanelist in form.panelsPanelists %}
+                <div class="painelista mb-3">
+                    {{ formMacros.printStepPrototypePanelist(panelsPanelist)|replace({'__name__': key, '@panelistid' : loop.index})|raw }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+
+    {% if form.panelsPanelists.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {% for error in form.panelsPanelists.vars['errors'] %}
+                <p>{{ error.message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12 btPainelista">
+            <a id="btPanelAdd" class="btn btn-sm btn-primary float-right add">
+                {{ 'PANELIST_ADD'|trans }}
+                <i class="fas fa-plus-circle"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="panelist-remove" class="d-none">
+    <a class="btn btn-sm btn-outline-danger float-left del">
+        <i class="fas fa-minus-circle"></i> {{ 'PANELIST_REMOVE'|trans }}
+    </a>
+</div>

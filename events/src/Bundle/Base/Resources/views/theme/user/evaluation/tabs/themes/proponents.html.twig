@@ -1,0 +1,95 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% if isAdmin or isAdminOperational %}
+                    <a class="nav-item nav-link text-center tab-1" id="nav-1" href="{{ path('theme_evaluation_index') }}" role="tab">
+                        {{ 'TEVAL_STEP1'|trans|raw }}
+                    </a>
+                {% endif %}
+                <a class="nav-item nav-link text-center tab-2" id="nav-2" href="{{ path('theme_evaluation_list') }}" role="tab">
+                    {{ 'TEVAL_STEP2'|trans|raw }}
+                </a>
+                <a class="nav-item nav-link text-center tab-3 active" id="nav-3" href="{{ path('theme_evaluation_evaluation', {'id': userThemes.id}) }}" role="tab">
+                    {{ 'Avaliação<br/> do Tema'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-3" role="tabpanel">
+                <div class="row">
+                    <div class="col">
+                        <h1>{{ 'Avaliação do Tema'|trans }}</h1>
+                    </div>
+                    <div class="col-auto">
+                        <a href="#" data-route="{{ path('theme_evaluation_evaluation_cancellation', {'id': userThemes.id}) }}" id="btn-cancel-submission" class="btn btn-danger">
+                            <i class="fas fa-times mr-2"></i> Cancelar Tema
+                        </a>
+                    </div>
+                </div>
+
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab2" role="tablist">
+                        <a class="nav-item nav-link text-center tab2-1" id="nav2-1" href="{{ path('theme_evaluation_evaluation', {'id': userThemes.id}) }}" role="tab">
+                            {{ 'Dados do Tema'|trans|raw }}
+                        </a>
+                        <a class="nav-item nav-link text-center tab2-2 active" id="nav2-2" href="{{ path('theme_evaluation_evaluation_proponents', {'id': userThemes.id}) }}" role="tab">
+                            {{ 'Dados dos Proponentes'|trans|raw }}
+                        </a>
+                        <a class="nav-item nav-link text-center tab2-3" id="nav2-3" href="{{ path('theme_evaluation_evaluation_considerations', {'id': userThemes.id}) }}" role="tab">
+                            {{ 'Considerações'|trans|raw }}
+                        </a>
+                        <a class="nav-item nav-link text-center tab2-4" id="nav2-4" href="{{ path('theme_evaluation_evaluation_logs', {'id': userThemes.id}) }}" role="tab">
+                            {{ 'Logs'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab2-2" role="tabpanel">
+                        <div class="row">
+                            {% if userThemes.userThemesResearchers|length > 0 %}
+                                <h2 class="col-12 mt-0 mb-0">{{ 'Proponentes' }}</h2>
+
+                                {% for researchers in userThemes.userThemesResearchers %}
+                                    <div class="col-12 col-lg-9 col-xl-10 div-readonly mt-3">
+                                        <div class="label">{{ 'Name'|trans }}</div>
+                                        <div class="value">
+                                            {{ researchers.researcher.name }}<br/>
+                                            <small>{{ researchers.researcher.institutionsPrograms|trim('()')|split(') - (')|join('<br />')|raw }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-3 col-xl-2 div-readonly mt-3">
+                                        <div class="label">{{ 'Docente de PPG'|trans }}</div>
+                                        <div class="value">{{ (researchers.isPostgraduateProgramProfessor ? 'YES' : 'NO')|trans }}</div>
+                                    </div>
+                                    {% if '' != researchers.biography|trim %}
+                                        <div class="col-12 div-readonly">
+                                            <div class="label">{{ 'Biography'|trans }}</div>
+                                            <div class="value">{{ researchers.biography|nl2br|raw }}</div>
+                                        </div>
+                                    {% endif %}
+                                    {% if '' != researchers.curriculumLattesLink|trim %}
+                                        <div class="col-12 div-readonly">
+                                            <div class="label">{{ 'LATTES_LINK'|trans }}</div>
+                                            <div class="value">{{ researchers.curriculumLattesLink }}</div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "@Base/theme/user/evaluation/tabs/themes/partials/cancellation_modal.html.twig" %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('themeEvaluation') }}
+{% endblock %}

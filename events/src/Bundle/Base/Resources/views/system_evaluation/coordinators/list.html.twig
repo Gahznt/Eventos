@@ -1,0 +1,96 @@
+<div class="row">
+    <div class="col-md-10">
+        <h1 class="mb-0">{{ 'Listagem de Coordenadores, Líderes e Comitês'|trans }}</h1>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-primary float-right mr-1" data-toggle="tooltip" title="{{ 'Enviar e-mail para todos'|trans }}">
+            <i class="fas fa-envelope"></i>
+        </a>
+        <a href="{{ path('submissions_coordinators', {'edition' : edition.id, 'export': 'excel'}) }}" class="btn btn-primary float-right mr-1" data-toggle="tooltip" title="{{ 'Baixar Excel'|trans }}">
+            <i class="fas fa-file-excel"></i>
+        </a>
+    </div>
+</div>
+
+<div class="form mt-3">
+    {{ form_start(form) }}
+    <div class="col-lg-4 form-group">
+        <label for="type">{{ 'Type'|trans }}</label>
+        {{ form_widget(form.type, {'attr': {'id':'type', 'class': 'filter form-control'}}) }}
+    </div>
+    <div class="col-lg-4 form-group">
+        <label for="division">{{ 'Division'|trans }}</label>
+        {{ form_widget(form.division, {'attr': {'id':'division', 'class': 'filter form-control'}}) }}
+    </div>
+    <div class="col-lg-4 form-group">
+        <label for="userThemes">{{ 'Theme'|trans }}</label>
+        {{ form_widget(form.userThemes, {'attr': {'class': 'form-control','route': path('get_by_division'), 'select': 'Select'|trans}}) }}
+    </div>
+    <div class="col-lg-12 form-group">
+        <label for="filter-search">{{ 'Busca'|trans }}</label>
+        <button type="submit" id="coordinatorsListBtn" class="inputSearchBtn" style="border: none; background: none;"><i class="fas fa-search"></i></button>
+        {{ form_widget(form.search, {'attr': {'id':'search', 'class': 'filter form-control'}}) }}
+    </div>
+</div>
+{{ form_end(form) }}
+
+{% if coordinators is empty %}
+    <div class="alert alert-warning" role="alert">
+        Nenhum resultado encontrado.
+    </div>
+{% else %}
+    <div class="tabela my-2 mt-4">
+        <table class="table table-sm table-striped table-responsive-md">
+            <thead>
+            <tr>
+                <th>{{ 'Nome'|trans }}</th>
+                <th>{{ 'Usuário'|trans }}</th>
+                <th>{{ 'Tipo de Usuário'|trans }}</th>
+                <th>{{ 'Theme'|trans }} / <span style="color:#999999;">{{ 'Division'|trans }}</span></th>
+                <th class="text-center" width="100">{{ 'Ações'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for coordinator in coordinators %}
+                {% set extra = "" %}
+                {% set divisionOrTheme = [] %}
+                {% set isDivision = false %}
+
+                {% if coordinator.userThemesResearchers|length > 0 %}
+                    {% for leader in coordinator.userThemesResearchers %}
+                        {% set divisionOrTheme = divisionOrTheme|merge({(loop.index):leader.userThemes.position ~ ' - ' ~ leader.userThemes.details.title}) %}
+                        {% set extra = 'ROLE_LEADER' %}
+                    {% endfor %}
+                    {% set isDivision = false %}
+                {% endif %}
+
+                {% if coordinator.userDivisionCoordinator|length > 0 %}
+                    {% for coord in coordinator.userDivisionCoordinator %}
+                        {% set divisionOrTheme = divisionOrTheme|merge({(loop.index):coord.division.name}) %}
+                        {% set extra = 'ROLE_DIVISION_COORDINATOR' %}
+                    {% endfor %}
+                    {% set isDivision = true %}
+                {% endif %}
+
+                <tr>
+                    <td>{{ coordinator.name }}</td>
+                    <td>{{ coordinator.identifier }}</td>
+                    <td>
+                        <span class='badge badge-warning'>{{ extra|trans }}</span>
+                    </td>
+                    <td style="{% if isDivision == true %} color: #999999; {% endif%}">{{ divisionOrTheme|join(" , ") }}</td>
+                    <td class="text-center">
+                        <a href="{{ path('submissions_coordinators_show', {'id' : coordinator.id, 'edition': edition.id}) }}" data-toggle="tooltip" class="hover-success editCoordinator" title="{{ 'Details'|trans }}">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <nav class="d-flex justify-content-between" style="float: right">
+            {{ knp_pagination_render(coordinators) }}
+        </nav>
+        <small class="text-muted">{{ 'Showing'|trans }} {{ coordinators|length }} {{ 'of' |trans }} {{ coordinators.getTotalItemCount }}</small>
+    </div>
+{% endif %}

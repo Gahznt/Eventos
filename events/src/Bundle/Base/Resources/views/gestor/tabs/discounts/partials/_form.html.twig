@@ -1,0 +1,47 @@
+{% if editionDiscount.id != '' %}
+    {{ form_start(form, {'attr': {'id':'editionDiscountForm', 'class': 'form', 'action':path('manager_edition_discounts_edit', {id: editionDiscount.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% else %}
+    {{ form_start(form, {'attr': {'id':'editionDiscountForm', 'class': 'form', 'action':path('manager_edition_discounts_new', {editionId: edition.id, id: editionDiscount.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% endif %}
+
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label for="edition_discount_userIdentifier">Identificador do Usuário</label>
+        {{ form_widget(form.userIdentifier, {'attr': {'class': 'form-control'}}) }}
+        {% if form.userIdentifier.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.userIdentifier.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-6 form-group">
+        <label for="edition_discount_percentage">Porcentagem de Desconto</label>
+        {{ form_widget(form.percentage, {'attr': {'class': 'form-control'}}) }}
+        {% if form.percentage.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.percentage.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-6 form-group">
+        <label>Tipo de desconto</label>
+        {{ form_widget(form.type, {'attr': {'id':'type', 'class': 'form-check-input'}}) }}
+        {% if form.type.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.type.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary" href="{{ path('manager_edition_discounts_index', {'editionId': edition.id}) }}">{{ 'CANCEL'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}

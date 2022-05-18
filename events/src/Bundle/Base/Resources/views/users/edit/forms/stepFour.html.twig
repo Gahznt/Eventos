@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-lg-6">
+        <h5 class="mb-3">{{ 'SIGNUP_WANT_HEAD'|trans }}</h5>
+        <div class="radiocheck">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.userEvaluationArticles.wantEvaluate, {'attr': {'id':'wantEvaluate','class': 'form-check-input'}}) }}
+                {{ form_label(form.userEvaluationArticles.wantEvaluate, 'SIGNUP_WANT_EVALUATE', {'attr': {'class': 'form-check-label'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <h5 class="mb-3">{{ 'SIGNUP_ABLE_LANG'|trans }}</h5>
+        <div class="radiocheck">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.userEvaluationArticles.portuguese, {'attr': {'id':'portuguese','class': 'form-check-input'}}) }}
+                {{ form_label(form.userEvaluationArticles.portuguese, 'LANG_PT'|trans, {'attr': {'class': 'form-check-label'}}) }}
+            </div>
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.userEvaluationArticles.english, {'attr': {'id':'english','class': 'form-check-input'}}) }}
+                {{ form_label(form.userEvaluationArticles.english, 'LANG_EN'|trans, {'attr': {'class': 'form-check-label'}}) }}
+            </div>
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.userEvaluationArticles.spanish, {'attr': {'id':'spanish','class': 'form-check-input'}}) }}
+                {{ form_label(form.userEvaluationArticles.spanish, 'LANG_ES'|trans, {'attr': {'class': 'form-check-label'}}) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 form-group">
+        <label for="division_fist_id">{{ 'SIGNUP_ACADEMIC_DIVISION'|trans }}</label>
+        {{ form_widget(form.userEvaluationArticles.divisionFirstId, {'id':'division_fist_id', 'attr': {'class': 'form-control', 'select' : 'Select'|trans}}) }}
+        {% if form.userEvaluationArticles.divisionFirstId.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.userEvaluationArticles.divisionFirstId.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-6 form-group">
+        <label for="division_second_id">{{ 'SIGNUP_ACADEMIC_DIVISION2'|trans }}</label>
+        {{ form_widget(form.userEvaluationArticles.divisionSecondId, {'id':'division_second_id', 'attr': {'class': 'form-control', 'select' : 'Select'|trans}}) }}
+        {% if form.userEvaluationArticles.divisionSecondId.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.userEvaluationArticles.divisionSecondId.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 form-group">
+        <label for="theme_first_id">{{ 'SIGNUP_INTEREST_THEME'|trans }}</label>
+        {{ form_widget(form.userEvaluationArticles.themeFirstId, {'id':'theme_first_id', 'attr': {'class': 'form-control', 'route': path('get_by_division'), 'select' : 'Select'|trans}}) }}
+        {% if form.userEvaluationArticles.themeFirstId.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.userEvaluationArticles.themeFirstId.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-6 form-group">
+        <label for="theme_second_id">{{ 'SIGNUP_INTEREST_THEME'|trans }}</label>
+        {{ form_widget(form.userEvaluationArticles.themeSecondId, {'id':'theme_second_id', 'attr': {'class': 'form-control', 'route': path('get_by_division'), 'select' : 'Select'|trans}}) }}
+        {% if form.userEvaluationArticles.themeSecondId.vars['errors']|length > 0 %}
+            <div class="form-error invalid-input">
+                {% for error in form.userEvaluationArticles.themeSecondId.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row col-12 mt-3">
+    <h2>{{ 'SIGNUP_THEORIES_METHODS'|trans }}</h2>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="fieldsetBg checkGroup mb-5">
+            <h5 class="mb-3">{{ 'SIGNUP_ABLE_METHOD'|trans }}</h5>
+
+            <div id="method-container-form" class="row">
+                {% for checkbox in form.methods.children %}
+                    <div class="form-check col-md-6" style="padding-left: 2.2rem; padding-left: calc(1.25rem + 15px);">
+                        {{ form_widget(checkbox, {'attr': {'class': 'form-check-input form-input-check checkbox' } }) }}
+                        {{ form_label(checkbox, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% if form.methods.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {{ form.methods.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,299 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="container">
+        <div class="fieldset">
+            <div class="dashboardAdmin">
+
+                {% for message in app.flashes('success.dashboard') %}
+                    <div class="alert alert-success mb-4">
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error.dashboard') %}
+                    <div class="alert alert-danger mb-4">
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+
+                <div class="row gutter-5 align-items-stretch">
+                    <div class="col mb-2">
+                        <a href="{{ path('manager_index') }}" class="dash-button-md bgcSecondary mb-0 h-100">
+                            <div class="icon edit"></div>
+                            <p>Gestor de Eventos / Website</p>
+                        </a>
+                    </div>
+                    <div class="col mb-2">
+                        <a href="{{ path('user_list') }}" class="dash-button-md bgcInfo mb-0 h-100">
+                            <div class="icon user"></div>
+                            <p>Cadastros e Associações</p>
+                        </a>
+                    </div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="col mb-2">
+                            <a href="{{ path('permission_index') }}"
+                               class="dash-button-md bgcAlert normal mb-0 h-100">
+                                <div class="icon user-plus"></div>
+                                <p>Permissões do Sistema</p>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_OPERATIONAL')) %}
+                        <div class="col mb-2">
+                            <a href="{{ path('manager_institutions_index') }}"
+                               class="dash-button-md bgcInfo normal mb-0 h-100">
+                                <div class="icon university"></div>
+                                <p>Instituições / Programas</p>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_OPERATIONAL')) %}
+                        <div class="col mb-2">
+                            <a href="{{ path('manager_payment_user_associations_index') }}"
+                               class="dash-button-md bgcAlert normal mb-0 h-100">
+                                <div class="icon file-invoice-dollar"></div>
+                                <p>Pagamento de Associação</p>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="col mb-2">
+                            <a href="{{ path('user_new') }}" class="dash-button-md bgcSecondary normal mb-0 h-100">
+                                <div class="icon user-plus"></div>
+                                <p>Cadastro Simplificado</p>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_ADMIN_OPERATIONAL')) %}
+                        <div class="col mb-2">
+                            <a href="{{ path('manager_theme_submission_config') }}"
+                               class="dash-button-md bgcSuccess normal mb-0 h-100">
+                                <div class="icon calendar"></div>
+                                <p>Configurações <br/>de Temas</p>
+                            </a>
+                        </div>
+                    {% endif %}
+
+{#                    <div class="col mb-2">#}
+{#                        <a href="{{ path('theme_submission_index') }}"#}
+{#                           class="dash-button-md bgcSuccess normal mb-0 h-100">#}
+{#                            <div class="icon calendar"></div>#}
+{#                            <p>Submissão <br/>de Temas</p>#}
+{#                        </a>#}
+{#                    </div>#}
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12 mt-3">
+                        <div class="card">
+                            <div class="card-header" data-toggle="collapse" href="#manager" aria-expanded="true"
+                                 aria-controls="event-1-1">
+                                Administração dos Eventos
+                            </div>
+                            <div class="collapse show" id="event-1-1">
+                                <div class="card-body">
+                                    <div class="alert alert-info icon exclamation">
+                                        <p class="just-text">
+                                            Selecione o evento e a edição para habilitar os botões administrativos.
+                                        </p>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 form-group">
+                                            <label for="eventId">Evento</label>
+                                            <select id="eventId" name="eventId"
+                                                    class="form-control select2-hidden-accessible">
+                                                <option value="">{{ 'Select'|trans }}</option>
+                                                {% for event in events %}
+                                                    <option value="{{ event.id }}">{{ event.namePortuguese }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <!--Após o usuário selecionar o evento, carrega dados e libera disabled do select.-->
+                                        <div class="col-lg-6 form-group">
+                                            <label for="editionId">Edição</label>
+                                            <select id="editionId" name="editionId"
+                                                    class="form-control select2-hidden-accessible"
+                                                    data-select="{{ 'Select' | trans }}"
+                                                    data-route="{{ path('edition_by_event') }}"></select>
+                                        </div>
+                                    </div>
+
+                                    <!--Após o usuário selecionar o evento e edição, tirar disabled da classe dos botões.
+                                        Admin Geral e Operacional tem acesso a todos os botões.-->
+                                    <div id="dashboard-actions" class="row">
+                                        <div class="col-6 col-md-2">
+                                            <a href="#" id="btnSubAtividades"
+                                               data-route="{{ path('activity_submission_index', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcSuccess disabled">
+                                                <div class="icon calendar"></div>
+                                                <p>Submissão de Atividades</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-4 col-md-2">
+                                            <a href="#" id="btnSubPainel"
+                                               data-route="{{ path('panel_submission_index', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcSuccess disabled">
+                                                <div class="icon calendar"></div>
+                                                <p>Submissão de <br/>Painéis</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <a href="#" id="btnAvalSubmission"
+                                               data-route="{{ path('system_evaluation_submissions', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcAlert disabled">
+                                                <div class="icon check-circle"></div>
+                                                <p>Gerenciamento da Edição</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <a href="#" id="btnAvalArticle"
+                                               data-route="{{ path('article_evaluation_index', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcAlert disabled">
+                                                <div class="icon check-circle"></div>
+                                                <p>Avaliação de Artigos</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <a href="#" id="btnConfig"
+                                               data-route="{{ path('system_evaluation_config', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcAlert disabled">
+                                                <div class="icon check-circle"></div>
+                                                <p>Configuração de Sistema</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <a href="#" id="btnAverages"
+                                               data-route="{{ path('system_evaluation_averages', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcAlert disabled">
+                                                <div class="icon check-circle"></div>
+                                                <p>Gerar Média de Artigos</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <a href="#" id="btnIndications"
+                                               data-route="{{ path('system_evaluation_indications', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcAlert disabled">
+                                                <div class="icon check-circle"></div>
+                                                <p>Indicação de Avaliadores</p>
+                                            </a>
+                                        </div>
+                                        {# <div class="col-6 col-md-2"> #}
+                                        {# <a href="" class="dash-button-md bgcInfo disabled"> #}
+                                        {# <div class="icon tasks"></div> #}
+                                        {# <p>Avaliações <br>de Temas</p> #}
+                                        {# </a> #}
+                                        {# </div> #}
+                                        <div class="col-6 col-md-2">
+                                            <a href="#" id="btnSections" data-route="{{ path('ensalement_sections_new', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcDark disabled">
+                                                <div class="icon sitemap"></div>
+                                                <p>Cadastro de Seções de Trabalho</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <a href="#" id="btnEnsalment" data-route="{{ path('ensalement_rooms_index', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcPrimary disabled">
+                                                <div class="icon university"></div>
+                                                <p>Ver / Editar Ensalamento</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-6 col-md-2">
+                                            <a href="#" id="btnEnsalment" data-route="{{ path('certificate_list', {'edition':'__route__'}) }}"
+                                               class="dash-button-md bgcWarning disabled">
+                                                <div class="icon certificate"></div>
+                                                <p>Cadastro de Certificados</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Cards-->
+                {% if events|length > 0 %}
+                <h3 class="mt-5 text-uppercase">Estatísticas dos Eventos Atuais</h3>
+                <div class="row">
+
+                    {% for event in events %}
+                        {% for edition in event.editions %}
+
+                            {% set evaluations = 0 %}
+                            {% set indications = 0 %}
+                            {% set articles = 0 %}
+                            {% set signup = 0 %}
+                            {% set approved = 0 %}
+
+                            {% if edition.id in articlesByEdition|keys %}
+                                {% set articles = articlesByEdition[edition.id] %}
+                            {% else %}
+                                {% set articles = 0 %}
+                            {% endif %}
+
+                            {% if edition.id in signUpByEdition|keys %}
+                                {% set signup = signUpByEdition[edition.id] %}
+                            {% else %}
+                                {% set signup = 0 %}
+                            {% endif %}
+
+                            {% if edition.id in indicationsValidCount|keys %}
+                                {% set evaluations = indicationsValidCount[edition.id] %}
+                            {% else %}
+                                {% set evaluations = 0 %}
+                            {% endif %}
+
+                            {% if edition.id in articlesApprovedByEdition|keys %}
+                                {% set approved = articlesApprovedByEdition[edition.id] %}
+                            {% else %}
+                                {% set approved = 0 %}
+                            {% endif %}
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="eventCard {{ edition.color }}">
+                                    <div class="title">{{ edition.namePortuguese }}</div>
+                                    <div class="data">{{ edition.dateStart|format_datetime('medium', 'none') }}</div>
+                                    <div class="label">- Inscrições Abertas -</div>
+                                    <div class="items">
+                                        <div class="item secondLabel">
+                                            <div class="float-left">
+                                                <i class="fas fa-user"></i>
+                                                <span>Participantes Inscritos</span>
+                                            </div>
+                                            <span class="float-right">{{ signup }}</span>
+                                        </div>
+                                        <div class="item secondLabel mt-2">
+                                            <div class="childL">
+                                                <i class="fas fa-file"></i>
+                                                <span>Submissão de Artigos</span>
+                                            </div>
+                                            <span class="childR">{{ articles }}</span><br>
+                                            <span class="childS">Avaliados</span>
+                                            <span class="childR">{{ evaluations }}</span><br>
+                                            <span class="childS">Aprovados</span>
+                                            <span class="childR">{{ approved }}</span><br>
+                                        </div>
+                                    </div>
+                                    <a href="{{ path('event_details', {'edition': edition.id}) }}"
+                                       class="bottom text-uppercase">Ver evento publicado</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <!--/Cards-->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('dashboard/admin') }}
+{% endblock %}

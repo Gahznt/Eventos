@@ -1,0 +1,43 @@
+.card {
+  border: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  .card-header,
+  .card-footer {
+    background-color: $footer;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+  }
+  .card-header {
+    border-radius: 5px;
+    &[aria-expanded="true"], &.flatBase  {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    &.invalid::before,
+    &.valid::before {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      position: absolute;
+      right: 40px;
+    }
+    &.invalid::before {
+      content: "\f00d";
+      color: $alert;
+    }
+    &.valid::before {
+      content: "\f00c";
+      color: $success;
+    }
+  }
+  .card-body {
+    background-color: $grey-light;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    > .card .card-body {
+      background-color: $gray-medium;
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link tab-6 active" id="nav-1" data-toggle="tab" href="#tab-1" role="tab">
+                    {{ 'LISTAGEM DE<br/>PAINÉIS'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <h1 class="mb-0">{{ 'Listagem de Painéis'|trans }}</h1>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ path('system_evaluation_panels', {'edition' : edition.id, 'export': 'excel'}) }}" class="btn btn-primary float-right mr-1" data-toggle="tooltip" title="{{ 'Baixar Excel'|trans }}">
+                            <i class="fas fa-file-excel"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form mt-3">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-6 col-md-3">
+                            {{ form_label(form.status, 'Status') }}
+                            {{ form_widget(form.status, {'attr': {'class': 'filter form-control'}}) }}
+                        </div>
+                        <div class="col-6 col-md-3">
+                            {{ form_label(form.division, 'Divisão') }}
+                            {{ form_widget(form.division, {'attr': {'class': 'filter form-control'}}) }}
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-4">
+                            {{ form_label(form.q, 'Buscar') }}
+                            {{ form_widget(form.q, {'attr': {'class': 'filter form-control'}}) }}
+                        </div>
+                        <div class="col-6 col-md-3 col-lg-2" style="padding-top: 31px;">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Filtrar</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+
+                {% if panels is empty %}
+                    <div class="alert alert-warning mt-3" role="alert">
+                        Nenhum resultado encontrado.
+                    </div>
+                {% else %}
+                    <div class="tabela my-2 mt-4">
+                        <table class="table table-sm table-striped table-responsive-md">
+                            <thead>
+                            <tr>
+                                <th>{{ 'Título'|trans }}</th>
+                                <th>{{ 'Divisão'|trans }}</th>
+                                <th>{{ 'Idioma'|trans }}</th>
+                                <th>{{ 'Proponente'|trans }}</th>
+                                <th>{{ 'Painelistas'|trans }}</th>
+                                <th>{{ 'Status'|trans }}</th>
+                                <th class="text-center" width="100">{{ 'Ações'|trans }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for panel in panels %}
+                                {% set panelists = [] %}
+
+                                {% if panel.panelsPanelists|length > 0 %}
+                                    {% for panelist in panel.panelsPanelists %}
+                                        {% set panelists = panelists|merge({(loop.index):panelist.panelistId.name}) %}
+                                    {% endfor %}
+                                {% endif %}
+
+                                <tr>
+                                    <td>{{ panel.title }}</td>
+                                    <td>{{ panel.divisionId.name }}</td>
+                                    <td>{{ constant('LANGUAGE', panel)|array_flip()[panel.language]|trans }}</td>
+                                    <td>{{ panel.proponentId.name }}</td>
+                                    <td class="text-nowrap">{{ panelists|join("<br>")|raw }}</td>
+                                    <td>
+                                        <span class="badge badge-nl badge-{{ panel.statusEvaluation|article_evaluation_status('color') }}">
+                                        {{ constant('PANEL_EVALUATION_STATUS', panel)|array_flip()[panel.statusEvaluation]|trans }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{ path('system_evaluation_panels_show', {'id' : panel.id, 'edition': edition.id}) }}" data-toggle="tooltip" class="hover-success editPanel" title="{{ 'Details'|trans }}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <nav class="d-flex justify-content-between" style="float: right">
+                            {{ knp_pagination_render(panels) }}
+                        </nav>
+                        <small class="text-muted">{{ 'Showing'|trans }} {{ panels|length }} {{ 'of' |trans }} {{ panels.getTotalItemCount }}</small>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#    {{ encore_entry_script_tags('systemEvaluationPanels') }}#}
+{% endblock %}

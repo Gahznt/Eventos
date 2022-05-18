@@ -1,0 +1,20 @@
+{% for message in app.flashes('error') %}
+    <div class="alert alert-error" style="color: red">
+        <strong>Texto</strong>
+    </div>
+{% endfor %}
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="mb-2">Titulo</h1>
+        <h2>Titulo <span class="text-info">User identifier</span></h2>
+    </div>
+    <div class="col-md-4 text-right">
+        <a href="{{ path('user_list') }}" class="btn btn-sm btn-primary back">xxx</a>
+                <form method="post" action=""
+                      onsubmit="">
+                    <button class="btn btn-sm"></button>
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="">
+                </form>
+    </div>
+</div>

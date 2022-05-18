@@ -1,0 +1,96 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="fieldset">
+            <div class="row">
+                <div class="col-md-10">
+                    <h1>{{ 'SYS_EV_REPORT_TITLE'|trans }}: {{ 'SYS_EV_REPORT_INPROGRESS_EVALUATIONS'|trans }}</h1>
+                </div>
+                <div class="col-md-2">
+                    <a href="{{ path('system_evaluation_reports', {'edition' : edition.id, 'page': 'inprogress_evaluations', 'export': 'excel'}) }}"
+                       class="btn btn-primary float-right" data-toggle="tooltip" title="{{ 'Baixar Excel'|trans }}">
+                        <i class="fas fa-file-excel"></i>
+                    </a>
+                </div>
+            </div>
+            <!--form action="/system_evaluation/reports/inprogress_evaluations" class="form mt-0">
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <label for="filter-theme">{{ 'SYS_EV_REPORT_FORM_THEME'|trans }}</label>
+          <select name="filter-theme" id="filter-theme" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-fit">{{ 'SYS_EV_REPORT_FORM_FIT'|trans }}</label>
+          <select name="filter-fit" id="filter-fit" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-search">{{ 'SYS_EV_REPORT_FORM_SEARCH'|trans }}</label>
+          <input type="text" name="filter-search" id="filter-search" class="form-control">
+          <a class="inputSearchBtn"><i class="fas fa-search"></i></a>
+        </div>
+      </div>
+    </form-->
+            <div class="tabela my-2">
+                <table class="table table-sm table-striped table-responsive-md">
+                    <thead>
+                    <tr class="fw-normal">
+                        <th class="">{{ 'Id'|trans }}</th>
+                        {#            <th class="" width="200">{{ 'SYS_EV_REPORT_TH_TITLE'|trans }}</th>#}
+                        <th class="">{{ 'SYS_EV_REPORT_TH_FIT'|trans }}</th>
+                        <th class="">{{ 'SYS_EV_REPORT_TH_THEME'|trans }}</th>
+                        <th class="">{{ 'SYS_EV_REPORT_TH_DATE'|trans }}</th>
+                        <th class="">{{ 'SYS_EV_REPORT_TH_EVALUATOR_ID'|trans }}</th>
+                        <th class="">{{ 'SYS_EV_REPORT_TH_CHAR_COUNT'|trans }}</th>
+                        <th>{{ 'SYS_EV_REPORT_TH_SEEM'|trans }}</th>
+                        <th class="text-center">{{ 'SYS_EV_REPORT_TH_UTILITY'|trans }}</th>
+                        <th class="text-center">{{ 'SYS_EV_REPORT_TH_VALUE'|trans }}</th>
+                        <th class="text-center">{{ 'SYS_EV_REPORT_TH_CONSTRUCTIVE'|trans }}</th>
+                        <th class="text-center">{{ 'SYS_EV_REPORT_TH_VALUE'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set map = {
+                        'weak': 1,
+                        'regular': 2,
+                        'good': 3,
+                        'very_good': 4,
+                    } %}
+                    {% for item in tableData %}
+                        <tr>
+                            <td>{{ item.id }}</td>
+                            {#            <td>{{ item.title }}</td>#}
+                            <td>{{ FRAMES[item.fit]|trans }}</td>
+                            <td>{{ item.theme }}</td>
+                            <td>{{ item.date|date('d/m/Y H:i') }}</td>
+                            <td>{{ item.evaluator_id }}</td>
+                            <td>{{ item.char_count }}</td>
+                            <td>{{ item.justification }}</td>
+                            <td class="text-center">{{ AUTHOR_RATE_ONE_OPTIONS[item.author_rate_one] is defined
+                                ? AUTHOR_RATE_ONE_OPTIONS[item.author_rate_one]|trans
+                                : '' }}</td>
+                            <td class="text-center">
+                                {{ map[item.author_rate_one] is defined
+                                ? map[item.author_rate_one]
+                                : '' }}
+                            </td>
+                            <td class="text-center">{{ AUTHOR_RATE_TWO_OPTIONS[item.author_rate_two] is defined
+                                ? AUTHOR_RATE_TWO_OPTIONS[item.author_rate_two]|trans
+                                : '' }}</td>
+                            <td class="text-center">
+                                {{ map[item.author_rate_two] is defined
+                                ? map[item.author_rate_two]
+                                : '' }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

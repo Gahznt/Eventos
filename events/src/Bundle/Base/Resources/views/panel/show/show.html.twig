@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab-form" role="tablist">
+                <a class="nav-item nav-link tab-2 active" id="nav-form-1" data-toggle="tab" href="#tab-form-1" role="tab">
+                    {{ 'PANEL DATA'|trans }}
+                </a>
+                <a class="nav-item nav-link tab-2" id="nav-form-2" data-toggle="tab" href="#tab-form-2" role="tab">
+                    {{ 'PROPONENTE PAINELISTAS'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-form-1" role="tabpanel">
+                {% include 'panel/show/tabs/1.html.twig' %}
+            </div>
+
+            <div class="tab-pane fade" id="tab-form-2" role="tabpanel">
+                {% include 'panel/show/tabs/2.html.twig' %}
+            </div>
+        </div>  <!-- ./class="tab-content" -->
+    </div>  <!-- ./class="container" -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

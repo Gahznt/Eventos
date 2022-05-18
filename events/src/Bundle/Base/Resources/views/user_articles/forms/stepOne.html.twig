@@ -1,0 +1,211 @@
+{% import _self as formMacros %}
+
+<div class="stepsTab" data-step="1">
+    <h1>{{ 'ARTICLE_STEP1_HEAD'|trans }}</h1>
+    
+    <div class="row">
+        <div class="col-lg-4 form-group">
+            <label for="divisionId">{{ 'ACADEMIC_DIVISION'|trans }}</label>
+            {{ form_widget(form.divisionId, {'attr': {'class': 'form-control'}}) }}
+            {% if form.divisionId.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.divisionId.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-8 form-group">
+            <label for="userThemes">{{ 'TOPIC_INTEREST'|trans }}</label>
+            {{ form_widget(form.userThemes, {'attr': {'class': 'form-control','route': path('get_by_division'), 'select': 'Select'|trans}}) }}
+            {% if form.userThemes.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.userThemes.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-lg-4 form-group">
+            <label for="lastId">{{ 'ARTICLE_FROM'|trans }}</label>
+            {{ form_widget(form.lastId, {'attr': {'id':'lastId', 'class': 'form-control'}}) }}
+            {% if form.lastId.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.lastId.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>    
+        <div class="col-lg-8 form-group">
+            <label for="identifier">{{ 'ARTICLE_TITLE'|trans }}</label>
+            {{ form_widget(form.title, {'attr': {'id':'title', 'class': 'form-control'}}) }}
+            {% if form.title.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.title.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 form-group">
+            <label for="frame">{{ 'ARTICLE_FITS'|trans }}</label>
+            {{ form_widget(form.frame, {'attr': {'id':'frame', 'class': 'form-control'}}) }}
+            {% if form.frame.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.frame.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-3 form-group">
+            <label for="language">{{ 'ARTICLE_LANGUAGE'|trans }}</label>
+            {{ form_widget(form.language, {'attr': {'class': 'form-control'}}) }}
+            {% if form.language.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.language.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-5 form-group">
+            <label for="methodId">{{ 'ARTICLE_METHOD'|trans }}</label>
+            {{ form_widget(form.methodId, {'attr': {'id':'methodId', 'class': 'form-control'}}) }}
+            {% if form.methodId.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.methodId.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <h5>{{ 'PRESENT_LANGUAGE'|trans }}</h5>
+            <div class="mb-3 form-check form-check-inline">
+                {{ form_widget(form.portuguese, {'attr': {'id':'portuguese', 'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="user_articles_portuguese">{% trans %}Português{% endtrans %}</label>
+            </div>
+            <div class="mb-3 form-check form-check-inline">
+                {{ form_widget(form.english, {'attr': {'id':'english', 'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="user_articles_english">{{ 'LANG_EN'|trans }}</label>
+            </div>
+            <div class="mb-3 form-check form-check-inline">
+                {{ form_widget(form.spanish, {'attr': {'id':'spanish', 'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="user_articles_spanish">{{ 'LANG_ES'|trans }}</label>
+            </div>
+            {% if form.portuguese.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.portuguese.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.english.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.english.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.spanish.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.spanish.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-6">
+            <h5>{{ 'ARTICLE_PUBLISH_OPTION'|trans }}</h5>
+            <div class="mb-3 form-check form-check-inline">
+                {{ form_widget(form.jobComplete, {'attr': {'id':'jobComplete', 'class': 'form-check-input'}}) }}
+
+                <label class="form-check-label" for="user_articles_jobComplete">{{ 'ARTICLE_OPTION_FULL'|trans }}</label>
+            </div>
+            <div class="mb-3 form-check form-check-inline">
+                {{ form_widget(form.resumeFlag, {'attr': {'id':'resumeFlag', 'class': 'form-check-input'}}) }}
+
+                <label class="form-check-label" for="user_articles_resumeFlag">
+                    {{ 'ARTICLE_OPTION_ABST'|trans }}                    
+                </label>
+            </div>
+
+            {% if form.jobComplete.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.jobComplete.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if form.resumeFlag.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.resumeFlag.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 form-group">            
+            {{ form_widget(form.acknowledgment, {'attr': {'id':'acknowledgment', 'class': 'form-control', 'rows': 6, 'placeholder': 'ARTICLE_THANKS'|trans }}) }}
+            {% if form.acknowledgment.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.acknowledgment.vars['errors'] %}
+                        {{ error.message|trans }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-6">
+            <div class="form-check">
+                {{ form_widget(form.premium, {'attr': {'id':'premium', 'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="user_articles_premium">
+                    {{ 'ARTICLE_AWARD_MSG'|trans|raw }}
+                </label>
+                {% if form.premium.vars['errors']|length > 0 %}
+                    <div class="invalid-feedback">
+                        {% for error in form.premium.vars['errors'] %}
+                            {{ error.message|trans }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-check">
+                {{ form_widget(form.neverPublish, {'attr': {'id':'neverPublish', 'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="user_articles_neverPublish">
+                    {{ 'ARTICLE_DECLARATION'|trans }}.
+                </label>
+                {% if form.neverPublish.vars['errors']|length > 0 %}
+                    <div class="invalid-feedback">
+                        {% for error in form.neverPublish.vars['errors'] %}
+                            {{ error.message|trans }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-check">
+                {{ form_widget(form.isRelatedThemeEnanpad, {'attr': {'id':'isRelatedThemeEnanpad', 'class': 'form-check-input'}}) }}
+                <label class="form-check-label" for="isRelatedThemeEnanpad">
+                    {{ 'ARTICLE_RELATED_THEME_ENANPAD'|trans }}.
+                </label>
+                {% if form.isRelatedThemeEnanpad.vars['errors']|length > 0 %}
+                    <div class="invalid-feedback">
+                        {% for error in form.isRelatedThemeEnanpad.vars['errors'] %}
+                            {{ error.message|trans }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>           
+        </div>
+    </div>
+</div>

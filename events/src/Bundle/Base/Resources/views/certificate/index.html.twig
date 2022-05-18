@@ -1,0 +1,163 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'edition': app.request.get('edition').id, 'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_index') }}" role="tab">
+                    {{ 'Events'|trans }}
+                </a>
+                <a class="nav-item nav-link" href="{{ path('manager_editions_index', {'eventId': edition.event.id}) }}" role="tab">
+                    {{ 'MANAGER_EDITIONS'|trans }}
+                </a>
+                <a class="nav-item nav-link active" href="{{ path('certificate_list', {'edition': edition.id}) }}" role="tab">
+                    {{ 'Certificados'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav class="clearfix">
+                    <a class="btn btn-primary float-right" href="{{ path('certificate_batch_activate', {'edition': edition.id}) }}" data-toggle="tooltip" title="Ativar Certificados em Lote">Ativar Certificados</a>
+
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link active" href="{{ path('certificate_list', {'edition': edition.id}) }}" role="tab">
+                            {{ 'Lista de<br>Certificados'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+
+                        <div class="float-left">
+                            <h1 class="mb-1">{{ 'Lista de Certificados'|trans }}</h1>
+                        </div>
+
+                        <a class="btn btn-primary float-right" href="{{ path('certificate_new_manual', {'edition': edition.id}) }}" data-toggle="tooltip" title="Gerar Certificados Manualmente"><i class="fas fa-plus"></i></a>
+                        <a class="btn btn-primary float-right mr-2 position-relative" href="{{ path('certificate_new_awards', {'edition': edition.id}) }}" data-toggle="tooltip" title="Gerar Certificados de Premiação"><i class="fas fa-trophy"></i><i class="fas fa-plus position-absolute" style="top: 5px; right: 5px; font-size: 10px;"></i></a>
+
+                        <div class="clearfix"></div>
+
+                        <div class="form mt-3">
+                            {{ form_start(form) }}
+                            <div class="row mt-3">
+                                <div class="col-6 col-md-4">
+                                    {{ form_label(form.type, 'Tipo') }}
+                                    {{ form_widget(form.type, {'attr': {'class': 'filter form-control'}}) }}
+                                </div>
+                                <div class="col-6 col-md-5 col-lg-6">
+                                    {{ form_label(form.q, 'Buscar') }}
+                                    {{ form_widget(form.q, {'attr': {'class': 'filter form-control'}}) }}
+                                </div>
+                                <div class="col-6 col-md-3 col-lg-2" style="padding-top: 31px;">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Filtrar</button>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+
+                        {% for message in app.flashes('error') %}
+                            <br>
+                            <div class="alert alert-danger">
+                                {{ message |trans }}
+                            </div>
+                        {% endfor %}
+
+                        {% for message in app.flashes('success') %}
+                            <br>
+                            <div class="alert alert-success">
+                                {{ message |trans }}
+                            </div>
+                        {% endfor %}
+
+                        {% if certificates|length > 0 %}
+
+                            <div class="tabela my-2 mt-3">
+                                <table class="table table-sm table-striped table-responsive-md w-100" id="certificatesTable">
+
+                                    <thead>
+                                    <tr>
+                                        {{ sortMacro.sortColumnHeader('', 'c.id', 'Id') }}
+                                        {{ sortMacro.sortColumnHeader('', 'u.name', 'Usuário') }}
+                                        {{ sortMacro.sortColumnHeader('', 'c.type', 'Tipo') }}
+                                        <th>Artigo(s)</th>
+                                        {{ sortMacro.sortColumnHeader('', 'c.isActive', 'Status') }}
+                                        <th class="text-center" width="150">{{ 'Actions'|trans }}</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for entity in certificates %}
+                                        <tr>
+                                            <td>{{ entity.id }}</td>
+                                            <td>{{ entity.user.name }}</td>
+                                            <td>{{ constant('CERTIFICATE_TYPES', entity)|array_flip()[entity.type]|trans }}</td>
+                                            <td>
+                                                {% if entity.userArticles|length %}
+                                                    {% for userArticle in entity.userArticles %}
+                                                        {% if loop.index0 > 0 %}
+                                                            <br/>
+                                                        {% endif %}
+                                                        {{ userArticle.title }}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </td>
+                                            <td><span class="badge badge-{{ entity.isActive ? 'success' : 'danger' }}">{{ entity.isActive ? 'Ativo'|trans : 'Inativo'|trans }}</span></td>
+                                            <td class="text-center">
+
+                                                {% if not entity.isActive %}
+                                                    <a href="{{ path('certificate_activate', {'certificate' : entity.id}) }}" data-toggle="tooltip" class="hover-success" title="{{ 'Ativar'|trans }}">
+                                                        <i class="fas fa-check"></i>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ path('certificate_disable', {'certificate' : entity.id}) }}" data-toggle="tooltip" class="hover-danger" title="{{ 'Desativar'|trans }}">
+                                                        <i class="fas fa-ban"></i>
+                                                    </a>
+                                                {% endif %}
+
+                                                {% if constant('CERTIFICATE_TYPE_MANUAL', entity) == entity.type %}
+                                                    <a data-toggle="tooltip" href="#excluir" class="hover-danger ml-2 tdDel" title="{{ 'Excluir'|trans }}" data-path="{{ path('certificate_remove_manual', {'id': entity.id}) }}" data-token="{{ csrf_token('delete' ~ entity.id) }}" data-action="remove" data-type="{{ 'este certificado'|trans }}" data-name=""><i class="fas fa-times"></i></a>
+                                                {% endif %}
+
+                                                <a href="{{ path('certificate_show', {'certificate' : entity.id, 'hash': entity.hash}, 0) }}" data-toggle="tooltip" class="hover-info ml-2" target="_blank" title="{{ 'Visualizar'|trans }}">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <nav class="d-flex justify-content-between">
+                                    <small class="text-muted">{{ 'Showing'|trans }} {{ certificates|length }} {{ 'of'|trans }} {{ certificates.getTotalItemCount }}</small>
+
+                                    {{ knp_pagination_render(certificates) }}
+                                </nav>
+                            </div>
+                        {% else %}
+                            <p class="my-2">{{ 'Nenhum resultado encontrado.'|trans }}.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {#  {{ encore_entry_script_tags('gestorCertificates') }}#}
+    {{ parent() }}
+{% endblock %}
+

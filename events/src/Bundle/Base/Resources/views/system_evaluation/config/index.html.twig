@@ -1,0 +1,162 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="fieldset mb-4">
+            <form id="systemEvaluationConfig" method="post">
+                <h1>{{ 'Configurações'|trans }}</h1>
+                <div class="row">
+                    <div class="col-lg-1 d-sm-none d-lg-block"></div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="switchCheckbox">
+                            <h5 class="mb-3">{{ 'Submissão de Artigos'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if articleSubmissionAvaliable == 1 %} checked {% endif %} name="article_submission_avaliable">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Avaliação de Artigos'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if evaluateArticleAvaliable == 1 %} checked {% endif %} name="evaluation_article_avaliable">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Resultados Finais'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if results == 1 %} checked {% endif %} name="results">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Submissão de Painéis'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if panelSubmissionAvailable == 1 %} checked {% endif %} name="panel_submission_available">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Gerar Certificados'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if autoCertificates == 1 %} checked {% endif %} name="auto_certificates">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Liberar Certificados para Download'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if freeCertificates == 1 %} checked {% endif %} name="free_certificates">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Ensalamento geral'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if ensalementGeneral == 1 %} checked {% endif %} name="ensalement_general">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Ensalamento prioritário'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if ensalementPriority == 1 %} checked {% endif %} name="ensalement_priority">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Liberar Seções'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if freeSections == 1 %} checked {% endif %} name="free_sections">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Liberar inscrições'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if freeSignup == 1 %} checked {% endif %} name="free_signup">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Submissão de Teses'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if thesisSubmissionAvailable == 1 %} checked {% endif %} name="thesis_submission_available">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+
+                        <div class="switchCheckbox mt-3">
+                            <h5 class="mb-3">{{ 'Programação Detalhada'|trans }}</h5>
+                            <div class="false">{{ 'Indisponível'|trans }}</div>
+                            <label class="switch">
+                                <input type="checkbox" {% if detailedSchedulingAvailable == 1 %} checked {% endif %} name="detailed_scheduling_available">
+                                <div><span></span></div>
+                            </label>
+                            <div class="true">{{ 'Disponível'|trans }}</div>
+                        </div>
+
+                        <input type="hidden" {% if articleFree == 1 %} value="1" {% else %} value="0" {% endif %} id="article_free" name="article_free">
+                        <a class="btn btn-block btn-primary mt-4"
+                           id="saveConfigBt">{{ 'SALVAR CONFIGURAÇÕES'|trans }}</a>
+                    </div>
+            </form>
+            <div class="col-lg-1 d-sm-none d-lg-block" style="border-right: 2px solid #a2b1bd;"></div>
+            <div class="col-lg-1 d-sm-none d-lg-block"></div>
+            <div class="col-lg-4 col-md-6">
+                <h1>{{ 'Disponibilizar artigos para avaliação'|trans }}</h1>
+                <div class="alert alert-warning icon exclamation">
+                    <h3 class="text-warning">{{ 'Atenção, ao executar esta ação você estará disponibilizando todos os artigos que não foram removidos/cancelados para designação e futura avaliação, esta ação não poderá ser desfeita.'|trans }}</h3>
+                </div>
+                <a class="btn btn-block btn-primary mt-3"
+                   id="articleAvailableBt">{{ 'DISPONIBILIZAR ARTIGOS'|trans }}</a>
+            </div>
+            <div class="col-lg-1 d-sm-none d-lg-block"></div>
+        </div>
+        <br/>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message|trans }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message|trans }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('systemEvaluationConfigurations') }}
+{% endblock %}

@@ -1,0 +1,69 @@
+{# {{ form_start(form, {'attr': {'id':'paymentUserAssociationForm', 'class': 'form', , {id: paymentUserAssociation.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }} #}
+
+<form id="formPaymentUserAssociation" data-action="{{ path(app.request.get('_route')) }}">
+    <div class="row">
+        <div class="col-12 form-group">
+            <div class="stepsTab" data-step="4">
+                <h1>{{ 'Upload do Arquivo'|trans }}</h1>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="alert alert-warning p-3 mb-0">
+                            <h2>{{ 'Normas para o Upload do Arquivo'|trans }}</h2>
+                            <p class="m-0 text-dark font-weight-bold">- Arquivo txt</p>
+                            {# <p class="m-0 text-dark font-weight-bold">- {{ 'ARTICLE_UPLOAD_RULE2'|trans }}.</p> #}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="fileDropzone" id="articleDropzone">
+                            <i class="fas fa-upload fa-3x mr-5"></i>
+                            <span>{{ 'Clique Aqui<br/>para enviar o seu arquivo'|trans|raw }}.</span>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 offset-lg-6 mt-3">
+
+                        <div class="invalid-feedback">
+                            {# {% if form.vars['errors']|length > 0 %} #}
+                            {# {% for error in form.vars['errors'] %} #}
+                            {# {{ error.message| trans }} #}
+                            {# {% endfor %} #}
+                            {# {% endif %} #}
+                        </div>
+                        <div class="fileList">
+                            <input type="file" id="payment_user_association_file" class="attachments"
+                                   style="display:none;">
+                            <h5>{{ 'ARTICLE_UPLOAD_LIST'|trans }}:</h5>
+                            <div id="files-container-form" data-prototype=""></div>
+                        </div>
+                    </div>
+                    <!--
+    <div class="col-lg-6 offset-lg-6 mt-3">
+      <h3 class="mb-2">{{ 'ARTICLE_SUBMIT_CONFIRM'|trans }}</h3>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="idioma" value="1" id="uploadConfirm">
+        <label class="form-check-label" for="uploadConfirm">{{ 'ARTICLE_SUBMIT_MSG'|trans }}.</label>
+      </div>
+    </div>
+  -->
+                </div>
+            </div>
+
+            <div id="file-remove" class="d-none">
+                <a class='btn small btn-outline-primary float-right remove'>{{ 'ARTICLE_REMOVE_FILE'|trans }}</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <a class="btn btn-lg btn-outline-primary"
+               href="{{ path('manager_payment_user_associations_index') }}">{{ 'CANCEL'|trans }}</a>
+        </div>
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-lg btn-block btn-primary">
+                {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+            </button>
+        </div>
+    </div>
+</form>

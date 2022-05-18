@@ -1,0 +1,91 @@
+{% import _self as formMacros %}
+
+{{ form_start(form, {'attr': {'id' : 'editAssociacao' ,'class': 'form', 'method': 'POST', 'novalidate': 'novalidate' }}) }}
+<div class="row jquery_institution_programs_row">
+    <div class="col-lg-4 form-group">
+        <label for="level">{{ 'USER_ASSOC_TYPE'|trans }}</label>
+        {{ form_widget(form.type, {'attr': {'id' : 'level', 'name': 'level','class': 'form-control' }}) }}
+        {% if form.type.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {% for error in form.type.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-4 form-group">
+        <label for="institution">{{ 'USER_INSTITUTION_LBL'|trans }}</label>
+        {{ form_widget(form.institution, {'attr': {'id' : 'institution', 'name': 'institution','class': 'form-control', 'data-route': path('program_by_institution') }}) }}
+        {% if form.institution.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {% for error in form.institution.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="clearfix mb-3"></div>
+
+        <div class="other_institution_wrapper {{ form.institution.vars.value != 99999 ? 'd-none' : '' }}">
+            <label for="otherInstitution">{{ 'SIGNUP_OTHER_INSTITUTION'|trans }}</label>
+            {{ form_widget(form.otherInstitution, {'attr': {'id':'otherInstitution','class': 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="col-lg-4 form-group">
+        <label for="program">{{ 'USER_PROGRAM_LBL'|trans }}</label>
+        {{ form_widget(form.program, {'attr': {'id' : 'program', 'name': 'program','class': 'form-control' }}) }}
+        {% if form.program.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {% for error in form.program.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <p class="programs-load d-none"><i class="fa fa-spinner fa-spin"></i> {{ 'Carregando...'|trans }}</p>
+        <div class="clearfix mb-3"></div>
+
+        <div class="other_program_wrapper {{ form.program.vars.value != 99999 ? 'd-none' : '' }}">
+            <label for="otherProgram">{{ 'SIGNUP_OTHER_PROGRAM'|trans }}</label>
+            {{ form_widget(form.otherProgram, {'attr': {'id':'otherProgram','class': 'form-control'}}) }}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6 form-group">
+        <label for="division">{{ 'USER_PRIME_DIVISION'|trans }}</label>
+        {{ form_widget(form.division, {'attr': {'id' : 'division', 'name': 'division','class': 'form-control' } }) }}
+        {% if form.division.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {% for error in form.division.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div id="aditional-container-form" class="col-lg-6 form-group">
+
+        <label for="aditionals">{{ 'USER_ADD_DIVISIONS'|trans }}</label>
+
+        {{ form_widget(form.aditionals, {'attr': { 'class': 'form-control', 'select': 'Select'|trans } }) }}
+
+        {% if form.aditionals.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback d-block">
+                {% for error in form.aditionals.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+<input type="hidden" name="id">
+<input type="hidden" name="tab" id="tabIdentifier" value="{{ tab }}">
+<div class="row">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary cancel">{{ 'Cancel'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-lg btn-block btn-primary">{{ 'USER_NEW_ASSOC'|trans }}</button>
+    </div>
+</div>
+{{ form_end(form) }}

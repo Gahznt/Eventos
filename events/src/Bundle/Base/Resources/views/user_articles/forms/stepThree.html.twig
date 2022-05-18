@@ -1,0 +1,108 @@
+{% import _self as formMacros %}
+
+    {% macro printStepPrototypeAuthors(defaultStep) %}
+        <div class="fieldsetBg autorx mb-3" data-index="__name__">
+            <h1 id="title" data-title="{{ 'ARTICLE_AUTHOR_COUNT'|trans }}">
+                {{ 'ARTICLE_AUTHOR_COUNT'|trans }}
+            </h1>
+            <div class="row">
+                <div class="col-lg-6 form-group">
+                    <label for="searchIdentifier">{{ 'Selecione o Campo de Pesquisa'|trans }}</label>
+                    {{ form_widget(defaultStep.searchIdentifier, {'attr': {'class': 'searchIdentifier form-control', 'data-index': '__name__'}}) }}
+                    {% if defaultStep.searchIdentifier.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ defaultStep.searchIdentifier.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-6 form-group">
+                    <label id="label-searchValue-__name__" for="searchValue">&nbsp; &nbsp;</label>
+                    <div class="input-group">
+                        {{ form_widget(defaultStep.searchValue, {'id':'searchValue-__name__', 'attr': {'class': 'form-control', 'data-index': '__name__'}}) }}
+                        <div class="input-group-append searchCpf">
+                            <span class="input-group-text btn btn-primary-alt">
+                                <button type="button" class="btn btn-primary-alt userSearch" data-index="__name__" data-route="{{ path('search_by_identifier') }}">
+                                    {{ 'PANEL_SEARCH'|trans }}
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    {% if defaultStep.searchValue.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ defaultStep.searchValue.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label for="userAuthorIdFake">{{ 'PANEL_FULLNAME'|trans }}</label>
+                    {{ form_widget(defaultStep.userAuthorIdFake, {'attr': {'class': 'form-control disable'}}) }}
+                    {% if defaultStep.userAuthorIdFake.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ defaultStep.userAuthorIdFake.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+
+                    {# { form_widget(defaultStep.userAuthorId, {'attr': {'class': 'form-control'}}) } #}
+                    <input type="hidden" id="user_articles_userArticlesAuthors___name___userAuthorId" name="user_articles[userArticlesAuthors][__name__][userAuthorId]" required="required" class="form-control" value="{{ defaultStep.userAuthorId.vars.value }}"/>
+
+                    {% if defaultStep.userAuthorId.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ defaultStep.userAuthorId.vars['errors'][0].message|raw }}
+                        </div>
+                    {% endif %}
+
+                    {{ form_widget(defaultStep.order, {'attr': {'class': 'form-control', 'value':'__name__'}}) }}
+
+                    {% if defaultStep.order.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ defaultStep.order.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    {% endmacro %}
+
+<div class="stepsTab" data-step="3" id="stepAutor">
+    <h1>{{ 'ARTICLE_STEP3_HEAD'|trans }}</h1>
+    <h5 class="mb-5">
+        <span class="text-uppercase">{{ 'ARTICLE_WARNING'|trans }}</span>:
+        <span>{{ 'ARTICLE_WARNING_MSG'|trans }}</span>
+    </h5>
+
+    <div id="authors-container-form" data-index="{{ form.userArticlesAuthors|length > 0 ? (max(form.userArticlesAuthors|keys)+1) : 0 }}"
+         data-prototype="{{ formMacros.printStepPrototypeAuthors(form.userArticlesAuthors.vars.prototype)|e('html_attr') }}">
+
+        {% if form.userArticlesAuthors|length > 0 %}
+            {% for key, author in form.userArticlesAuthors %}
+                <div class="autor mb-3">
+                    {{ formMacros.printStepPrototypeAuthors(author)|replace({'__name__': key, '@authorid' : loop.index})|raw }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    {% if form.userArticlesAuthors.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {% for error in form.userArticlesAuthors.vars['errors'] %}
+                <p>{{ error.message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-12 btAutor">
+            <a id="btAuthorAdd" class="btn btn-sm btn-primary float-right add">
+                {{ 'ARTICLE_AUTHOR_ADD'|trans }}
+                <i class="fas fa-plus-circle"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="author-remove" class="d-none">
+    <a class="btn btn-sm btn-outline-danger float-left del">
+        <i class="fas fa-minus-circle"></i> {{ 'ARTICLE_AUTHOR_REMOVE'|trans }}
+    </a>
+</div>

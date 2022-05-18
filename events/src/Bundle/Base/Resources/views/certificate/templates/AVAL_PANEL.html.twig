@@ -1,0 +1,52 @@
+{% extends 'certificate.' ~ type ~ '.twig' %}
+
+{% block stylesheets %}
+    {% include "@Base/certificate/templates/certificate.styles.twig" %}
+{% endblock %}
+
+{% block body %}
+
+    {% set activity_title = "" %}
+    {% set user_name = "" %}
+    {% set edition_name = "" %}
+
+    {% if params['activity_title'] is defined %}
+        {% set activity_title = params['activity_title'] %}
+    {% endif %}
+
+    {% if params['user_name'] is defined %}
+        {% set user_name = params['user_name'] %}
+    {% endif %}
+
+    {% if params['edition_name'] is defined %}
+        {% set edition_name = params['edition_name'] %}
+    {% endif %}
+
+    <div class="{% if type == 'html' %} back-desktop {% else %} back {% endif %}">
+
+        <div class="{% if type == 'html' %} title-desktop {% else %} title {% endif %}">CERTIFICADO DE AVALIAÇÃO</div>
+
+        <div class="{% if type == 'html' %} text-desktop {% else %} text {% endif %}">
+            A ANPAD - Associação Nacional de Pós-Graduação e Pesquisa em Administração - confere o presente certificado
+            pela Participação na Atividade Científica no {{ edition_name }} a</div>
+
+        <div class="{% if type == 'html' %} text-desktop {% else %} text {% endif %}">{{ activity_title }}</div>
+
+        <div class="{% if type == 'html' %} text-desktop {% else %} text {% endif %}">
+            {{ user_name }}
+            <br />Palestrante
+        </div>
+
+        <div class="{% if type == 'html' %} footer-desktop {% else %} footer {% endif %}">
+            {{ place }}, {{ start|date("d/m/Y") }} a {{ end|date("d/m/Y") }}
+        </div>
+
+        {% if qrCode != '' %}
+
+            <div class="qr-code"></div>
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}

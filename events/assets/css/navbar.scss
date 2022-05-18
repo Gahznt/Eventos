@@ -1,0 +1,194 @@
+.navbar {
+  padding: 50px 0 $navbar-bottom;
+  @media only screen and (max-width: $mobile-vp) {
+    padding: 10px 0;
+  }
+  .navbar-brand {
+    margin: 0 10px;
+    img {
+      @media only screen and (max-width: 768px) {
+        max-width: 160px;
+      }
+    }
+  }
+  .navbar-toggler {
+    margin-right: 10px;
+  }
+  .navbar-nav {
+    .nav-item {
+      position: relative;
+      min-width: 40px;
+      min-height: 30px;
+      &.dropdown.show {
+        .nav-link {
+          color: white;
+          background-color: $primary-alt;
+          border-color: transparent;
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          &:hover {
+            color: white !important;
+            background-color: $primary-alt !important;
+          }
+        }
+      }
+      .nav-link {
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $dark;
+        cursor: pointer;
+        padding: 0 10px;
+        &.dropdown-toggle::after {
+          border: none;
+          vertical-align: unset;
+        }
+      }
+      .dropdown-menu {
+        background-color: $grey-light;
+        border: none;
+        border-radius: 5px;
+        border-top-right-radius: 0;
+        margin-top: -8px;
+        &.login {
+          width: 280px;
+          padding: 10px;
+          input {
+            height: 30px;
+            border-color: $primary;
+            &::placeholder {
+              color: $gray-medium;
+              opacity: 1;
+            }
+            &:-ms-input-placeholder {
+              color: $gray-medium;
+            }
+            &::-ms-input-placeholder {
+              color: $gray-medium;
+            }
+          }
+          .links {
+            font-size: 10px;
+            font-weight: bold;
+            color: $gray-darker;
+          }
+        }
+        .dropdown-item {
+          color: $primary-alt;
+          font-size: 14px;
+          font-weight: bold;
+          &:hover {
+            color: #fff;
+            background-color: $primary-alt;
+          }
+        }
+      }
+    }
+    &.menuTop {
+      .nav-item {
+        .nav-link {
+          border: 1px solid transparent;
+          border-radius: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          &:not(span):hover:not(.icon) {
+            background-color: $primary-alt;
+            color: #fff;
+          }
+          &.active:not(.language) {
+            border-color: $primary-alt;
+          }
+          &.language:not(.active) {
+            img {
+              filter: grayscale(100%);
+              &:hover {
+                filter: grayscale(0%);
+              }
+            }
+          }
+          &.login::after {
+            font-family: "Font Awesome 5 Free";
+            content: "\f007";
+            font-weight: 900;
+            font-size: 12px;
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+    &.menuBottom {
+      @media only screen and (min-width: 767px) {
+        margin-top: 50px !important;
+      }
+      .nav-item {
+        .nav-link {
+          font-size: 16px;
+          border-radius: 5px;
+          &:hover {
+            background-color: $primary-alt;
+            color: #fff;
+          }
+          &.active {
+            background-color: $primary;
+            color: #fff;
+          }
+        }
+      }
+    }
+    &.menuBreadcumb {
+      width: 100%;
+      justify-content: flex-end !important;
+      .nav-item {
+        margin-bottom: 0;
+        margin-left: 3px;
+        .nav-link {
+          display: inline-block;
+          font-size: 14px;
+          font-weight: bold;
+          border-radius: 5px;
+          &:hover,
+          &.active,
+          &[aria-expanded="true"] {
+            background-color: $warning;
+            color: #fff;
+          }
+        }
+        .dropdown-menu {
+          background-color: #fff;
+          border-radius: 0 5px 5px;
+          .dropdown-item {
+            color: $dark;
+            font-size: 14px;
+            font-weight: normal;
+            &:hover {
+              background-color: $grey-light;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+#buscaHeader {
+  form {
+    display: none;
+    margin-top: -3px;
+    > input {
+      width: 181px;
+      height: 30px;
+      padding: 0 40px 0 10px;
+      border-radius: 3px;
+      border: 1px solid $dark;
+    }
+  }
+  a {
+    position: absolute;
+    right: 0;
+    top: 3px;
+    i {
+      font-size: 16px;
+    }
+  }
+}

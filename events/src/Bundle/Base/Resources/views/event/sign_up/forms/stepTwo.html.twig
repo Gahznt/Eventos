@@ -1,0 +1,192 @@
+<div class="stepsTab" data-step="2">
+    <h1>{{ 'EVENT_TITLE4'|trans }}</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>{{ 'EVENT_TITLE5'|trans }}</h2>
+            <p>
+
+                {% if dataUser is not empty %}
+                    {% if dataUser.name is not empty %}
+                        <b>{{ 'Name'| trans }}: </b>{{ dataUser.name }}<br/>
+                    {% endif %}
+                    {% if dataUser.document is not empty %}
+                        <b>{{ 'Document'| trans }}: </b>{{ dataUser.document }}<br/>
+                    {% endif %}
+                    {% if dataUser.phone is not empty %}
+                        <b>{{ 'Phone'| trans }}: </b>{{ dataUser.phone }}<br/>
+                    {% endif %}
+                    {% if dataUser.email is not empty %}
+                        <b>{{ 'E-mail'| trans }}: </b>{{ dataUser.email }}<br/>
+                    {% endif %}
+                    {% if dataUser.institution is not empty %}
+                        <b>{{ 'Institute'| trans }}: </b>{{ dataUser.institution }}<br/>
+                    {% endif %}
+                    {% if dataUser.program is not empty %}
+                        <b>{{ 'Program'| trans }}: </b>{{ dataUser.program }}<br/>
+                    {% endif %}
+                {% endif %}
+
+            </p>
+
+            <div class="card p-0 mt-3">
+                <div class="card-body">
+                    <h2>{{ 'EVENT_TITLE7'| trans }}</h2>
+                    <label class="form-check-label" for="badge">{{ 'Name'|trans }}</label>
+                    <div class="col-12 form-group p-0">
+                        {{ form_widget(form.badge, {'attr': {'id':'badge', 'class': 'form-control'}}) }}
+                        {% if form.badge.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-feedback">
+                                {% for error in form.badge.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 form-group p-0">
+                        <label class="form-check-label" for="initialInstitute">{{ 'Initials of institute'|trans }}</label>
+                        {{ form_widget(form.initialInstitute, {'attr': {'id':'initialInstitute', 'class': 'form-control'}}) }}
+                        {% if form.initialInstitute.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-feedback">
+                                {% for error in form.initialInstitute.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>  <!-- ./class="card p-0 mt-3" -->
+            <div class="card p-1 mt-3">
+                <div class="card-body">
+                    {% if form.userArticles is not empty %}
+                        <h2>{{ 'EVENT_TITLE6'|trans }}</h2>
+                        {% for checkbox in form.userArticles.children %}
+                            <div>
+                                {{ form_widget(checkbox, {'attr': {'class': 'form-input-check checkbox' } }) }}
+                                {{ form_label(checkbox) }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-warning div-primary-alt icon exclamation">
+                            <h4>{{ 'EVENT_TITLE1' | trans }}</h4>
+                            <p>{{ 'EVENT_TITLE2' | trans }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>  <!-- ./class="card p-1" -->
+        </div>
+        <div class="col-md-6">
+            <div class="card p-1 mt-3">
+                <div class="card-body">
+                    <h2 class="pt-2">{{ 'EVENT_TITLE8'| trans }}</h2>
+                    <div class="col-12 form-group mb-0">
+                        <div class="row radiocheck">
+
+                            {% for rt in form.paymentMode %}
+                                {% set data = rt.vars.label|json_decode %}
+                                <div class="col-md-4  p-0 m-0">
+                                    <label for="{{ rt.vars.id }}" class="form-check form-check-inline pt-2 pb-1 squareBox">
+                                        <label for="{{ rt.vars.id }}" class="form-check-label">
+                                            {{ data.label | trans }}
+                                        </label>
+                                        <br>
+                                        {{ form_widget(rt, {'attr': { 'id': rt.vars.id, 'class': 'form-check-input', 'data-has-free-individual-association': data.hasFreeIndividualAssociation }}) }}
+                                        <p>{{ data.value | format_currency('BRL') }}</p>
+
+                                    </label>
+                                </div>
+                            {% endfor %}
+
+                            {% if form.paymentMode.vars['errors']|length > 0 %}
+                                <div class="form-error invalid-feedback">
+                                    {% for error in form.paymentMode.vars['errors'] %}
+                                        {{ error.message }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>  <!-- ./class="card p-0 mt-3" -->
+            <div class="card p-0 mt-3">
+                <div class="card-body">
+                    <h2 class="pt-2">{{ 'EVENT_TITLE17'| trans }}</h2>
+                    <div class="col-12 form-group p-0">
+                        <ul>
+                            <li>{{ 'EVENT_SUBTITLE17_1'|trans }}</li>
+                            <li>{{ 'EVENT_SUBTITLE17_2'|trans }}</li>
+                            <li>{{ 'EVENT_SUBTITLE17_3'|trans }}</li>
+                            <li>{{ 'EVENT_SUBTITLE17_4'|trans }}</li>
+                        </ul>
+
+                        <label for="edition_file_file" class="fileDropzone position-relative overflow-hidden" id="articleDropzone">
+                            <i class="fas fa-upload fa-3x mr-5"></i>
+
+                            <span>{{ 'FILES_UPLOAD_MSG'|trans|raw }}</span>
+
+                            {{ form_widget(form.file, {'attr': {'class': 'custom-file-input', 'style': 'position: absolute; top: -100px; left: -10%; width: 120%; height: 400px;'}}) }}
+                        </label>
+
+                        {% if form.file.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-feedback">
+                                {% for error in form.file.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-12">
+
+                        <div class="fileList mt-1">
+                            <div class="file">
+                                <span id="filename-label">{{ 'PANEL_UPLOAD_NOFILE'|trans }}</span>
+
+                                <a id="btn-remove-file" class="btn small btn-outline-primary float-right remove d-none">{{ 'ARTICLE_REMOVE_FILE'|trans }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="containerWantFreeIndividualAssociation" class="row d-none">
+        <div class="col-12 mt-4">
+            <div class="alert alert-info div-primary-alt icon gift">
+                <h2>{{ 'EVENT_TITLE9'| trans }}</h2>
+                <p>{{ 'EVENT_TEXT1'| trans|raw }}</p>
+
+                <div class="row form-group">
+                    <div class="col-lg-12">
+
+                        <div class="radiocheck center">
+                            <div class="form-check form-check-inline">
+                                {{ form_widget(form.wantFreeIndividualAssociation, {'attr': {'class': 'form-check-input'}}) }}
+                                <label class="form-check-label" for="edition_sign_up_wantFreeIndividualAssociation">{{ 'EVENT_WANT_FREE_INDIVIDUAL_ASSOCIATION'|trans }}</label>
+                                {% if form.wantFreeIndividualAssociation.vars['errors']|length > 0 %}
+                                    <div class="form-error invalid-feedback">
+                                        {{ form.wantFreeIndividualAssociation.vars['errors'][0].message }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="containerFreeIndividualAssociationDivision" class="row form-group d-none">
+                    <div class="col-lg-6">
+                        <label for="divisao-principal-pt">{{ 'EVENT_DIVISION'|trans }}</label>
+                        {{ form_widget(form.freeIndividualAssociationDivision, {'attr': {'class': 'form-control'}}) }}
+                        {% if form.freeIndividualAssociationDivision.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-feedback" style="color: #d0305d !important;">
+                                {% for error in form.freeIndividualAssociationDivision.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

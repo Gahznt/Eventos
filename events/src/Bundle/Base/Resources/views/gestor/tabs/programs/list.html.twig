@@ -1,0 +1,130 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'institution': app.request.get('institution'), 'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_institutions_index') }}" role="tab">
+                    {{ "Lista de Instituições"|trans }}
+                </a>
+                <a class="nav-item nav-link active"
+                   href="{{ path('manager_programs_index', {'institution': institution.id}) }}" role="tab">
+                    {{ 'Lista de Programas'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link active"
+                           href="{{ path('manager_programs_index', {'institution': institution.id}) }}" role="tab">
+                            {{ 'Lista de Programas'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+                        <div class="float-left">
+                            <h1 class="mb-1">{{ 'Programas'|trans }}: <span class="info"
+                                                                                             id="institutionName"></span>
+                            </h1>
+                            <b class="text-dark">{{ 'Selecione o programa para ver os detalhes, ou crie um novo'|trans }}.</b>
+                        </div>
+
+                        <a id="novaEdicao" class="btn btn-primary float-right"
+                           href="{{ path('manager_programs_new', {'institution': institution.id}) }}"
+                           data-toggle="tooltip" title="{{ 'Novo Programa'|trans }}"><i class="fas fa-plus"></i></a>
+
+                        <div class="clearfix"></div>
+
+                        {% if programs|length > 0 %}
+                            <div class="tabela my-2">
+                                <table class="table table-sm table-striped table-responsive-md w-100"
+                                       id="programsTable">
+
+                                    <thead>
+                                    <tr>
+                                        {{ sortMacro.sortColumnHeader('', 'program.id', 'Id') }}
+                                        {{ sortMacro.sortColumnHeader('', 'program.sortPosition', 'GESTOR_INFO_LABEL_ORDER'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('', 'program.name', 'Name'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('text-center', 'program.status', 'Status'|trans) }}
+                                        <th class="text-center" width="70">{{ 'Actions'|trans }}</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for program in programs %}
+                                        <tr>
+                                            <td>{{ program.id }}</td>
+                                            <td>{{ program.sortPosition }}</td>
+                                            <td>{{ program.name }}</td>
+                                            <td class="text-center">
+                                                <span class="badge badge-{{ program.status|status_program('color') }}">
+                                                    {{ program.status|status_program('label')|trans }}
+                                                </span>
+                                                {% if program.paid %}
+                                                    <span class="badge badge-warning">{{ 'Pago'|trans }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center">
+                                                <a data-toggle="tooltip"
+                                                   href="{{ path('manager_programs_edit', {'program': program.id}) }}"
+                                                   class="hover-success editEdicao"
+                                                   title="{{ 'Editar Programa'|trans }}">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                                <a data-toggle="tooltip" href="#excluir" class="hover-danger ml-2 tdDel"
+                                                   title="{{ 'Deletar Programa'|trans }}"
+                                                   data-path="{{ path('manager_programs_remove', {'program': program.id}) }}"
+                                                   data-token="{{ csrf_token('delete' ~ program.id) }}"
+                                                   data-action="remove" data-type="{{ 'o programa'|trans }}"
+                                                   data-name="{{ program.name }}">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <nav class="d-flex justify-content-between">
+                                    <small class="text-muted">{{ 'Showing'|trans }} {{ programs|length }} {{ 'of'|trans }} {{ programs.getTotalItemCount }}</small>
+
+                                    {{ knp_pagination_render(programs) }}
+                                </nav>
+                            </div>
+                        {% else %}
+                            <p class="my-2">{{ 'THEME_NOFOUND'|trans }}.</p>
+                        {% endif %}
+                    </div>
+                    <br/>
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message |trans }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorPrograms') }}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-md-8">
+    <h1 class="mb-0">{{ 'GESTOR_INFO_TITLE_LIST'|trans }}</h1>
+    <b class="text-dark">{{ 'GESTOR_INFO_TYPE_SEL_TYPE'|trans }}</b>
+  </div>
+  <div class="col-md-4 align-self-end">
+    <a class="btn btn-primary btn-sm float-right" id="newInformative">
+      <i class="fas fa-plus mr-2"></i>{{ 'GESTOR_INFO_NEW'|trans }}
+    </a>
+  </div>
+  <div class="col-md-4 form-group mt-2">
+    <select name="filter-type" id="filter-type" class="form-control">
+      <option value="">{{ 'Select'|trans }}</option>
+      {% for type in types %}
+        <option value="{{ type.id }}">{{ type.title }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+<div class="tabela my-2">
+  <table class="table table-sm table-striped table-responsive-md">
+    <thead>
+      <tr>
+        <th class="sort asc">{{ 'Id'|trans }}</th>
+        <th class="sort">{{ 'GESTOR_INFO_LABEL_DATE_ENTER'|trans }}</th>
+        <th class="sort">{{ 'GESTOR_INFO_LABEL_DATE_OUT'|trans }}</th>
+        <th class="sort">{{ 'GESTOR_INFO_LABEL_TITLE'|trans }}</th>
+        <th class="sort">{{ 'GESTOR_INFO_LABEL_TYPE'|trans }}</th>
+        <th class="sort">{{ 'GESTOR_INFO_LABEL_STATUS'|trans }}</th>
+        <th class="">{{ 'GESTOR_INFO_LABEL_EDIT'|trans }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in informatives %}
+      <tr>
+        <td>{{ i.id }}</td>
+        <td>{{ i.date_enter|date('d/m/Y') }}</td>
+        <td>{{ i.date_out|date('d/m/Y') }}</td>
+        <td>{{ i.title }}</td>
+        <td>{{ types|filter(t => t.id == i.type)|map(t => t.title)|join }}</td>
+        <td>
+          <span class="badge badge-{{ i.status|active_inactive('color') }} text-uppercase">
+            {{ i.status|active_inactive('label')|trans }}
+          </span>
+          {% if i.highlight %}
+          <span class="badge badge-warning text-uppercase">{{ 'GESTOR_INFO_LABEL_HIGHLIGHT'|trans }}</span>
+          {% endif %}
+        </td>
+        <td class="text-center">
+          <a data-toggle="tooltip" class="hover-success editInformative" data-informative="{{ i|json_encode }}" title="{{ 'GESTOR_INFO_TOOLTIP_EDIT_INFO'|trans }}">
+            <i class="fas fa-pencil-alt"></i>
+          </a>
+          <a class="hover-danger ml-2 tdDel" data-toggle="tooltip" title="{{ 'GESTOR_INFO_TOOLTIP_DELETE_INFO'|trans }}" data-path="/save_success" data-token="{{ csrf_token('delete' ~ i.id) }}" data-action="remove" data-type="{{ 'GESTOR_INFO_LABEL_INFORMATIVE'|trans }}" data-name="{{ i.title }}">
+            <i class="fas fa-times"></i>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <nav class="d-flex justify-content-between">
+    <small class="text-muted">Mostrando 6 de 1748</small>
+    <ul class="pagination">
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1">Anterior</a>
+      </li>
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#">Próxima</a>
+      </li>
+    </ul>
+  </nav>
+</div>

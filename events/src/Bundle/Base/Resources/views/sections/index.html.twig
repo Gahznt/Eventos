@@ -1,0 +1,468 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<div class="schedule">
+<div class="container">
+    <nav>
+        <div class="nav nav-tabs" id="class-nav-tab" role="tablist">
+            <a class="nav-item nav-link tab-4 active" id="class-nav-1" data-toggle="tab" href="#class-tab-1"
+            role="tab">Listagem de Seções
+        </a>
+
+        <a class="nav-item nav-link tab-4" id="class-nav-2" data-toggle="tab" href="#class-tab-2" role="tab">
+        Cadastro de Seções</a>
+    </div>
+</nav>
+<div class="tab-content">
+
+    <!--ABA 1-->
+    <div class="tab-pane fade show active" id="class-tab-1" role="tabpanel">
+        <div class="sections">     
+        <div class="row">
+            <div class="col-12">
+                <h2 class="float-left">Listagem de Seções</h2>     
+                <div class="float-right ">
+
+                    <a data-toggle="tooltip" class="btn btn-sm btn-success hover-danger setClipboard"
+                    title="Adicionar Seção">
+                    <i class="fas fa-plus"></i></a>
+
+                </div>
+            </div>
+            </div>
+
+
+            <!---ATENÇÃO: Só mostra as divisões associadas ao coordenador de divisões que estiver acessando a página.-->
+            <div class="form">
+                <form name="user_search" method="get" class="row" novalidate="novalidate" id="">
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="divisionSectionFilter">Divisão</label>
+                        <select id="divisionSectionFilter" name="divisionSectionFilter" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Divisão x</option>
+                            <option value="">Divisão x</option>
+                            <option value="">Divisão x</option>
+                            <option value="">Divisão x</option>
+                            <option value="">Divisão x</option>
+                        </select>
+                    </div>
+                    <!---ATENÇÃO: Só habilita após selecionar a divisão.-->
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="themeSectionFilter">Tema</label>
+                        <select id="themeSectionFilter" name="themeSectionFilter" class="filter form-control" disabled>
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Tema x</option>
+                            <option value="">Tema x</option>
+                            <option value="">Tema x</option>
+                            <option value="">Tema x</option>
+                            <option value="">Tema x</option>
+                        </select>
+                    </div>
+
+                    
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="searchSection">Buscar</label>
+                        <input type="text" id="searchSection" name="searchSection" class="filter form-control" maxlength="30">
+                    </div>
+
+                        <div class="col-md-2 mt-4">
+                            <a class="btn btn-primary btn-lg btn-block">Filtrar<i id="btnFilter"></i></a>
+                        </div>
+                </form>
+
+            </div>
+
+            <div class="tabela table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th class="sort desc miw-90">Divisão</th>
+                            <th class="sort miw-60">Tema</th>
+                            <th class="sort">Título da Seção</th>
+                            <th class="sort miw-80">Artigos</th>
+                            <th class="sort miw-110">Coordenador</th>
+                            <th class="sort miw-110">Debatedor</th>
+                            <th class="sort">Formato da Sessão</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge badge-info">Div</span></td>
+                            <td>1</td>
+                            <td>Da Criatividade à exaptação empreendedora.</td>
+                            <td>EnEO33; 326; 119; 350</td>
+                            <td>João da Silva</td>
+                            <td>João da Silva</td>
+                            <td><span class="badge badge-primary">Tradicional</span></td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success setClipboard"
+                                title="Editar Seção">
+                                <i class="fas fa-edit"></i></a>
+                                <a data-toggle="tooltip" class="hover-danger setClipboard"
+                                title="Deletar Seção">
+                                <i class="fas fa-times"></i></a>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td><span class="badge badge-danger">Div</span></td>
+                            <td>1</td>
+                            <td>Reflexões sobre responsabilidade social corporativa</td>
+                            <td>EnEO33; 326; 119; 350</td>
+                            <td>João da Silva</td>
+                            <td>João da Silva</td>
+                            <td><span class="badge badge-primary">Tradicional</span></td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success setClipboard"
+                                title="Editar Seção">
+                                <i class="fas fa-edit"></i></a>
+                                <a data-toggle="tooltip" class="hover-danger setClipboard"
+                                title="Deletar Seção">
+                                <i class="fas fa-times"></i></a>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td><span class="badge badge-warning">Div</span></td>
+                            <td>1</td>
+                            <td>Religião e Empreendedorismo: Uma análise a partir da teoria do comportamento planejado.</td>
+                            <td>EnEO33; 326; 119; 350</td>
+                            <td>João da Silva</td>
+                            <td>João da Silva</td>
+                            <td><span class="badge badge-danger">Aprimoramento</span></td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success setClipboard"
+                                title="Editar Seção">
+                                <i class="fas fa-edit"></i></a>
+                                <a data-toggle="tooltip" class="hover-danger setClipboard"
+                                title="Deletar Seção">
+                                <i class="fas fa-times"></i></a>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td><span class="badge badge-success">Div</span></td>
+                            <td>1</td>
+                            <td>O valor da amazônia Brasileira por meio do Compartilhamento: Um estudo em cadeia</td>
+                            <td>EnEO33; 326; 119; 350</td>
+                            <td>João da Silva</td>
+                            <td>João da Silva</td>
+                            <td><span class="badge badge-danger">Interativa</span></td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success setClipboard"
+                                title="Editar Seção">
+                                <i class="fas fa-edit"></i></a>
+                                <a data-toggle="tooltip" class="hover-danger setClipboard"
+                                title="Deletar Seção">
+                                <i class="fas fa-times"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+    </div>
+ 
+    </div><!--FIM ABA 1-->
+
+
+
+
+    <!--ABA 2-->
+    <div class="tab-pane fade" id="class-tab-2" role="tabpanel">
+            <h2>Cadastro de Seção</h2>
+
+            <div class="form">
+                <form name="section_form" method="get" class="row" novalidate="novalidate" id="section_form">
+                    <div class="col-12 col-md-6 form-group">
+                        <label for="divisionSection">Divisão</label>
+                        <select id="divisionSection" name="divisionSection" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">divisão</option>
+                            <option value="">divisão</option>
+                            <option value="">divisão</option>
+                            <option value="">divisão</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label for="ThemeSection">Tema</label>
+                        <select id="ThemeSection" name="ThemeSection" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">tema</option>
+                            <option value="">tema</option>
+                            <option value="">tema</option>
+                            <option value="">tema</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-12 col-md-6 form-group">
+                        <label for="sectionId">Título da Seção</label>
+                        <input type="text" id="sectionId" name="sectionId" class="filter form-control" maxlength="30">
+                    </div>
+
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="sectionFormat">Formato da Seção</label>
+                        <select id="sectionFormat" name="sectionFormat" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Formato</option>
+                            <option value="">Formato</option>
+                            <option value="">Formato</option>
+                            <option value="">Formato</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="sectionLanguage">Idioma</label>
+                        <select id="sectionLanguage" name="sectionLanguage" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Português</option>
+                            <option value="">English</option>
+                            <option value="">Spanish</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-12 mt-4">
+                        <h3>Seleção de Coordenador e Debatedor</h3>
+                    </div>
+
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="sectionCoordinationType1">Tipo</label>
+                        <select id="sectionCoordinationType1" name="sectionCoordinationType1" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Coordenador</option>
+                            <option value="">Debatedor</option>
+                            <option value="">Coordenador/Debatedor</option>
+                        </select>
+                    </div>
+                    
+                    <!--Select 2 para selecionar a pessoa-->
+                    <div class="col-12 col-md-9 form-group">
+                        <label for="sectionPerson1">Selecione a Pessoa</label>
+                        <select id="sectionPerson1" name="sectionPerson1" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Maria da Silva</option>
+                            <option value="">João Fagundes</option>
+                            <option value="">José Fernandes</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="sectionCoordinationType2">Tipo</label>
+                        <select id="sectionCoordinationType2" name="sectionCoordinationType2" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Coordenador</option>
+                            <option value="">Debatedor</option>
+                            <option value="">Coordenador/Debatedor</option>
+                        </select>
+                    </div>
+
+                    <!--Select 2 para selecionar a pessoa-->
+                    <div class="col-12 col-md-9 form-group">
+                        <label for="sectionPerson2">Selecione a Pessoa</label>
+                        <select id="sectionPerson2" name="sectionPerson2" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Maria da Silva</option>
+                            <option value="">João Fagundes</option>
+                            <option value="">José Fernandes</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-12 mt-4">
+                        <div class="col-md-12 bgcGray rounded-10">
+                            <div class="row">
+                                <div class="col-12 mt-4">
+                                    <h3>Seleção de Artigos</h3>
+                                </div>
+
+                                <div class="col-12 col-md-3 form-group">
+                                    <label for="divisionArticleSection">Divisão</label>
+                                    <select id="divisionArticleSection" name="divisionArticleSection" class="filter form-control">
+                                        <option value="1" selected="selected">Selecione</option>
+                                        <option value="2">divisão</option>
+                                        <option value="3">divisão</option>
+                                        <option value="4">divisão</option>
+                                        <option value="5">divisão</option>
+                                    </select>
+                                </div>
+
+
+                                 <!--Só libera tema após selecionar a divisão-->
+                                <div class="col-12 col-md-3 form-group">
+                                    <label for="ThemeArticleSection">Tema</label>
+                                    <select id="ThemeArticleSection" name="ThemeArticleSection" class="filter form-control" disabled>
+                                        <option value="1" selected="selected">Selecione</option>
+                                        <option value="2">tema</option>
+                                        <option value="3">tema</option>
+                                        <option value="4">tema</option>
+                                        <option value="5">tema</option>
+                                    </select>
+                                </div>
+                                 
+                                 <!--Só libera artigo após selecionar tema - Usar Select 2-->
+                                <div class="col-12 col-md-3 form-group">
+                                    <label for="articleIdSection">Artigo</label>
+                                    <select id="articleIdSection" name="articleIdSection" class="filter form-control" disabled>
+                                        <option value="1" selected="selected">Selecione</option>
+                                        <option value="2">artigo</option>
+                                        <option value="3">artigo</option>
+                                        <option value="4">artigo</option>
+                                        <option value="5">artigo</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 col-md-3 mt-4">
+                                    <a class="btn btn-primary btn-lg btn-block">Adicionar<i id="btnAddArticle"></i></a>
+                                </div>
+
+                                <!--TABELA-->
+                                <div class="col-12 mb-4">
+                                <div class="tabela table-responsive">
+                                    <table class="table table-striped table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th class="sort desc">Data</th>
+                                                <th class="sort">Sessão</th>
+                                                <th class="sort">Horário</th>
+                                                <th class="sort">Tipo da Sessão</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>10/10/2020</td>
+                                                <td>Abertura</td>
+                                                <td>08:30 - 09:00</td>
+                                                <td>Abertura e Atividade Cultural</td>
+                                                <td>
+                                                    <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                                    title="Excluir Artigo da Seção" data-value="">
+                                                    <i class="fas fa-times"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10/10/2020</td>
+                                                <td>Abertura</td>
+                                                <td>08:30 - 09:00</td>
+                                                <td>Abertura e Atividade Cultural</td>
+                                                <td>
+                                                    <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                                    title="Excluir Artigo da Seção" data-value="">
+                                                    <i class="fas fa-times"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10/10/2020</td>
+                                                <td>Abertura</td>
+                                                <td>08:30 - 09:00</td>
+                                                <td>Abertura e Atividade Cultural</td>
+                                                <td>
+                                                    <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                                    title="Excluir Artigo da Seção" data-value="">
+                                                    <i class="fas fa-times"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10/10/2020</td>
+                                                <td>Abertura</td>
+                                                <td>08:30 - 09:00</td>
+                                                <td>Abertura e Atividade Cultural</td>
+                                                <td>
+                                                    <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                                    title="Excluir Artigo da Seção" data-value="">
+                                                    <i class="fas fa-times"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+        <div class="row">
+            <!--Ao clicar, libera "dateArticleSlots" abaixo para começar a fazer o ensalamento. -->
+            <div class="col-md-6 offset-md-6 mt-4 mb-4">
+                <a class="btn btn-primary btn-lg btn-block">Salvar Seção para fazer o ensalamento<i id="btnSaveSection"></i></a>
+            </div>
+        </div>
+
+        <div class="col-12 mt-4">
+        <h3>Ensalamento e Agendamento da Apresentação</h3>
+        <p>Para ensalar e agendar as seções de trabalho, você poderá filtrar a data e horário de preferência. Em seguida, selecione o slot com a sala e local, de acordo com a disponibilidade. Atenção, quando possível, tente deixar as seções de mesmo tema em salas e horários próximos para facilitar o transito dos participantes.</p>
+        </div>
+
+                    <!---ATENÇÃO: Só habilita após clicar no botão acima,"btnSaveSection" .-->
+
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="dateArticleSlots">Data</label>
+                        <select id="dateArticleSlots" name="dateArticleSlots" class="filter form-control" disabled>
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Data</option>
+                            <option value="">Data</option>
+                            <option value="">Data</option>
+                            <option value="">Data</option>
+                            <option value="">Data</option>
+                        </select>
+                    </div>
+                    <!---Só habilita após selecionar data.-->
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="timeArticleSlots">Horário</label>
+                        <select id="timeArticleSlots" name="timeArticleSlots" class="filter form-control" disabled>
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Horário</option>
+                            <option value="">Horário</option>
+                            <option value="">Horário</option>
+                            <option value="">Horário</option>
+                            <option value="">Horário</option>
+                        </select>
+                    </div>
+                    <!---Só habilita após selecionar data.-->
+            <div class="col-12 col-md-4 mt-4">
+                <a class="btn btn-primary btn-lg btn-block disabled">Filtrar Slots<i id="btnFilterSlots"></i></a>
+            </div>
+                    
+                    <!---Libera após selecionar data e horário e clicar no botão "btnFilterSlots" acima.-->
+                    <div class="col-12 form-group">
+                        <label for="articleSlots">Slots de Agendamento</label>
+                        <select id="articleSlots" name="articleSlots" class="filter form-control" disabled>
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Slot</option>
+                            <option value="">Slot</option>
+                            <option value="">Slot</option>
+                            <option value="">Slot</option>
+                            <option value="">Slot</option>
+                        </select>
+                    </div>
+            
+            <!---Libera após selecionar o slot.-->
+            <div class="col-md-6 offset-md-6 mt-4">
+                <a class="btn btn-primary btn-lg btn-block disabled">Salvar Agendamento da Seção<i id="btnSaveSectionSchedule"></i></a>
+            </div>
+        </form>
+    </div>
+    </div><!--FIM ABA 2-->
+
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('user') }}
+{% endblock %}

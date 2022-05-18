@@ -1,0 +1,59 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<div class="container">
+  <div class="formDiv">
+    <div class="form-progress d-none d-md-block">
+      <div class="steps" id="panelTimeLine">
+        <div class="step f active" data-step="1">
+          <br/>
+          <i class="fas fa-circle"></i><br/>
+          {{ 'PANEL_STEP1'|trans|raw }}
+        </div>
+        <div class="step" data-step="2">
+          <br/>
+          <i class="fas fa-circle"></i><br/>
+          {{ 'PANEL_STEP2'|trans|raw }}
+        </div>
+        <div class="step" data-step="3">
+          <br/>
+          <i class="fas fa-circle"></i><br/>
+          {{ 'PANEL_STEP3'|trans|raw }}
+        </div>
+        <div class="step l" data-step="4">
+          <br/>
+          <i class="fas fa-circle"></i><br/>
+          {{ 'PANEL_STEP4'|trans|raw }}
+        </div>
+      </div>
+    </div>
+    <div class="mobileSteps d-md-none">{{ 'STEP'|trans }} <span>{{ step }}</span>/4</div>
+      {{ form_start(form, {'attr': {'id':'formPanelStep', 'novalidate': 'novalidate'}}) }}
+       <div id="panelForm" class="form">
+          <input type="hidden" id="step" name="step" value="{{ step }}">
+          {% include "@Base/panel/forms/stepOne.html.twig" %}
+          {% include "@Base/panel/forms/stepTwo.html.twig" %}
+          {% include "@Base/panel/forms/stepThree.html.twig" %}
+          {% include "@Base/panel/forms/stepFour.html.twig" %}
+       </div>
+
+      <div class="row">
+        <div class="col-lg-6 mt-5">
+          <a class="btn btn-outline-primary btCadastroVoltar">{{ 'STEP_BACK'|trans }}</a>
+        </div>
+        <div class="col-lg-6 mt-5">
+          <a class="btn btn-primary btn-lg btn-block btCadastro">{{ 'STEP_FORWARD'|trans }} <i id="btnLoad"></i></a>
+        </div>
+      </div>
+
+      {{ form_end(form) }}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('panels') }}
+{% endblock %}

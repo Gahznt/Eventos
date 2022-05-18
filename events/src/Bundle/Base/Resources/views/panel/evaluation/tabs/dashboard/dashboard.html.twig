@@ -1,0 +1,22 @@
+<div class="row">
+  {% set total = 0 %}
+  {% for item in dashboard %}
+    {% set total = total + item.qtd %}
+    <div class="col-lg-2 col-md-3 col-6 mb-3">
+      <div class="text-center cBox">
+        <div>
+          <h1 class="m-0">{{ item.initials }}</h1>
+          <span><a href="?panel_evaluation_list%5BdivisionId%5D={{ item.id }}&step=2">{{ item.qtd }}</a></span>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  <div class="col-lg-2 col-md-3 col-6 mb-3">
+    <div class="text-center bg-success cBox">
+      <div>
+        <h1 class="m-0 text-uppercase">{{ 'Total'|trans }}</h1>
+        <span><a href="?step=2">{{ total }}</a></span>
+      </div>
+    </div>
+  </div>
+</div>

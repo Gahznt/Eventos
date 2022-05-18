@@ -1,0 +1,156 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<div class="container">
+    <div class="fieldset">
+        <div class="dashboardAdmin">
+
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-uppercase">Meus Eventos como Avaliador</h3>
+                </div>
+            </div>
+
+            <!--Cards-->
+            <div class="row">
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="eventCard bggGreen smallCard">
+                        <div class="title">EnADI 2020</div>
+                        <div class="data">25 de agosto de 2020</div>
+                        <a href="#" class="bottom text-uppercase">Ver evento publicado</a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="eventCard bggBlue smallCard">
+                        <div class="title">EnADI 2020</div>
+                        <div class="data">25 de agosto de 2020</div>
+                        <a href="/br/event/sign_up/1" class="bottom text-uppercase">Ver evento publicado</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="eventCard bggPurple smallCard">
+                        <div class="title">EnADI 2020</div>
+                        <div class="data">25 de agosto de 2020</div>
+                        <a href="/br/event/sign_up/1" class="bottom text-uppercase">Ver evento publicado</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="eventCard bggGray smallCard">
+                        <div class="title">EnADI 2020</div>
+                        <div class="data">25 de agosto de 2020</div>
+                        <a href="/br/event/sign_up/1" class="bottom text-uppercase">Ver evento publicado</a>
+                    </div>
+                </div>
+
+            </div>
+            <!--/Cards-->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-header" data-toggle="collapse" href="#event-2" aria-expanded="true" aria-controls="event-2">
+                            Minhas Avaliações de Artigos
+                        </div>
+                        <div class="collapse show" id="event-2">
+                            <div class="card-body">
+
+                                <!--TABELA-->
+                                <div class="tabela table-responsive">
+                                    <table class="table table-striped table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th class="sort desc">Evento</th>
+                                                <th class="sort">Edição</th>
+                                                <th class="sort">Id</th>
+                                                <th class="sort">Tema</th>
+                                                <th class="sort">Título</th>
+                                                <th class="sort">Status</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>EnANPAD</td>
+                                                <td>2020</td>
+                                                <td>EnADI70</td>
+                                                <td>Tema 01</td>
+                                                <td>Inovação Startup: Transformando ideias em negócios de sucesso</td>
+                                                <td>
+                                                    <span class="badge badge-warning">
+                                                        Aguardando Avaliação
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="user id" data-toggle="tooltip"
+                                                    class="hover-success" title="Avaliar / Editar Avaliação">
+                                                    <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>EnANPAD</td>
+                                                <td>2020</td>
+                                                <td>EnADI70</td>
+                                                <td>Tema 01</td>
+                                                <td>Inovação Startup: Transformando ideias em negócios de sucesso</td>
+                                                <td>
+                                                    <span class="badge badge-success">
+                                                        Aprovado
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="user id" data-toggle="tooltip"
+                                                    class="hover-success" title="Avaliar / Editar Avaliação">
+                                                    <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>EnANPAD</td>
+                                                <td>2020</td>
+                                                <td>EnADI70</td>
+                                                <td>Tema 01</td>
+                                                <td>Inovação Startup: Transformando ideias em negócios de sucesso</td>
+                                                <td>
+                                                    <span class="badge badge-danger">
+                                                        Não Aprovado
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="user id" data-toggle="tooltip"
+                                                    class="hover-success" title="Avaliar / Editar Avaliação">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('user') }}
+{% endblock %}

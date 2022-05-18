@@ -1,0 +1,666 @@
+<style type="text/css">
+    *, ::after, ::before {
+        box-sizing: border-box
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        :root {
+            scroll-behavior: smooth
+        }
+    }
+
+    body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-size: 16pt;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent
+    }
+
+    [tabindex="-1"]:focus:not(:focus-visible) {
+        outline: 0 !important
+    }
+
+    hr {
+        margin: 16pt 0;
+        color: inherit;
+        background-color: currentColor;
+        border: 0;
+        opacity: .25
+    }
+
+    hr:not([size]) {
+        height: 1pt
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin-top: 0;
+        margin-bottom: 8pt;
+        font-weight: 500;
+        line-height: 1.2
+    }
+
+    h1 {
+        font-size: calc(1.375rem + 1.5vw)
+    }
+
+    @media (min-width: 1200pt) {
+        h1 {
+            font-size: 40pt
+        }
+    }
+
+    h2 {
+        font-size: calc(1.325rem + .9vw)
+    }
+
+    @media (min-width: 1200pt) {
+        h2 {
+            font-size: 32pt
+        }
+    }
+
+    h3 {
+        font-size: calc(1.3rem + .6vw)
+    }
+
+    @media (min-width: 1200pt) {
+        h3 {
+            font-size: 28pt
+        }
+    }
+
+    h4 {
+        font-size: calc(1.275rem + .3vw)
+    }
+
+    @media (min-width: 1200pt) {
+        h4 {
+            font-size: 24pt
+        }
+    }
+
+    h5 {
+        font-size: 20pt
+    }
+
+    h6 {
+        font-size: 16pt
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 16pt
+    }
+
+    abbr[data-bs-original-title], abbr[title] {
+        text-decoration: underline;
+        -webkit-text-decoration: underline dotted;
+        text-decoration: underline dotted;
+        cursor: help;
+        -webkit-text-decoration-skip-ink: none;
+        text-decoration-skip-ink: none
+    }
+
+    address {
+        margin-bottom: 16pt;
+        font-style: normal;
+        line-height: inherit
+    }
+
+    ol, ul {
+        padding-left: 32pt
+    }
+
+    dl, ol, ul {
+        margin-top: 0;
+        margin-bottom: 16pt
+    }
+
+    ol ol, ol ul, ul ol, ul ul {
+        margin-bottom: 0
+    }
+
+    dt {
+        font-weight: 700
+    }
+
+    dd {
+        margin-bottom: 8pt;
+        margin-left: 0
+    }
+
+    blockquote {
+        margin: 0 0 16pt
+    }
+
+    b, strong {
+        font-weight: bolder
+    }
+
+    small {
+        font-size: .875em
+    }
+
+    mark {
+        padding: .2em;
+        background-color: #fcf8e3
+    }
+
+    sub, sup {
+        position: relative;
+        font-size: .75em;
+        line-height: 0;
+        vertical-align: baseline
+    }
+
+    sub {
+        bottom: -.25em
+    }
+
+    sup {
+        top: -.5em
+    }
+
+    a {
+        color: #0d6efd;
+        text-decoration: underline
+    }
+
+    a:hover {
+        color: #0a58ca
+    }
+
+    a:not([href]):not([class]), a:not([href]):not([class]):hover {
+        color: inherit;
+        text-decoration: none
+    }
+
+    code, kbd, pre, samp {
+        font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 1em;
+        direction: ltr;
+        unicode-bidi: bidi-override
+    }
+
+    pre {
+        display: block;
+        margin-top: 0;
+        margin-bottom: 16pt;
+        overflow: auto;
+        font-size: .875em
+    }
+
+    pre code {
+        font-size: inherit;
+        color: inherit;
+        word-break: normal
+    }
+
+    code {
+        font-size: .875em;
+        color: #d63384;
+        word-wrap: break-word
+    }
+
+    a > code {
+        color: inherit
+    }
+
+    kbd {
+        padding: .2rem .4rem;
+        font-size: .875em;
+        color: #fff;
+        background-color: #212529;
+        border-radius: .2rem
+    }
+
+    kbd kbd {
+        padding: 0;
+        font-size: 1em;
+        font-weight: 700
+    }
+
+    figure {
+        margin: 0 0 16pt
+    }
+
+    img, svg {
+        vertical-align: middle
+    }
+
+    table {
+        caption-side: bottom;
+        border-collapse: collapse
+    }
+
+    caption {
+        padding-top: 8pt;
+        padding-bottom: 8pt;
+        color: #6c757d;
+        text-align: left
+    }
+
+    th {
+        text-align: inherit;
+        text-align: -webkit-match-parent
+    }
+
+    tbody, td, tfoot, th, thead, tr {
+        border-color: inherit;
+        border-style: solid;
+        border-width: 0
+    }
+
+    label {
+        display: inline-block
+    }
+
+    button {
+        border-radius: 0
+    }
+
+    button:focus:not(:focus-visible) {
+        outline: 0
+    }
+
+    button, input, optgroup, select, textarea {
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit
+    }
+
+    button, select {
+        text-transform: none
+    }
+
+    [role=button] {
+        cursor: pointer
+    }
+
+    select {
+        word-wrap: normal
+    }
+
+    [list]::-webkit-calendar-picker-indicator {
+        display: none
+    }
+
+    [type=button], [type=reset], [type=submit], button {
+        -webkit-appearance: button
+    }
+
+    [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+        cursor: pointer
+    }
+
+    ::-moz-focus-inner {
+        padding: 0;
+        border-style: none
+    }
+
+    textarea {
+        resize: vertical
+    }
+
+    fieldset {
+        min-width: 0;
+        padding: 0;
+        margin: 0;
+        border: 0
+    }
+
+    legend {
+        float: left;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 8pt;
+        font-size: calc(1.275rem + .3vw);
+        line-height: inherit
+    }
+
+    @media (min-width: 1200pt) {
+        legend {
+            font-size: 24pt
+        }
+    }
+
+    legend + * {
+        clear: left
+    }
+
+    ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-fields-wrapper, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-text, ::-webkit-datetime-edit-year-field {
+        padding: 0
+    }
+
+    ::-webkit-inner-spin-button {
+        height: auto
+    }
+
+    [type=search] {
+        outline-offset: -2pt;
+        -webkit-appearance: textfield
+    }
+
+    ::-webkit-search-decoration {
+        -webkit-appearance: none
+    }
+
+    ::-webkit-color-swatch-wrapper {
+        padding: 0
+    }
+
+    ::file-selector-button {
+        font: inherit
+    }
+
+    ::-webkit-file-upload-button {
+        font: inherit;
+        -webkit-appearance: button
+    }
+
+    output {
+        display: inline-block
+    }
+
+    iframe {
+        border: 0
+    }
+
+    summary {
+        display: list-item;
+        cursor: pointer
+    }
+
+    progress {
+        vertical-align: baseline
+    }
+
+    [hidden] {
+        display: none !important
+    }
+
+    {% if true == showStyles %}
+    body {
+        background: rgb(204, 204, 204);
+    }
+
+    page {
+        background: white;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.5cm;
+        box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+    }
+
+    page[size="A4"] {
+        width: 21cm;
+        height: 29.7cm;
+
+        /*border: 1.25cm solid #ffffff;*/
+    }
+
+    page[size="A4"][layout="landscape"] {
+        width: 29.7cm;
+        height: 21cm;
+    }
+
+    page[size="A3"] {
+        width: 29.7cm;
+        height: 42cm;
+    }
+
+    page[size="A3"][layout="landscape"] {
+        width: 42cm;
+        height: 29.7cm;
+    }
+
+    page[size="A5"] {
+        width: 14.8cm;
+        height: 21cm;
+    }
+
+    page[size="A5"][layout="landscape"] {
+        width: 21cm;
+        height: 14.8cm;
+    }
+
+    @media print {
+        body, page {
+            margin: 0;
+            box-shadow: none;
+
+            border: none !important;
+        }
+    }
+
+    {% endif %}
+
+
+    .bggBlue {
+        border-bottom-color: #6d84b2;
+        color: #6d84b2;
+    }
+
+    .bggBlueVivid {
+        border-bottom-color: #5494de;
+        color: #5494de;
+    }
+
+    .bggPurple {
+        border-bottom-color: #9b97be;
+        color: #9b97be;
+    }
+
+    .bggGreen {
+        border-bottom-color: #87cab7;
+        color: #87cab7;
+    }
+
+    .bggGreenVivid {
+        border-bottom-color: #58b8bc;
+        color: #58b8bc;
+    }
+
+    .bggBrown {
+        border-bottom-color: #bf9292;
+        color: #bf9292;
+    }
+
+    .bggRose {
+        border-bottom-color: #e4a8a8;
+        color: #e4a8a8;
+    }
+
+    .bggGray {
+        border-bottom-color: #b9bfc9;
+        color: #b9bfc9;
+    }
+
+    .bggPink {
+        border-bottom-color: #c86b85;
+        color: #c86b85;
+    }
+
+    .bggYellow {
+        border-bottom-color: #f9be5e;
+        color: #f9be5e;
+    }
+
+    .bggRed {
+        border-bottom-color: #bd5657;
+        color: #bd5657;
+    }
+
+    .bggOrange {
+        border-bottom-color: #f5ae77;
+        color: #f5ae77;
+    }
+
+    .bggLBlueLight {
+        border-bottom-color: #9cbbcf;
+        color: #9cbbcf;
+    }
+
+    header {
+        padding: 18pt 0;
+
+        position: relative;
+        border-bottom: 15pt solid;
+        height: auto;
+        min-height: 77pt;
+
+        margin-bottom: 56pt;
+    }
+
+    header h2 {
+        padding-top: 10pt;
+        text-align: center;
+        font-size: 22pt;
+        line-height: 1;
+        font-weight: normal;
+        margin-bottom: 0;
+    }
+
+    header h2 span {
+        font-size: 8pt;
+    }
+
+    header img {
+        display: block;
+        position: absolute;
+        top: 19pt;
+        right: 40pt;
+        height: 45pt;
+    }
+
+    #page-body {
+        font-family: Times, serif;
+        color: black;
+
+        padding-left: 95pt;
+        padding-right: 65pt;
+    }
+
+    #page-body h1 {
+        text-align: center;
+        font-size: 14pt;
+        font-weight: bold;
+        margin-bottom: 32pt;
+    }
+
+    #page-body p {
+        font-size: 14pt;
+        margin-bottom: 16pt;
+    }
+
+    #page-body p.text {
+        text-align: justify;
+        margin-bottom: 32pt;
+    }
+
+    #page-body p.regards {
+        text-align: center;
+        margin-bottom: 16pt;
+    }
+
+    #page-body p.signature {
+        text-align: center;
+    }
+
+    #page-body p.signature img {
+        display: inline-block;
+        height: 40pt;
+        margin-bottom: 5pt;
+    }
+</style>
+
+{% macro interval(start, end) %}
+    {% set date = start|format_datetime(pattern="yyyyMMd") %}
+    {% set date2 = end|format_datetime(pattern="yyyyMMd") %}
+
+    {% if date == date2 %}
+        {{ start|format_datetime('medium', 'none') }}
+    {% else %}
+        {% set d = start|format_datetime(pattern="d") %}
+        {% set d2 = end|format_datetime(pattern="d") %}
+
+        {% set m = start|format_datetime(pattern="MM") %}
+        {% set m2 = end|format_datetime(pattern="MM") %}
+
+        {% set y = start|format_datetime(pattern="yyyy") %}
+        {% set y2 = end|format_datetime(pattern="yyyy") %}
+
+        {% if y == y2 %}
+            {% if m == m2 %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MMM d") }} - {{ end|format_datetime(pattern="d, yyyy") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d") }} - {{ end|format_datetime('medium', 'none') }}
+                {% endif %}
+            {% else %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MM/d") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d/MM") }}
+                {% endif %}
+                - {{ end|format_datetime('short', 'none') }}
+            {% endif %}
+        {% else %}
+            {{ start|format_datetime('short', 'none') }} - {{ end|format_datetime('short', 'none') }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% import _self as dateMacro %}
+
+{% set authors = "" %}
+{% if userArticle.userArticlesAuthors is not empty %}
+    {% for author in userArticle.userArticlesAuthors %}
+        {% if loop.index0 > 0 and userArticle.userArticlesAuthors|length == loop.index %}
+            {% set authors = authors ~ " e " %}
+        {% endif %}
+
+        {% set authors = authors ~ author.userAuthorId.name ~ " (" ~ author.institutionsProgramsFirst ~ ")" %}
+
+        {% if userArticle.userArticlesAuthors|length > loop.index+1 %}
+            {% set authors = authors ~ ", " %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+<page size="A4">
+    <header class="{{ userArticle.editionId.color }}">
+        <h2>
+            {{ userArticle.editionId.namePortuguese }}<br>
+            <span>{{ userArticle.editionId.place }} - {{ dateMacro.interval(userArticle.editionId.dateStart, userArticle.editionId.dateEnd) }}</span>
+        </h2>
+        <img src="{{ false == showStyles ? basePath : '' }}/build/images/logo/anpad.png">
+    </header>
+
+    <div id="page-body">
+        <h1>DECLARAÇÃO</h1>
+
+        <p class="text">
+            Declaramos para os devidos fins que o trabalho {{ userArticle.divisionId.initials }} - {{ userArticle.userThemes.position }} - {{ userArticle.divisionId.initials }} - {{ userArticle.userThemes.details.title }} - "{{ userArticle.title }}"
+
+            dos autores {{ authors }},
+            foi submetido e selecionado para apresentação oral e publicação nos anais
+            eletrônicos da ANPAD (site), no {{ userArticle.editionId.namePortuguese }},
+            que ocorrerá {{ userArticle.editionId.place }} - {{ dateMacro.interval(userArticle.editionId.dateStart, userArticle.editionId.dateEnd)|trim }}.</p>
+
+        <p class="regards">Atenciosamente</p>
+
+
+        <p class="signature">
+            <img src="{{ false == showStyles ? basePath : '' }}/build/images/signature.png"><br>
+            {{ signatureText|raw }}
+        </p>
+
+    </div>
+</page>

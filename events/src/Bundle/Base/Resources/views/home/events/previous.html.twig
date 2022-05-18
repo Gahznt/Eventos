@@ -1,0 +1,197 @@
+<div class="fieldset">
+    <h1 class="h1-previous">{{ 'EVENT_ANNUAL'|trans }}</h1> 
+    <label class="small">{{ 'EVENTS_INSTRUCTIONS'|trans }}</label>
+    {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
+        {% set idx = 'anual' ~ loop.index %}
+                    
+        {% for event in col %}
+            {% if event.event.name|upper == 'ENANPAD' %}
+                <div class="row mt-1">
+                    <div class="col-12 mt-1">
+                        <div class="card">
+                            <div class="card-header" data-toggle="collapse" href="#event-{{ idx }}-{{ loop.index }}" aria-expanded="false" aria-controls="event-{{ idx }}-{{ loop.index }}">
+                                {{ event.event.name ~ ' - ' ~ event.event.title }}
+                            </div>
+                            <div class="collapse" id="event-{{ idx }}-{{ loop.index }}">
+                                <div class="card-body">
+                                    {{ event.event.description|raw }}
+                                    <div class="card mt-3">
+                                        <div class="card-header" data-toggle="collapse" href="#event-{{ idx }}-{{ loop.index }}-previous" aria-expanded="false" aria-controls="event-{{ idx }}-{{ loop.index }}-previous">
+                                            {{ 'Previous Editions'|trans }}
+                                        </div>
+                                        <div class="collapse" id="event-{{ idx }}-{{ loop.index }}-previous">
+                                            <div class="card-body">
+                                                {% for key, edition in event.event.editions({showOnlyPrevious: true}) %}
+                                                    {% if key > 0 %},{% endif %}
+
+                                                    {% if edition.id < 110 %}
+                                                        <a class="dark hover-info" href="http://anpad.org.br/eventos.php?cod_evento_edicao={{ edition.id }}" target="_blank">{{ edition.name }}</a>
+                                                    {% else %}
+                                                        <a class="dark hover-info" href="{{ path('event_details', {'edition': edition.id}) }}">{{ edition.name }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {#<div class="text-right mt-3">
+                                    <a href="{{ path('event_details', {'edition': event.edition_id}) }}" class="btn btn-sm btn-primary follow">{% trans %}Site do evento{% endtrans %}</a>
+                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}            
+    {% endfor %}  
+</div>
+
+<div class="fieldset mt-2">
+    <h1 class="h1-previous">{{ 'EVENTS_TRIENNIAL_2022'|trans }}</h1> 
+    <h4>{{ 'EVENTS_TRIENNIAL_FREQUENCY'|trans }}</h4>   
+    <label class="small">{{ 'EVENTS_INSTRUCTIONS'|trans }}</label>
+    {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
+        {% set idx = 'tri2022' ~ loop.index %}
+                    
+        {% for event in col %}
+            {% set name = event.event.name|upper  %}
+            {% if name == 'SIMPOI' or  name == 'ENEO' or name == 'ENAPG' %}
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <div class="card">
+                            <div class="card-header" data-toggle="collapse" href="#event-{{ idx }}-{{ loop.index }}" aria-expanded="false" aria-controls="event-{{ idx }}-{{ loop.index }}">
+                                {{ event.event.name ~ ' - ' ~ event.event.title }}
+                            </div>
+                            <div class="collapse" id="event-{{ idx }}-{{ loop.index }}">
+                                <div class="card-body">
+                                    {{ event.event.description|raw }}
+                                    <div class="card mt-3">
+                                        <div class="card-header" data-toggle="collapse" href="#event-{{ idx }}-{{ loop.index }}-previous" aria-expanded="false" aria-controls="event-{{ idx }}-{{ loop.index }}-previous">
+                                            {{ 'Previous Editions'|trans }}
+                                        </div>
+                                        <div class="collapse" id="event-{{ idx }}-{{ loop.index }}-previous">
+                                            <div class="card-body">
+                                                {% for key, edition in event.event.editions({showOnlyPrevious: true}) %}
+                                                    {% if key > 0 %},{% endif %}
+
+                                                    {% if edition.id < 110 %}
+                                                        <a class="dark hover-info" href="http://anpad.org.br/eventos.php?cod_evento_edicao={{ edition.id }}" target="_blank">{{ edition.name }}</a>
+                                                    {% else %}
+                                                        <a class="dark hover-info" href="{{ path('event_details', {'edition': edition.id}) }}">{{ edition.name }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {#<div class="text-right mt-3">
+                                    <a href="{{ path('event_details', {'edition': event.edition_id}) }}" class="btn btn-sm btn-primary follow">{% trans %}Site do evento{% endtrans %}</a>
+                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}            
+    {% endfor %}       
+</div>
+
+<div class="fieldset mt-2">
+    <h1 class="h1-previous">{{ 'EVENTS_TRIENNIAL_2023'|trans }}</h1> 
+    <h4>{{ 'EVENTS_TRIENNIAL_FREQUENCY'|trans }}</h4>   
+    <label class="small">{{ 'EVENTS_INSTRUCTIONS'|trans }}</label>
+    {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
+        {% set idx = 'tri2023' ~ loop.index %}
+                    
+        {% for event in col %}
+            {% set name = event.event.name|upper  %}
+            {% if name == 'ENADI' or  name == '3ES' or name == 'ENGPR' %}
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <div class="card">
+                            <div class="card-header" data-toggle="collapse" href="#event-{{ idx }}-{{ loop.index }}" aria-expanded="false" aria-controls="event-{{ idx }}-{{ loop.index }}">
+                                {{ event.event.name ~ ' - ' ~ event.event.title }}
+                            </div>
+                            <div class="collapse" id="event-{{ idx }}-{{ loop.index }}">
+                                <div class="card-body">
+                                    {{ event.event.description|raw }}
+                                    <div class="card mt-3">
+                                        <div class="card-header" data-toggle="collapse" href="#event-{{ idx }}-{{ loop.index }}-previous" aria-expanded="false" aria-controls="event-{{ idx }}-{{ loop.index }}-previous">
+                                            {{ 'Previous Editions'|trans }}
+                                        </div>
+                                        <div class="collapse" id="event-{{ idx }}-{{ loop.index }}-previous">
+                                            <div class="card-body">
+                                                {% for key, edition in event.event.editions({showOnlyPrevious: true}) %}
+                                                    {% if key > 0 %},{% endif %}
+
+                                                    {% if edition.id < 110 %}
+                                                        <a class="dark hover-info" href="http://anpad.org.br/eventos.php?cod_evento_edicao={{ edition.id }}" target="_blank">{{ edition.name }}</a>
+                                                    {% else %}
+                                                        <a class="dark hover-info" href="{{ path('event_details', {'edition': edition.id}) }}">{{ edition.name }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {#<div class="text-right mt-3">
+                                    <a href="{{ path('event_details', {'edition': event.edition_id}) }}" class="btn btn-sm btn-primary follow">{% trans %}Site do evento{% endtrans %}</a>
+                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}            
+    {% endfor %}       
+</div>
+
+<div class="fieldset mt-2">
+    <h1 class="h1-previous">{{ 'EVENTS_TRIENNIAL_2024'|trans }}</h1>    
+    <h4>{{ 'EVENTS_TRIENNIAL_FREQUENCY'|trans }}</h4>   
+    <label class="small">{{ 'EVENTS_INSTRUCTIONS'|trans }}</label>
+    {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
+        {% set idx = 'tri2024' ~ loop.index %}
+                    
+        {% for event in col %}
+            {% set name = event.event.name|upper  %}
+            {% if name == 'SITE' or  name == 'EMA' or name == 'ENEPQ' %}
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <div class="card">
+                            <div class="card-header" data-toggle="collapse" href="#event-{{ idx }}-{{ loop.index }}" aria-expanded="false" aria-controls="event-{{ idx }}-{{ loop.index }}">
+                                {{ event.event.name ~ ' - ' ~ event.event.title }}
+                            </div>
+                            <div class="collapse" id="event-{{ idx }}-{{ loop.index }}">
+                                <div class="card-body">
+                                    {{ event.event.description|raw }}
+                                    <div class="card mt-3">
+                                        <div class="card-header" data-toggle="collapse" href="#event-{{ idx }}-{{ loop.index }}-previous" aria-expanded="false" aria-controls="event-{{ idx }}-{{ loop.index }}-previous">
+                                            {{ 'Previous Editions'|trans }}
+                                        </div>
+                                        <div class="collapse" id="event-{{ idx }}-{{ loop.index }}-previous">
+                                            <div class="card-body">
+                                                {% for key, edition in event.event.editions({showOnlyPrevious: true}) %}
+                                                    {% if key > 0 %},{% endif %}
+
+                                                    {% if edition.id < 110 %}
+                                                        <a class="dark hover-info" href="http://anpad.org.br/eventos.php?cod_evento_edicao={{ edition.id }}" target="_blank">{{ edition.name }}</a>
+                                                    {% else %}
+                                                        <a class="dark hover-info" href="{{ path('event_details', {'edition': edition.id}) }}">{{ edition.name }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {#<div class="text-right mt-3">
+                                    <a href="{{ path('event_details', {'edition': event.edition_id}) }}" class="btn btn-sm btn-primary follow">{% trans %}Site do evento{% endtrans %}</a>
+                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}            
+    {% endfor %}       
+</div>

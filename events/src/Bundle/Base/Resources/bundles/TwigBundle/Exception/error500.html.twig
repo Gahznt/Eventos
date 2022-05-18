@@ -1,0 +1,25 @@
+{% extends 'base_generic.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-body" style="padding: 100px; line-heigth:1.1;">
+                <div class="mb-3" style="padding-right:10px; border-right: 10px solid #135b9e;">
+                    <div class="text-right" style="font-size:7.5em;">500</div>
+                    <div style="font-size:1.2em;"><span style="font-weight:bold">Erro interno no servidor.</span>
+                    Desculpe, ocorreu um erro interno durante o processamento desta requisição.                    
+                    Se o problema persistir, entre em contato com o <a href="mailto:administrador@anpad.com.br">administrador</a>.
+                    Escolha um dos links abaixo para retornar ao sistema:</div>
+                    <div class="text-center mt-3">
+                        <a class="btn btn-outline-primary" href="/">
+                            <i class="fas fa-home"></i><span>&nbsp;HOME</span>
+                        </a>
+                        &nbsp;
+                        <a class="btn btn-outline-primary" onclick="javascript:history.back()">
+                            <i class="far fa-arrow-alt-circle-left"></i><span>&nbsp;VOLTAR</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

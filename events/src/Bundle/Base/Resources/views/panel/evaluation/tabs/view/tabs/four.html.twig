@@ -1,0 +1,23 @@
+<h1 class="mb-3">{{ 'TEVAL_CONSIDERATIONS'|trans }}</h1>
+
+{% if (panel.statusEvaluation == 1) %}
+
+  <div class="row">
+    <div class="col-12 form-group">
+      <label for="panel-consideration">{{ 'TEVAL_CONS_LBL'|trans }}</label>
+      <textarea name="panel-consideration-text" id="panelConsideration" rows="10" class="form-control"></textarea>
+    </div>
+    <div class="col-12 text-right">
+      <input type="checkbox" class="form-check-input" name="panel-consideration-access" id="panelConsiderationAuthor" checked="checked">
+      <label class="form-check-label" for="panel-consideration-access">{{ 'TEVAL_CONS_ACCESS'|trans }}.</label>
+    </div>
+    <div class="col-md-6 offset-md-6 mt-1">
+      <a id="sendConsiderationBtn" class="btn btn-lg btn-block btn-primary">{{ 'Submit'|trans }}</a>
+    </div>
+  </div>
+
+{% else %}
+  <h3>{{ 'PEVAL_DONE_MSG'|trans }}.</h3>
+{% endif %}
+
+{% include "@Base/panel/evaluation/tabs/view/tabs/partials/_considerations.html.twig" %}

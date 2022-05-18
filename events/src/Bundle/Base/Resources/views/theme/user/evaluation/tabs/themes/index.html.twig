@@ -1,0 +1,103 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% if isAdmin or isAdminOperational %}
+                    <a class="nav-item nav-link text-center tab-1" id="nav-1" href="{{ path('theme_evaluation_index') }}" role="tab">
+                        {{ 'TEVAL_STEP1'|trans|raw }}
+                    </a>
+                {% endif %}
+                <a class="nav-item nav-link text-center tab-2 active" id="nav-2" href="{{ path('theme_evaluation_list') }}" role="tab">
+                    {{ 'TEVAL_STEP2'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-2" role="tabpanel">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>{{ 'TEVAL_STEP2_HEAD'|trans }}</h1>
+                    </div>
+                </div>
+
+                {% if themes|length > 0 or app.request.get('search')|length > 0 %}
+                    <div class="form mt-3">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            {% if form.division is defined %}
+                                <div class="col-12 col-md-6">
+                                    {{ form_label(form.division, 'Divisão') }}
+                                    {{ form_widget(form.division, {'attr': {'class': 'filter form-control'}}) }}
+                                </div>
+                            {% endif %}
+                            <div class="col-12 {{ isAdmin or isAdminOperational ? 'col-md-3 col-lg-4' : 'col-md-9 col-lg-10' }}">
+                                {{ form_label(form.status, 'Status') }}
+                                {{ form_widget(form.status, {'attr': {'class': 'filter form-control'}}) }}
+                            </div>
+                            <div class="col-12 col-md-3 col-lg-2" style="padding-top: 31px;">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Filtrar</button>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                {% endif %}
+                {% if themes|length > 0 %}
+                    <div class="tabela my-2">
+                        <table class="table table-sm table-striped table-responsive-md w-100" id="themesTable">
+                            <thead>
+                            <tr>
+                                <th>{{ 'THEME_LIST_ID'|trans }}</th>
+                                <th>{{ 'Division'|trans }}</th>
+                                <th>{{ 'THEME_TITLE_FORM'|trans }}</th>
+                                <th class="text-center">{{ 'Status'|trans }}</th>
+                                <th class="text-center">{{ 'Actions'|trans }}</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for theme in themes %}
+                                <tr>
+                                    <td>{{ theme.id }}</td>
+                                    <td>{{ theme.division.name }}</td>
+                                    <td>{{ theme.position }} - {{ theme.details.title }}</td>
+                                    <td class="text-center">
+                                      <span class="badge badge-{{ theme.status|tema_avaliacao_status('color') }}">
+                                        {{ theme.status|tema_avaliacao_status('label')|trans|upper }}
+                                      </span>
+                                    </td>
+                                    <td class="text-center">
+                                        {% if
+                                            theme.status == constant('THEME_EVALUATION_STATUS_WAITING', theme)
+                                            or theme.status == constant('THEME_EVALUATION_STATUS_NOT_SELECTED', theme)
+                                            or theme.status == constant('THEME_EVALUATION_STATUS_SELECTED', theme)
+                                        %}
+                                            <a href="{{ path('theme_evaluation_evaluation' , {id: theme.id}) }}" data-toggle="tooltip" class="hover-success" title="{{ 'TOOLTIP_USER_EVALUATE'|trans }}">
+                                                <i class="fas fa-gavel"></i>
+                                            </a>
+                                        {% endif %}
+
+                                        <a href="{{ path('theme_evaluation_show' , {id: theme.id}) }}" data-toggle="tooltip" class="hover-success" title="{{ 'TOOLTIP_USER_DATA'|trans }}">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="my-2">{{ 'THEME_NOFOUND'|trans }}.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

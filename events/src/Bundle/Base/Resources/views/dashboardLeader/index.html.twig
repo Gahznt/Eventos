@@ -1,0 +1,231 @@
+{% macro interval(start, end) %}
+    {% set date = start|format_datetime(pattern="yyyyMMd") %}
+    {% set date2 = end|format_datetime(pattern="yyyyMMd") %}
+
+    {% if date == date2 %}
+        {{ start|format_datetime('medium', 'none') }}
+    {% else %}
+        {% set d = start|format_datetime(pattern="d") %}
+        {% set d2 = end|format_datetime(pattern="d") %}
+
+        {% set m = start|format_datetime(pattern="MM") %}
+        {% set m2 = end|format_datetime(pattern="MM") %}
+
+        {% set y = start|format_datetime(pattern="yyyy") %}
+        {% set y2 = end|format_datetime(pattern="yyyy") %}
+
+        {% if y == y2 %}
+            {% if m == m2 %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MMM d") }} - {{ end|format_datetime(pattern="d, yyyy") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d") }} - {{ end|format_datetime('medium', 'none') }}
+                {% endif %}
+            {% else %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MM/d") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d/MM") }}
+                {% endif %}
+                - {{ end|format_datetime('short', 'none') }}
+            {% endif %}
+        {% else %}
+            {{ start|format_datetime('short', 'none') }} - {{ end|format_datetime('short', 'none') }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% import _self as dateMacro %}
+
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalRemove">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cancelar submissão de artigo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="title">__title__</p>
+                    <form id="remove" method="post" action="#">
+                        <button type="submit" class="btn btn-block btn-danger" id="btnRemoverArticle">{{ 'YES'|trans }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="fieldset">
+            <div class="dashboardAdmin">
+
+                {% for message in app.flashes('success.dashboard') %}
+                    <div class="alert alert-success mb-4">
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error.dashboard') %}
+                    <div class="alert alert-danger mb-4">
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+
+                {% if current_editions|length > 0 %}
+                    <h3 class="text-uppercase">MEUS EVENTOS COMO LIDER</h3>
+                    <div class="row">
+
+                        {% for edition in current_editions %}
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="eventCard {{ edition.color }} smallCard">
+                                    <div class="title">{{ edition.name_i18n[app.request.getLocale()] }}</div>
+                                    <div class="data">{{ dateMacro.interval(edition.date_start, edition.date_end) }}</div>
+
+                                    <a href="{{ path('event_details', {'edition': edition.id}) }}" class="bottom text-uppercase">Ver evento publicado</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if user.indications|length > 0 %}
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+
+                                <div class="card-header" data-toggle="collapse" href="#event-2" aria-expanded="true"
+                                     aria-controls="event-2">
+                                    {{ 'DASHBOARD_SUBMISSIONS_ARTICLE_SUBMISSIONS'|trans }}
+                                </div>
+                                <div class="collapse show" id="event-2">
+                                    <div class="card-body">
+
+                                        <!--TABELA-->
+                                        <div class="tabela table-responsive">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ 'Artigo'|trans }}</th>
+                                                    <th>{{ 'Avaliado'|trans }}</th>
+                                                    <th>{{ 'Data'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_STATUS'|trans }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for indication in user.indications %}
+
+                                                    {% set valid = "Não avaliado" %}
+
+                                                    {% if indication.valid == 1 %}
+                                                        {% set valid = "Avaliado" %}
+                                                    {% else %}
+                                                        {% set valid = "Não avaliado" %}
+                                                    {% endif %}
+
+                                                    <tr>
+                                                        <td>{{ indication.userArticles.title }}</td>
+                                                        <td>{{ valid }}</td>
+                                                        <td>{{ indication.userArticles.createdAt|date('d/m/Y H:i:s') }}</td>
+                                                        <td>
+                                                             <span class="badge badge-{{ indication.userArticles.status|article_evaluation_status('color') }}">
+                                                                {{ indication.userArticles.status|article_evaluation_status('label')|trans }}
+                                                             </span>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if themes|length > 0 %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+
+                                <div class="card-header" data-toggle="collapse" href="#event-3" aria-expanded="true"
+                                     aria-controls="event-3">
+
+                                    {{ 'DASHBOARD_SUBMISSIONS_THEME_SUBMISSIONS'|trans }}
+                                </div>
+                                <div class="collapse show" id="event-3">
+                                    <div class="card-body">
+
+                                        <!--TABELA-->
+                                        <div class="tabela table-responsive">
+                                            <table class="table table-striped table-sm">
+                                                <thead>
+                                                <tr>
+                                                    <th>{{ 'DASHBOARD_LBL_EVENT'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_EDITION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_DIVISION'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_TITLE'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_STATUS'|trans }}</th>
+                                                    <th>{{ 'DASHBOARD_LBL_ACTIONS'|trans }}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for theme in themes %}
+                                                    <tr>
+                                                        <td>{{ theme.event_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>{{ theme.edition_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>{{ theme.division_name_i18n[app.request.getLocale()] }}</td>
+                                                        <td>{{ theme.title_i18n[app.request.getLocale()] }}</td>
+                                                        <td>
+                                                            <span class="badge badge-{{ theme.status|tema_avaliacao_status('color') }}">
+                                                                {{ theme.status|tema_avaliacao_status('label')|trans }}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ path('theme_submission_show', {'id' : theme.id}) }}" data-toggle="tooltip"
+                                                               class="hover-success"
+                                                               title="{{ 'DASHBOARD_LBL_SEE_DETAILS'|trans }}">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                            {% if theme.status == constant('\\App\\\Bundle\\Base\\Entity\\UserThemes::THEME_EVALUATION_STATUS_WAITING') %}
+                                                                <a data-toggle="tooltip"
+                                                                   class="hover-danger ml-1 setClipboard deleteSubmission"
+                                                                   data-title="{{ 'Deseja remover o tema?' }}"
+                                                                   title="{{ 'DASHBOARD_LBL_DELETE'|trans }}"
+                                                                   data-route="{{ path('theme_submission_delete', {'id': theme.id}) }}">
+                                                                    <i class="fas fa-times"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('dashboard/user') }}
+{% endblock %}

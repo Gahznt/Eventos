@@ -1,0 +1,98 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'paymentUserAssociation': app.request.get('paymentUserAssociation').id, 'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_payment_user_associations_index') }}" role="tab">
+                    {{ "Lista de Associações de Pagamento de Usuário"|trans }}
+                </a>
+                <a class="nav-item nav-link active"
+                   href="{{ path('manager_payment_user_association_details_index', {'paymentUserAssociation': paymentUserAssociation.id}) }}" role="tab">
+                    {{ 'Lista de Detalhes de Pagamento de Usuário'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link active"
+                           href="{{ path('manager_payment_user_association_details_index', {'paymentUserAssociation': paymentUserAssociation.id}) }}" role="tab">
+                            {{ 'Lista de Associações de Pagamento de Usuário'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+                        <div >
+                            <h1 class="mb-1">
+                                {{ 'Detalhes de Associação de Pagamento de Usuário'|trans }}
+                            </h1>
+                            <b class="text-dark">{{ 'Selecione o programa para ver os detalhes, ou crie um novo'|trans }}.</b>
+                        </div>
+
+                        {% if paymentUserAssociationDetails|length > 0 %}
+                            <div class="tabela my-2">
+                                <table class="table table-sm table-striped table-responsive-md w-100">
+
+                                    <thead>
+                                    <tr>
+                                        {{ sortMacro.sortColumnHeader('', 'paymentUserAssociationDetail.id', 'Id') }}
+                                        {{ sortMacro.sortColumnHeader('', 'paymentUserAssociationDetail.bankSlipAmount', 'Valor do Boleto'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('', 'paymentUserAssociationDetail.name', 'Name'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('text-center', 'program.note', 'Observação'|trans) }}
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for paymentUserAssociationDetail in paymentUserAssociationDetails %}
+                                        <tr>
+                                            <td>{{ paymentUserAssociationDetail.id }}</td>
+                                            <td>{{ paymentUserAssociationDetail.bankSlipAmount }}</td>
+                                            <td>{{ paymentUserAssociationDetail.name }}</td>
+                                            <td>{{ paymentUserAssociationDetail.note }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <nav class="d-flex justify-content-between">
+                                    <small class="text-muted">{{ 'Showing'|trans }} {{ paymentUserAssociationDetails|length }} {{ 'of'|trans }} {{ paymentUserAssociationDetails.getTotalItemCount }}</small>
+
+                                    {{ knp_pagination_render(paymentUserAssociationDetails) }}
+                                </nav>
+                            </div>
+                        {% else %}
+                            <p class="my-2">{{ 'THEME_NOFOUND'|trans }}.</p>
+                        {% endif %}
+                    </div>
+                    <br/>
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message |trans }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorPrograms') }}
+    {{ parent() }}
+{% endblock %}

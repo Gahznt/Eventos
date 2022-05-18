@@ -1,0 +1,42 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <div class="row">
+      <div class="col-md-10">
+        <h1>{{ 'SYS_EV_REPORT_TITLE'|trans }}: {{ 'SYS_EV_REPORT_STATISTICS'|trans }}</h1>
+      </div>
+      <div class="col-md-2">
+        <!--a class="btn btn-primary btn-sm float-right mr-1" data-toggle="tooltip" title="{{ 'SYS_EV_REPORT_EXCEL'|trans }}"><i class="fas fa-file-excel"></i></a-->
+      </div>
+    </div>
+    <div class="tabela my-2">
+      <table class="table table-sm table-striped table-responsive-md">
+        <thead>
+          <tr class="fw-normal">
+            <th class="">{{ 'SYS_EV_REPORT_TH_DIVISION'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_THEMES'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_SUBMITED'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_RP_PRE'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_AVAILABLE'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_DISCREP'|trans }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in tableData %}
+          <tr>
+            <td>{{ item.division }}</td>
+            <td>{{ item.themes|join(', ') }}</td>
+            <td>{{ item.submitted }}</td>
+            <td>{{ item.rp_pre }}</td>
+            <td>{{ item.available }}</td>
+            <td>{{ item.discrepancies }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

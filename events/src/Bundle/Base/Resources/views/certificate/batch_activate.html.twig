@@ -1,0 +1,90 @@
+{# src/layouts/base.html.twig #}
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_index') }}" role="tab">
+                    {{ 'Events'|trans }}
+                </a>
+                <a class="nav-item nav-link" href="{{ path('manager_editions_index', {'eventId': edition.event.id}) }}" role="tab">
+                    {{ 'MANAGER_EDITIONS'|trans }}
+                </a>
+                <a class="nav-item nav-link active" href="{{ path('certificate_list', {'edition': edition.id}) }}" role="tab">
+                    {{ 'Certificados'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link" href="{{ path('certificate_list', {'edition': edition.id}) }}" role="tab">
+                            {{ 'Lista de<br>Certificados'|trans|raw }}
+                        </a>
+                        <a class="nav-item nav-link active" href="#dados" role="tab">
+                            Ativar<br/> Certificados
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+
+                        <h1>Dados para Ativação em Lote</h1>
+
+                        {% for message in app.flashes('error') %}
+                            <br>
+                            <div class="alert alert-danger">
+                                {{ message |trans }}
+                            </div>
+                        {% endfor %}
+
+                        {% for message in app.flashes('success') %}
+                            <br>
+                            <div class="alert alert-success">
+                                {{ message |trans }}
+                            </div>
+                        {% endfor %}
+
+                        <div class="form mt-3">
+                            {{ form_start(form) }}
+                            <div class="row mt-3">
+                                <div class="col-6 col-md-4 col-lg-5">
+                                    {{ form_label(form.type, 'Tipo') }}
+                                    {{ form_widget(form.type, {'attr': {'class': 'filter form-control'}}) }}
+                                    {% if form.type.vars['errors']|length > 0 %}
+                                        <div class="form-error invalid-input">
+                                            {{ form.type.vars['errors'][0].message }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-6 col-md-4 col-lg-5">
+                                    {{ form_label(form.operation, 'Operação') }}
+                                    {{ form_widget(form.operation, {'attr': {'class': 'filter form-control'}}) }}
+                                    {% if form.operation.vars['errors']|length > 0 %}
+                                        <div class="form-error invalid-input">
+                                            {{ form.operation.vars['errors'][0].message }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-6 col-md-4 col-lg-2" style="padding-top: 31px;">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block">Aplicar</button>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('certificateNewAwards') }}
+    {{ parent() }}
+{% endblock %}

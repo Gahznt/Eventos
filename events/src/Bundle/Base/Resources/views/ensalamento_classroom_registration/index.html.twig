@@ -1,0 +1,1313 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<div class="schedule">
+<div class="container">
+    <nav>
+        <div class="nav nav-tabs" id="class-nav-tab" role="tablist">
+        <a class="nav-item nav-link tab-4 active" id="class-nav-1" data-toggle="tab" href="#class-tab-1" role="tab">
+        Cadastro de Salas</a>
+        <a class="nav-item nav-link tab-4" id="class-nav-2" data-toggle="tab" href="#class-tab-2" role="tab">
+        Cadastro de Sessões</a>
+        <a class="nav-item nav-link tab-4" id="class-nav-3" data-toggle="tab" href="#class-tab-3" role="tab">
+        Cadastro de Slots</a>
+        <a class="nav-item nav-link tab-4" id="class-nav-4" data-toggle="tab" href="#class-tab-4" role="tab">
+        Ensalamento Prioritário</a>
+        <a class="nav-item nav-link tab-4" id="class-nav-5" data-toggle="tab" href="#class-tab-5" role="tab">
+        Ensalamento Geral</a>
+    </div>
+</nav>
+
+
+<div class="tab-content">
+    <!--ABA 1 - Salas-->
+    <div class="tab-pane fade show active" id="class-tab-1" role="tabpanel">
+            <h2>Cadastro de Salas</h2>
+            <div class="form mb-4">
+                <form name="room_registration" method="get" class="row" novalidate="novalidate">
+                    
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="roomId">Identificação da Sala</label>
+                        <input type="text" id="roomId" name="roomId" class="filter form-control" maxlength="30">
+                    </div>
+
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="roomType">Tipo da Sala</label>
+                        <select id="roomType" name="roomType" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Tradicional</option>
+                            <option value="">Auditório</option>
+                            <option value="">Círculo</option>
+                            <option value="">Só para Atividades</option>
+                            <option value="">Online</option>
+                        </select>
+                    </div>
+
+                    
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="roomLocation">Localização</label>
+                        <input type="text" id="roomLocation" name="roomLocation" class="filter form-control" maxlength="30">
+                    </div>
+
+                    <div class="col-12 col-md-4 offset-md-8">
+                        <button type="button" class="btn btn-primary btn-lg btn-block">Cadastrar Sala 
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <h3>Salas Cadastradas</h3>
+                </div>
+            </div>
+
+            <div class="tabela table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th class="sort desc">Identificação da Sala</th>
+                            <th class="sort">Tipo</th>
+                            <th class="sort">Local</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EnANPAD</td>
+                            <td>2020</td>
+                            <td>EnADI70</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Apagar Sala" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EnANPAD</td>
+                            <td>2020</td>
+                            <td>EnADI70</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Apagar Sala" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EnANPAD</td>
+                            <td>2020</td>
+                            <td>EnADI70</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Apagar Sala" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>EnANPAD</td>
+                            <td>2020</td>
+                            <td>EnADI70</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Apagar Submissão" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table> 
+            </div>
+            <!--No layout eu havia colocado um botão salvar, mas não vejo necessidade. Ao clicar no excluir, já é apagado e ao criar um novo, já é salvo o novo item.-->
+
+    </div><!--FIM ABA 1-->
+
+
+    <!--ABA 2-->
+    <div class="tab-pane fade" id="class-tab-2" role="tabpanel">
+            <h2>Cadastro de Sessões</h2>
+
+            <div class="form mb-4">
+                <form name="session_registration" method="get" class="row" novalidate="novalidate">
+                    
+                    <!--Preencher os options do select com as datas do evento!-->
+                    <div class="col-12 col-md-4 col-lg-2 form-group">
+                        <label for="dateSession">Data</label>
+                        <select id="dateSession" name="dateSession" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">10/10/2020</option>
+                            <option value="">11/10/2020</option>
+                            <option value="">12/10/2020</option>
+                            <option value="">13/10/2020</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-4 col-lg-3 form-group">
+                        <label for="sessionId">Nome ou Id da Sessão</label>
+                        <input type="text" id="sessionId" name="sessionId" class="filter form-control" maxlength="30">
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2 form-group">
+                        <label for="sessionStartTime">Horário Início</label>
+                        <input type="time" id="sessionStartTime" name="sessionStartTime"
+                               min="09:00" max="18:00" required>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2 form-group">
+                        <label for="sessionEndTime">Horário Fim</label>
+                        <input type="time" id="sessionEndTime" name="sessionEndTime"
+                               min="09:00" max="18:00" required>
+                    </div>
+
+
+
+                    <div class="col-12 col-md-4 col-lg-3 form-group">
+                        <label for="sessionType">Tipo de Sessão</label>
+                        <select id="sessionType" name="sessionType" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Sessão de Trabalho</option>
+                            <option value="">Sessão e Painel</option>
+                            <option value="">Abertura e Atividade Cultural</option>
+                            <option value="">Coffee-Break</option>
+                            <option value="">Coquetel</option>
+                            <option value="">Almoço</option>
+                            <option value="">Reunião de Divisão</option>
+                            <option value="">Assembléia</option>
+                            <option value="">Painel de Divisão</option>
+                            <option value="">Encerramento</option>
+                        </select>
+                    </div>
+                        <div class="col-12 col-md-4 offset-lg-8 mt-md-4  mt-lg-0">
+                            <button type="button" class="btn btn-primary btn-lg btn-block">Cadastrar sessão 
+                            </button>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <h3>Sessões Cadastradas</h3>
+                </div>
+            </div>
+
+
+            <!--TABELA-->
+            <!--No campo horário mostrar: horário início, traço, horário fim. (ex. 10:00 - 11:00)-->
+            <div class="tabela table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th class="sort desc">Data</th>
+                            <th class="sort">Identificação da Sessão</th>
+                            <th class="sort">Horário</th>
+                            <th class="sort">Tipo da Sessão</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Abertura</td>
+                            <td>08:30 - 09:00</td>
+                            <td>Abertura e Atividade Cultural</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Apagar Sessão" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Abertura</td>
+                            <td>08:30 - 09:00</td>
+                            <td>Abertura e Atividade Cultural</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Apagar Sessão" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Abertura</td>
+                            <td>08:30 - 09:00</td>
+                            <td>Abertura e Atividade Cultural</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Apagar Sessão" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Abertura</td>
+                            <td>08:30 - 09:00</td>
+                            <td>Abertura e Atividade Cultural</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Apagar Sessão" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+            <!--No layout eu havia colocado um botão salvar, mas não vejo necessidade. Ao clicar no excluir, já é apagado e ao criar um novo, já é salvo o novo item.-->
+
+    </div><!--FIM ABA 2-->
+
+
+    <!--ABA 3-->
+    <div class="tab-pane fade" id="class-tab-3" role="tabpanel">
+        <h2>Cadastro de Slots</h2>
+        
+        <!--Parte 1 - Confirmação-->
+        <!--Anter do cadastro de slots o usuário tem que aprovar a mensagem do alert.
+            Assim que marcarem o checkbox e clicarem no botão '#btnCheck' pra confirmar, este conteúdo (#slotsAlert) é escondido e o '#slotsRegistration' passa a ser mostrado. A tela de confirmação não aparece mais para o mesmo usuário.-->
+        
+        <div class="row d-none" id="slotsAlert">
+            <div class="col-12 col-lg-8">
+                <div class="alert alert-warning icon exclamation">
+                    <h3>Antes de iniciar o cadastro de slots, confirme se:</h3>
+                    <ul class="pb-1 mb-0">
+                        <li>Os coordenadores de divisão já cadastraram todas as atividades do evento.</li>
+                        <li>O responsável pelo ensalamento já cadastradou:
+                            <ul class="pt-2 mb-0">
+                                <li>Todas as Salas do Evento;</li>
+                                <li>Todas as Sessões de Trabalho do Evento;</li>
+                                <li>Todas as Sessões de Atividades do Evento.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <h3>Confirmação</h3>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="">
+                        Confirmo que todas as dependências para iniciar o cadastro de slots já foram executadas. 
+                    </label>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-4">
+                        <a class="btn btn-primary btn-lg btn-block" id="btnCheck">Iniciar Cadastro de Slots<i id="btnLoad"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+
+        <!--Parte 2 - Cadastro de Slots-->
+
+        <h4>Selecione a data e a sala e clique em ok para ver os horários disponíveis para criar os slots.</h4>
+
+        <div id="slotsRegistration" class="">
+            <div class="form mb-4">
+                <form name="slotsForm" method="get" class="row" novalidate="novalidate" id="slotsForm">
+                    
+                    <!--Puxa do cadastro: as datas do evento-->
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="dateSlot">Data</label>
+                        <select id="dateSlot" name="dateSlot" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">10/10/2020</option>
+                            <option value="">11/10/2020</option>
+                            <option value="">12/10/2020</option>
+                            <option value="">13/10/2020</option>
+                        </select>
+                    </div>
+                    
+                    <!--Puxa do cadastro: todas as salas cadastradas no evento-->
+
+                    <div class="col-12 col-md-7 form-group">
+                        <label for="roomSlot">Sala</label>
+                        <select id="roomSlot" name="roomSlot" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                            <option value="">Prédio 2 - Bloco B | Sala 4B Circ.</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-1 mt-4">
+                        <button type="button" class="btn btn-primary btn-lg btn-block">ok 
+                        </button>
+                    </div>
+
+                    <!--Após escolher a data e a sala, o sistema tem que mostrar os horários das sessões da data selecionada.-->
+
+                    <div class="col-12 mt-4">
+                        <h5>Sessões disponíveis para este dia:</h5>
+                        
+                        <!--Alerta quando abre a página-->
+                        <div class="alert alert-info icon info-circle pb-1 d-none"><i class="icon icon-danger"></i><h4>Selecione a data e a sala para mostrar os horários.</h4></div>
+
+                        <!--Após selecionar data, mostra os horários disponíveis no formato abaixo. Substituir os horários pelos horários das sessões livres das salas.-->
+
+                        <div class="slotsCheckboxes">
+
+                            <!--Ao marcar este item, seleciona todos os checkboxes, ao desmarcar, limpa todos.-->
+                            <div class="form-check">
+                                <input type="checkbox" id="slotsCheckAll" name="slotsCheckAll" required="required" class="form-check-input" value="1">
+                                <label class="form-check-label" for="slotsCheckAll">Marcar / Desmarcar Todas as sessões</label>
+                            </div>
+                            
+                            <div class="form-check">
+                                <input type="checkbox" id="slotsTime1" name="slotsTime1" required="required" class="form-check-input" value="1">
+                                <label class="form-check-label" for="slotsTime1">09:00 - 10:00 | Sessão de Trabalho</label>
+                            </div>
+                            
+                            <div class="form-check">
+                                <input type="checkbox" id="slotsTime2" name="slotsTime2" required="required" class="form-check-input" value="1">
+                                <label class="form-check-label" for="slotsTime2">10:00 - 11:00 | Sessão e Painel
+                            </div>
+                            
+                            <div class="form-check">
+                                <input type="checkbox" id="slotsTime3" name="slotsTime3" required="required" class="form-check-input" value="1">
+                                <label class="form-check-label" for="slotsTime3">11:00 - 12:00 | Coffee Break</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+        <div class="row">
+            <div class="col-md-4 mt-3 mb-4">
+                <button type="button" class="btn btn-primary btn-lg btn-block">Cadastrar Slot(s) 
+                </button>
+            </div>
+        </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <h3>Slots Cadastradas</h3>
+                </div>
+            </div>
+
+
+            <!--TABELA-->
+            <div class="tabela table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th class="sort desc">Data</th>
+                            <th class="sort">Sala</th>
+                            <th class="sort">Sessão</th>
+                            <th class="sort">Nome do Slot Criado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Bloco B | Sala 5B Circ.</td>
+                            <td>09:00 - 10:00 | Sessão de Trabalho</td>
+                            <td>09/01 | 09:00 - 10:30 | Sessão de Trabalho | Bloco B | Sala 5B Circ.</td>
+                            <td>
+                                <!--Mostra modal de confirmação de exclusão .-->
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Excluir Slot" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Bloco B | Sala 5B Circ.</td>
+                            <td>10:00 - 11:00 | Sessão e Painel</td>
+                            <td>09/01 | 09:00 - 10:30 | Sessão e Painel | Bloco B | Sala 5B Circ.</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Excluir Slot" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Bloco B | Sala 5B Circ.</td>
+                            <td>11:00 - 12:00 | Coffee Break</td>
+                            <td>09/01 | 09:00 - 10:30 | Sessão de Trabalho | Bloco B | Sala 5B Circ.</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Excluir Slot" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Bloco B | Sala 6B Trad.</td>
+                            <td>09:00 - 10:00 | Sessão de Trabalho</td>
+                            <td>09/01 | 09:00 - 10:30 | Sessão de Trabalho |Bloco B | Sala 6B Trad.</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Excluir Slot" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Bloco B | Sala 7B Circ.</td>
+                            <td>09:00 - 10:00 | Sessão de Trabalho</td>
+                            <td>09/01 | 09:00 - 10:30 | Sessão de Trabalho |Bloco B | Sala 7B Circ.</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Excluir Slot" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10/10/2020</td>
+                            <td>Bloco B | Sala 8B Trad.</td>
+                            <td>09:00 - 10:00 | Sessão de Trabalho</td>
+                            <td>09/01 | 09:00 - 10:30 | Sessão de Trabalho | Bloco B | Sala 8B Trad.</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Excluir Slot" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table> 
+            </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-6 mt-4">
+                <!--Quando clicado, tira o disabled da aba ensalamento prioritário. -->
+                <!--Tem que ver com o Danilo e Takao se após finalizado vão poder adicionar ou remover mais alguma coisa. 
+                    Se permitir apagar, caso já tenha algum ensalamento para o horário, tem que mostrar um modal informando que será apagado o ensalamento préviamente realizado para este slot.
+
+                    Se permitir adicionar, vai ter que passar a mostrar na tela de ensalamento prioritário e ensalamento geral o novo slot.-->
+                <a class="btn btn-danger btn-lg btn-block">Finalizar Slots / Liberar ensalamento Prioritário<i id="btnLoad"></i></a>
+            </div>
+        </div>
+
+</div>
+
+
+    </div><!--FIM ABA 3-->
+    <!--ABA 4-->
+    <div class="tab-pane fade" id="class-tab-4" role="tabpanel">
+        <h2>Ensalamento Prioritário de Atividades e Paineis</h2>
+
+            <!--Primeira Etapa-->
+            <h3>Primeira Etapa -  Seleção</h3>
+            <h4>Selecione a atividade que deseja agendar, escolhendo a divisão, tipo de atividade e nome.  Caso no cadastro tenha sido solicitado alguma restrição de horário, ela será mostrada abaixo. Clique no botão selecionar e passe para segunda etapa.</h4>
+
+            <div class="form mb-4">
+                <form name="priorityScheduleForm" method="get" class="row" novalidate="novalidate" id="">
+                    
+                    <!--Preencher os options do select com as divisões-->
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="divisionPrioritySchedule">Divisão</label>
+                        <select id="divisionPrioritySchedule" name="divisionPrioritySchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Divisão 1</option>
+                            <option value="">Divisão 2</option>
+                            <option value="">Divisão 3</option>
+                            <option value="">Divisão 4</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="typePrioritySchedule">Tipo</label>
+                        <select id="typePrioritySchedule" name="typePrioritySchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Painel Internacional</option>
+                            <option value="">Mesa redonda</option>
+                            <option value="">Seminário</option>
+                            <option value="">Workshop</option>
+                            <option value="">Encontro com Editores</option>
+                            <option value="">Atividade Interativa</option>
+                            <option value="">Atividade</option>
+                            <option value="">Atividade Internacional</option>
+                            <option value="">PDW</option>
+                            <option value="">Painel</option>
+                            <!--Esta última opção não sei se é igual a painel internacional. Eu que incluí já que pode chamar atividades e paineis aqui.-->
+                        </select>
+                    </div>
+
+
+                    <!--Aqui vai carregar o nome de todas as atividade ou paineis que sirvam na divisão e tipo selecionados anteriormente.-->
+                    <div class="col-12 col-md-6 form-group">
+                        <label for="namePrioritySchedule">Título da Atividade / Painel</label>
+                        <select id="namePrioritySchedule" name="namePrioritySchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Título 1</option>
+                            <option value="">Título 2</option>
+                        </select>
+                    </div>
+                    
+                    <!--Após selecionar o título da atividade/painel, atualiza o texto digitado em atividades como restrição de horário. Caso não tenha nada, inserir o texto "Sem restrição de horário."-->
+
+                    <div class="col-12 col-md-8 form-group">
+                        <label for="timeRestrictionPrioritySchedule">Solicitação de Restrição de Horário</label>
+                        <input type="text" id="timeRestriction" name="timeRestrictionPrioritySchedule" class="filter form-control" maxlength="30" placeholder="Segunda à sexta das 15 às 17." disabled>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <a class="btn btn-primary btn-lg btn-block">Selecionar Atividade<i id="btnSelectActivity"></i></a>
+                    </div>
+
+
+
+                    <!--Segunda Etapa-->
+
+                    <div class="col-12 mt-4">
+                        <h3>Segunda Etapa - Ensalamento</h3>
+                        <p>Para ensalar e agendar as atividades, você poderá filtrar a data e horário de acordo com a restrição solicitada acima ou conforme a sua preferência.  Em seguida, selecione o slot com a sala e local, de acordo com a disponibilidade de dia e horário escolhido.</p>
+                    </div>        
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="datePriorSchedule">Data</label>
+                        <select id="datePriorSchedule" name="datePriorSchedule" class="filter form-control" disabled>
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">09/01/2020</option>
+                            <option value="">10/01/2020</option>
+                        </select>
+                    </div>
+                                        
+                    <div class="col-12 col-md-5 form-group">
+                        <label for="timePriorSchedule">Horário e Tipo de Sessão</label>
+                        <select id="timePriorSchedule" name="timePriorSchedule" class="filter form-control" disabled>
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">09:00 - 10:00 | Sessão de Trabalho</option>
+                            <option value="">10:00 - 11:00 | Sessão e Painel</option>
+                            <option value="">11:00 - 12:00 | Coffee Break</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 mt-4">
+                        <a class="btn btn-primary btn-lg btn-block disabled">Filtrar Slots<i id="btnSelectActivity"></i></a>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="slotPriorSchedule">Slots de ensalamento</label>
+                        <select id="slotPriorSchedule" name="slotPriorSchedule" class="filter select-table" disabled>
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">09/01 | 09:00 - 10:30 | Sessão de Trabalho | Bloco B | Sala 5B Circ.</option>
+                            <option value="">09/01 | 09:00 - 10:30 | Sessão de Trabalho | Bloco B | Sala 6B Trad.</option>
+                            <option value="">09/01 | 10:00 - 11:00 | Sessão e Painel | Bloco B | Sala 5B Circ.</option>
+                            <option value="">09/01 | 11:00 - 12:00 | Coffee Break | Bloco B | Sala 5B Circ.</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-4 offset-md-8 mt-4">
+                        <a class="btn btn-primary btn-lg btn-block disabled">Salvar ensalamento<i id="btnSavePriorSchedule"></i></a>
+                    </div>
+
+                </form>
+
+                    <!--Terceira Etapa-->
+                    <div class="row">
+                    <div class="col-12 col-md-12 mt-4">
+                        <h3>Etapa Final - Conferência</h3>
+                        <p>Os cadastros efetuados acima irão atualizar aqui conforme forem sendo salvos.</p>
+                    </div>
+                    </div>
+
+            </div>
+
+            <!--TABELA-->
+            <div class="tabela table-responsive">
+                <table class="table table-striped table-sm">
+
+            <!--Mostra os itens agendados com o nome do slot e todas as atividades e paineis que ainda não foram agendados.-->
+                    <thead>
+                        <tr>
+                            <th class="sort desc">Tipo de Atividade</th>
+                            <th class="sort">Divisão</th>
+                            <th class="sort">Tema</th>
+                            <th class="sort">Título</th>
+                            <th class="sort">Participante</th>
+                            <th class="sort">Função</th>
+                            <th class="sort">Slot agendado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Painel Internacional</td>
+                            <td>abc</td>
+                            <td>2</td>
+                            <td>Palestra Int. 1</td>
+                            <td>João Augusto</td>
+                            <td>Painelista</td>
+                            <td>09/01 | 09:00 - 10:30 | Sessão de Trabalho | Bloco B | Sala 5B Circ.</td>
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Painel Internacional</td>
+                            <td>Div</td>
+                            <td>2</td>
+                            <td>Palestra Int. 1</td>
+                            <td>João Augusto</td>
+                            <td>Painelista</td>
+                            <td>09/01 | 09:00 - 10:30 | Sessão de Trabalho | Bloco B | Sala 5B Circ.</td>
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Painel Internacional</td>
+                            <td>Div</td>
+                            <td>2</td>
+                            <td>Palestra Int. 1</td>
+                            <td>João Augusto</td>
+                            <td>Painelista</td>
+                            <td>Sem ensalamento</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Painel Internacional</td>
+                            <td>Div</td>
+                            <td>2</td>
+                            <td>Palestra Int. 1</td>
+                            <td>João Augusto</td>
+                            <td>Painelista</td>
+                            <td>Sem ensalamento</td>
+
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Painel Internacional</td>
+                            <td>Div</td>
+                            <td>2</td>
+                            <td>Palestra Int. 1</td>
+                            <td>João Augusto</td>
+                            <td>Painelista</td>
+                            <td>Sem ensalamento</td>
+
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Painel Internacional</td>
+                            <td>Div</td>
+                            <td>2</td>
+                            <td>Palestra Int. 1</td>
+                            <td>João Augusto</td>
+                            <td>Painelista</td>
+                            <td>Sem ensalamento</td>
+
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Painel Internacional</td>
+                            <td>Div</td>
+                            <td>2</td>
+                            <td>Palestra Int. 1</td>
+                            <td>João Augusto</td>
+                            <td>Painelista</td>
+                            <td>Sem ensalamento</td>
+
+                            <td>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table> 
+            </div>
+
+
+        <div class="row">
+            <!--Ao clicar no botão, o item "sectionSchedule" abaixo deve ser mostrado. (Está como d-none agora).-->
+            <div class="col-12 col-md-8 offset-md-2 mt-4">
+                <a href="#" class="btn btn-danger btn-lg btn-block" id="btnEndPrioritySchedule">
+                    Ensalamento Prioritário Finalizado. Liberar para Coordenadores.
+                </a>
+            </div>
+                <p class="small col-12 text-center mt-2"><span class="pb danger">Atenção: </span>Ao clicar, você precisará inserir a data e hora limite para os coordenadores cadastrarem as seções dos trabalhos.</p>
+
+
+
+
+
+    <!--Por padrão, o "sectionSchedule" abaixo fica como display none. Ele é liberado ao clicar no botão acima.-->
+
+            <div id="sectionSchedule" class="col-12">
+            <div class="mt-4 bgcGray rounded-10 py-2 px-4">
+                <div class="col-12 form mt-4">
+                <form name="sectionLimitDateForm" method="get" class="row" novalidate="novalidate">
+
+                    <h3>Finalização do Ensalamento Prioritário</h3>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="">
+                            Estou ciente que ao clicar no botão Finalizar, será enviada uma mensagem aos coordenadores das divisões informando que foi liberado o cadastro das seções e o ensalamento das mesmas. A aba ensalamento geral, no topo desta página, também será liberada para conferência e ajustes dos administradores.
+                        </label>
+                    </div>
+
+                    <div class="mt-5">
+                    <h3>Data limite do cadastro das seções</h3>
+                    <h4>Informe qual a data e horário limite para os coordenadores de divisão fazerem o cadastro e ensalamento das seções dos trabalho.</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-4 form-group">
+                            <label for="SectionScheduleDate">Data</label>
+                            <input type="date" id="SectionScheduleDate" name="SectionScheduleDate" class="filter form-control" required >
+                        </div>
+
+                         <div class="col-6 col-md-4 form-group">
+                            <label for="sessionStartTime">Horário Início</label>
+                            <input type="time" id="sessionStartTime" name="sessionStartTime"
+                                   min="09:00" max="18:00" required>
+                        </div>
+                        <div class="col-12 col-md-4 mt-4">
+                            <button type="button" class="btn btn-danger btn-lg btn-block" id="btnEndPrioritySchedule">
+                            Finalizar e Avisar Coordenadores
+                            </button>
+                        </div>
+                        </div>
+                </div>
+                </div>
+                </form>
+            </div>
+        </div>
+
+    </div><!--FIM ABA 4-->
+
+
+    <!--ABA 5-->
+    <div class="tab-pane fade" id="class-tab-5" role="tabpanel">
+            <h2>Ensalamento Geral</h2>
+            <div class="form mb-4">
+                <form name="user_search" method="get" class="row" novalidate="novalidate" id="">
+                    
+                    <!--Preencher os options do select com as divisões-->
+                    <div class="col-12 col-md-2 form-group">
+                        <label for="divisionSchedule">Divisão</label>
+                        <select id="divisionSchedule" name="divisionSchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Divisão 1</option>
+                            <option value="">Divisão 2</option>
+                            <option value="">Divisão 3</option>
+                            <option value="">Divisão 4</option>
+                        </select>
+                    </div>
+                    
+                    <!--Preencher os options do select com os temas da divisão selecionada-->
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="themeSchedule">Tema</label>
+                        <select id="themeSchedule" name="themeSchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Tema 1</option>
+                            <option value="">Tema 2</option>
+                            <option value="">Tema 3</option>
+                            <option value="">Tema 4</option>
+                        </select>
+                    </div>
+
+                    <!--Preencher os options do select com as seções do tema selecionado-->
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="sectionIdSchedule">Seção</label>
+                        <select id="sectionIdSchedule" name="sectionIdSchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">seção 1</option>
+                            <option value="">seção 2</option>
+                            <option value="">seção 3</option>
+                            <option value="">seção 4</option>
+                        </select>
+                    </div>
+
+                    <!--Mostra todos os participantes - Importante Select 2-->
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="participantSchedule">Participante</label>
+                        <select id="participantSchedule" name="participantSchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Participante 1</option>
+                            <option value="">Participante 2</option>
+                            <option value="">Participante 3</option>
+                            <option value="">Participante 4</option>
+                        </select>
+                    </div>
+                    
+                    <!--Mostra todas as datas do evento-->
+                    <div class="col-12 col-md-2 form-group">
+                        <label for="dateSchedule">Data</label>
+                        <select id="dateSchedule" name="dateSchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">10/10/2020</option>
+                            <option value="">11/10/2020</option>
+                            <option value="">12/10/2020</option>
+                            <option value="">13/10/2020</option>
+                        </select>
+                    </div>
+                    
+                    <!--Mostra todas os horários das sessões do tipo SESSÃO DE TRABALHO! Pelo que o Takao havia dito, as seções só utilizam sessões de trabalho pra serem agendadas! Os outros tipos de sessão só aparecem no ensalamento prioritário.-->
+                    <div class="col-12 col-md-3 form-group">
+                        <label for="timeSchedule">Hora da Sessão</label>
+                        <select id="timeSchedule" name="timeSchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">08:00 - 09:00</option>
+                            <option value="">09:00 - 10:00</option>
+                            <option value="">10:00 - 11:00</option>
+                            <option value="">11:00 - 12:00</option>
+                        </select>
+                    </div>
+                    
+                    <!--Mostra a identificação da seção-->
+                    <div class="col-12 col-md-4 form-group">
+                        <label for="articleIdSchedule">Id do Artigo</label>
+                        <select id="articleIdSchedule" name="articleIdSchedule" class="filter form-control">
+                            <option value="" selected="selected">Selecione</option>
+                            <option value="">Artigo 123</option>
+                            <option value="">Artigo 123</option>
+                            <option value="">Artigo 123</option>
+                            <option value="">Artigo 123</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 mt-4">
+                        <a class="btn btn-primary btn-lg btn-block">Filtrar<i id="btnFilterSchedule"></i></a>
+                    </div>
+                </form>
+
+            </div>
+
+            <!--TABELA-->
+
+            <!--Atenção! Nesta tela não ficou confirmado se será possível fazer alterações, ou se o responsável terá que entrar em seção por seção para alterar, devido à complexidade de bloquear todos os outros selects desta páigina ao agendar um horário específico. Caso seja possível fazer a alteração, perfeito. O layout está ok. Caso não seja possível fazer a alteração dos slots nesta página, os itens podem ser retirados dos selects, mostrando somente o texto com o nome do slot, ou mostrando a frase sem agendamento e deverão ser retirados os icones de ações de salvar e salvo. A primeira linha da tabela é um exemplo de como ficaria neste caso.-->
+
+
+            <!--Lembrete! Na tabela só aparecem os itens que fizerem parte das sessões do tipo SESSÃO DE TRABALHO!Porém, tem que ser mostrados itens repeditamente para cada um dos participantes da sessão, seja autores de artigos, coordenadores ou debatedores. Para as outras regras, ver o pdf no confluence.-->
+            <div class="tabela table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <!--O primeiro item "Divisão/Artigo" são os dois itens concatenados. Confirmar com Takao.-->
+                            <th class="sort desc miw-90">Div./Artigo</th>
+                            <th class="sort miw-60">Tema</th>
+                            <th class="sort">Título da Seção</th>
+                            <th class="sort">Função</th>
+                            <th class="sort">Particip.</th>
+                            <th class="sort miw-50">Tipo</th>
+                            <th class="sort">Slot</th>
+                            <th class="miw-80">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--Esta linha e a próxima é só um exemplo do item atenção descrito acima.-->
+                        <tr>
+                            <td> <span class="badge badge-danger">ABCO112</span></td>
+                            <td>2</td>
+                            <td>Da Criatividade à exaptação empreendedora.</td>
+                            <td>Autor</td>
+                            <td>Manoel da Silveira</td>
+                            <td><span class="badge-round int">i</span></td>
+                            <td>09/01 | 11:00 - 12:00 | Bloco B | Sala 5B Circ.</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <span class="badge badge-danger">ABCO112</span></td>
+                            <td>2</td>
+                            <td>Da Criatividade à exaptação empreendedora.</td>
+                            <td>Autor</td>
+                            <td>Joaquim da Silveira</td>
+                            <td><span class="badge-round int">i</span></td>
+                            <td>Sem ensalamento agendado</td>
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+
+
+
+                        <!--Daqui para baixo são as linhas normais, caso o usuário possa fazer alterações nesta página.-->
+
+                        <tr>
+                            <!--A cor do badge deve ser 1 para cada divisão. Qualquer cor. Não tem regra.-->
+                            <td> <span class="badge badge-danger">ABCO112</span></td>
+                            <td>2</td>
+                            <td>Da Criatividade à exaptação empreendedora.</td>
+                            <td>Autor</td>
+                            <td>João da Silva</td>
+                            <td><span class="badge-round int">i</span></td>
+                            <td>
+                                <div class="col-12">
+
+                                    <!--Nos slots, após o horário, não mostrar o título "sessão de trabalho" para liberar espaço na tabela, pois todos serão sessão de trabalho, diferente do ensalamento prioritário que tem tipos diferentes.-->
+                                    <select id="slotSchedule" name="slotSchedule" class="filter select-table">
+                                        <option value="">Selecione</option>
+                                        <option value="">09/01 | 09:00 - 10:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="" selected="selected">09/01 | 10:00 - 11:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 11:00 - 12:00 | Bloco B | Sala 6B Trad.</option>
+                                        <option value="">09/01 | 12:00 - 13:00 | Bloco B | Sala 7B Circ.</option>
+                                    </select>
+                                </div>
+                            </td>
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                                <!--QUANDO O ITEM FOI ALTERADO-->
+                                <!--Mostra o icone fa-save, adiciona classe danger e hover-success e o título é: Salvar Alterações.
+                                Quando clicar, esconde este item e mostra o item abaixo, retirando a classe d-none.-->
+                                <a data-toggle="tooltip" class="danger hover-success ml-1 setClipboard"
+                                title="Salvar Alterações" data-value="">
+                                <i class="fas fa-save"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard d-none"
+                                title="Item já está salvo" data-value="">
+                                <i class="fas fa-check"></i>
+                                </a>
+                            </td>
+                    </tr>
+                        <tr>
+                            <td> <span class="badge badge-danger">ABCO546</span></td>
+                            <td>2</td>
+                            <td>Da Criatividade à exaptação empreendedora.</td>
+                            <td>Coordenador</td>
+                            <td>João da Silva</td>
+                            <td><span class="badge-round tra">t</span></td>
+                            <td>
+                                <div class="col-12">
+                                    <select id="slotSchedule" name="slotSchedule" class="filter select-table">
+                                        <option value="">Selecione</option>
+                                        <option value="">09/01 | 09:00 - 10:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 10:00 - 11:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value=""selected="selected">09/01 | 11:00 - 12:00 | Bloco B | Sala 6B Trad.</option>
+                                        <option value="">09/01 | 12:00 - 13:00 | Bloco B | Sala 7B Circ.</option>
+                                    </select>
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                                
+                                <!--QUANDO O ITEM NÃO FOI ALTERADO-->
+                                <!--Mostra o icone fa-check, remove a classe danger e o título item já está salvo.
+                                    Quando o select for alterado, esconde este item e mostra o item abaixo, retirando a classe d-none.-->
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Item já está salvo" data-value="">
+                                <i class="fas fa-check"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="danger hover-success ml-1 setClipboard d-none"
+                                title="Salvar Alterações" data-value="">
+                                <i class="fas fa-save"></i>
+                                </a>
+
+                            </td>
+                    </tr>                        <tr>
+                            <td> <span class="badge badge-warning">ENEO231</span></td>
+                            <td>2</td>
+                            <td>Religião e Empreendedorismo: Uma análise a partir da teoria do comportamento planejado.</td>
+                            <td>Autor</td>
+                            <td>João da Silva</td>
+                            <td><span class="badge-round tra">t</span></td>
+                            <td>
+                                <div class="col-12">
+                                    <select id="slotSchedule" name="slotSchedule" class="filter select-table">
+                                        <option value="" selected="selected">Selecione</option>
+                                        <option value="">09/01 | 09:00 - 10:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 10:00 - 11:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 11:00 - 12:00 | Bloco B | Sala 6B Trad.</option>
+                                        <option value="">09/01 | 12:00 - 13:00 | Bloco B | Sala 7B Circ.</option>
+                                    </select>
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Item já está salvo" data-value="">
+                                <i class="fas fa-check"></i>
+                                </a>
+
+                            </td>
+                    </tr>
+                    <tr>
+                            <td> <span class="badge badge-danger">ABCO247</span></td>
+                            <td>2</td>
+                            <td>Da Criatividade à exaptação empreendedora.</td>
+                            <td>Autor</td>
+                            <td>Daniel Goulart Ribeiro</td>
+                            <td><span class="badge-round tra">t</span></td>
+                            <td>
+                                <div class="col-12">
+                                    <select id="slotSchedule" name="slotSchedule" class="filter select-table">
+                                        <option value="" selected="selected">Selecione</option>
+                                        <option value="">09/01 | 09:00 - 10:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 10:00 - 11:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 11:00 - 12:00 | Bloco B | Sala 6B Trad.</option>
+                                        <option value="">09/01 | 12:00 - 13:00 | Bloco B | Sala 7B Circ.</option>
+                                    </select>
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Item já está salvo" data-value="">
+                                <i class="fas fa-check"></i>
+                                </a>
+                            </td>
+                    </tr> 
+                     <tr>
+                            <td> <span class="badge badge-warning">ENEO241</span></td>
+                            <td>2</td>
+                            <td>O valor da amazônia Brasileira por meio do Compartilhamento: Um estudo em cadeia</td>
+                            <td>Autor</td>
+                            <td>Cassio Eliot Spring</td>
+                            <td><span class="badge-round apr">a</span></td>
+                            <td>
+                                <div class="col-12">
+                                    <select id="slotSchedule" name="slotSchedule" class="filter select-table">
+                                        <option value="" selected="selected">Selecione</option>
+                                        <option value="">09/01 | 09:00 - 10:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 10:00 - 11:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 11:00 - 12:00 | Bloco B | Sala 6B Trad.</option>
+                                        <option value="">09/01 | 12:00 - 13:00 | Bloco B | Sala 7B Circ.</option>
+                                    </select>
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Item já está salvo" data-value="">
+                                <i class="fas fa-check"></i>
+                                </a>
+                            </td>
+                    </tr>
+                     <tr>
+                            <td> <span class="badge badge-success">BNEO241</span></td>
+                            <td>2</td>
+                            <td>O valor da amazônia Brasileira por meio do Compartilhamento: Um estudo em cadeia</td>
+                            <td>Coordenador / Debatedor</td>
+                            <td>João da Silva</td>
+                            <td><span class="badge-round apr">a</span></td>
+                            <td>
+                                <div class="col-12">
+                                    <select id="slotSchedule" name="slotSchedule" class="filter select-table">
+                                        <option value="" selected="selected">Selecione</option>
+                                        <option value="">09/01 | 09:00 - 10:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 10:00 - 11:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 11:00 - 12:00 | Bloco B | Sala 6B Trad.</option>
+                                        <option value="">09/01 | 12:00 - 13:00 | Bloco B | Sala 7B Circ.</option>
+                                    </select>
+                                </div>
+                            </td>
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Item já está salvo" data-value="">
+                                <i class="fas fa-check"></i>
+                                </a>
+                            </td>
+                    </tr>                     <tr>
+                            <td> <span class="badge badge-success">BNEO291</span></td>
+                            <td>2</td>
+                            <td>O valor da amazônia Brasileira por meio do Compartilhamento: Um estudo em cadeia</td>
+                            <td>Debatedor</td>
+                            <td>Maria Fernandes Araújo</td>
+                            <td><span class="badge-round tra">t</span></td>
+                            <td>
+                                <div class="col-12">
+                                    <select id="slotSchedule" name="slotSchedule" class="filter select-table">
+                                        <option value="" selected="selected">Selecione</option>
+                                        <option value="">09/01 | 09:00 - 10:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 10:00 - 11:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 11:00 - 12:00 | Bloco B | Sala 6B Trad.</option>
+                                        <option value="">09/01 | 12:00 - 13:00 | Bloco B | Sala 7B Circ.</option>
+                                    </select>
+                                </div>
+                            </td>
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Item já está salvo" data-value="">
+                                <i class="fas fa-check"></i>
+                                </a>
+                            </td>
+                    </tr>                     <tr>
+                            <td> <span class="badge badge-warning">ENEO241</span></td>
+                            <td>2</td>
+                            <td>O valor da amazônia Brasileira por meio do Compartilhamento: Um estudo em cadeia</td>
+                            <td>Autor</td>
+                            <td>Debora Betania Julgar</td>
+                            <td><span class="badge-round tra">t</span></td>
+                            <td>
+                                <div class="col-12">
+                                    <select id="slotSchedule" name="slotSchedule" class="filter select-table">
+                                        <option value="" selected="selected">Selecione</option>
+                                        <option value="">09/01 | 09:00 - 10:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 10:00 - 11:00 | Bloco B | Sala 5B Circ.</option>
+                                        <option value="">09/01 | 11:00 - 12:00 | Bloco B | Sala 6B Trad.</option>
+                                        <option value="">09/01 | 12:00 - 13:00 | Bloco B | Sala 7B Circ.</option>
+                                    </select>
+                                </div>
+                            </td>
+
+                            <td>
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Ver Seção" data-value="">
+                                <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-danger ml-1 setClipboard"
+                                title="Limpar Ensalamento" data-value="">
+                                <i class="fas fa-times"></i>
+                                </a>
+
+                                <a data-toggle="tooltip" class="hover-success ml-1 setClipboard"
+                                title="Item já está salvo" data-value="">
+                                <i class="fas fa-check"></i>
+                                </a>
+                            </td>
+                    </tr>
+                    </tbody>
+                </table> 
+            </div>
+
+            <!--Ao clicar no botão, abaixo, deve ser mostrado um modal de confirmação escrito, você confirma que quer publicar o ensalamento conteúdo no site do evento? Escreva a palavra confirmar.
+                Depois disto, todo o conteúdo do ensalamento deve ser publicado no site, juntando o ensalamento prioritário (das atividades e paineis) com o agendamento geral(este).-->
+
+            <div class="col-12 col-md-8 offset-md-2 mt-4">
+                <a href="#" class="btn btn-danger btn-lg btn-block" id="btnEndSchedule">
+                    Ensalamento Finalizado e Aprovado. Clique para publicar no site.
+                </a>
+            </div>
+                <div class="row">
+                    <div class="col-12">
+                <h4>Legenda:</h4>
+                <div class="small mt-1 px-2 py-1 d-inline-block">
+                * Tipo = Formato da Seção: <span class="badge-round tra">t</span> = Tradicional &nbsp; &nbsp; &nbsp;<span class="badge-round apr">a</span> = Aprimoramento &nbsp; &nbsp; &nbsp;<span class="badge-round int">i</span> = Interativa.
+                </div>
+                <br/>
+                <div class="small mt-1 px-2 py-1 d-inline-block">
+                Seção tipo <span class="badge-round apr">a</span> ou <span class="badge-round int">i</span> devem ser alocadas em slots com final "circ".
+                Seção tipo <span class="badge-round tra">t</span> devem ser alocadas em slots com final "trad".
+                </div>
+</div>
+</div>
+    </div><!--FIM ABA 5-->
+
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('user') }}
+{% endblock %}

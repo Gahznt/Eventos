@@ -1,0 +1,11 @@
+{% for message in app.flashes('error') %}
+    <div class="alert alert-error" style="color: red">
+        <strong>{{ message }}</strong>
+    </div>
+{% endfor %}
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="mb-2">{{ title|raw }}</h1>
+        <h2>{{ 'Account'|trans }}: <span class="text-info">{{ user.identifier }} - {{ user.name }}</span></h2>
+    </div>
+</div>

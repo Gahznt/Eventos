@@ -1,0 +1,21 @@
+<div class="stepsTab" data-step="3">
+    <h1>{{ 'Link para Pagamento'|trans }}</h1>
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-4">
+            <div class="alert alert-success div-primary-alt icon check-circle">
+                <h2>{{ 'EVENT_TITLE14'| trans }}</h2>
+                <p>{{ 'EVENT_TEXT2' | trans | raw }}</p>
+                <p>{{ 'EVENT_TEXT3' | trans | raw }}</p>
+                <p>{{ 'EVENT_TEXT4' | trans | raw }}</p>
+                {% if editionSignup.id is not empty %}
+                    <div class="col-md-10 offset-md-1 p-0 ">
+                        <a href="{{ path('event_signUp_edition_payment', {'edition': edition.id, 'editionSignup': editionSignup.id}) }}" class="btn btn-primary btn-lg btn-block" id="btPagamento">{{ 'EVENT_TITLE15'|trans }}</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 offset-md-2 p-0 mt-2">
+        <a href="{{ path('event_index') }}" class="btn btn-outline-primary btn-lg btn-block" id="novaInscricao">{{ 'EVENT_TITLE16'|trans }}</a>
+    </div>
+</div>

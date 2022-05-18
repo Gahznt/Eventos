@@ -1,0 +1,104 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="fieldset">
+            <h1>{{ 'SYS_EV_DASHBOARD_TITLE'|trans }}</h1>
+            <div class="row">
+                <div id="chartData" data-data="{{ indicationThemesByDivisionData|json_encode }}"></div>
+                <div class="col-md-6 mb-3">
+                    {% if indicationQuantityValues|length > 0 %}
+                        <div class="card">
+                            <h5 class="card-header text-center" aria-expanded="true">{{ 'SYS_EV_DASHBOARD_DES_ARTICLE_TITLE'|trans }}</h5>
+                            <div class="card-body">
+                                <canvas id="chartArticle" data-label="{{ 'SYS_EV_DASHBOARD_DES_ARTICLE_CHART_ARTICLES'|trans }}" data-labels="{{ indicationQuantityLabels|join(';') }}" data-values="{{ indicationQuantityValues|join(';') }}"></canvas>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {% if indicationProgressValues|length > 0 %}
+                        <div class="card">
+                            <h5 class="card-header text-center" aria-expanded="true">{{ 'SYS_EV_DASHBOARD_DES_DONE'|trans }}</h5>
+                            <div class="card-body">
+                                <canvas id="chartMade" data-labels="{{ indicationProgressLabels|join(';') }}" data-values="{{ indicationProgressValues|join(';') }}"></canvas>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 mb-3">
+                    {% if indicationByThreeValues|length > 0 %}
+                        <div class="card">
+                            <h5 class="card-header text-center" aria-expanded="true">{{ 'SYS_EV_DASHBOARD_DES_3_ARTICLE'|trans }}</h5>
+                            <div class="card-body">
+                                <canvas id="chartN3" data-labels="{{ indicationByThreeLabels|join(';') }}" data-values="{{ indicationByThreeValues|join(';') }}"></canvas>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 mb-3">
+                    {% if indicationByTwoValues|length > 0 %}
+                        <div class="card">
+                            <h5 class="card-header text-center" aria-expanded="true">{{ 'SYS_EV_DASHBOARD_DES_2_ARTICLE'|trans }}</h5>
+                            <div class="card-body">
+                                <canvas id="chartN2" data-labels="{{ indicationByTwoLabels|join(';') }}" data-values="{{ indicationByTwoValues|join(';') }}"></canvas>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 mb-3">
+                    {% if indicationByOneValues|length > 0 %}
+                        <div class="card">
+                            <h5 class="card-header text-center" aria-expanded="true">{{ 'SYS_EV_DASHBOARD_DES_1_ARTICLE'|trans }}</h5>
+                            <div class="card-body">
+                                <canvas id="chartN1" data-labels="{{ indicationByOneLabels|join(';') }}" data-values="{{ indicationByOneValues|join(';') }}"></canvas>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="card">
+                        <h5 class="card-header text-center" aria-expanded="true">{{ 'SYS_EV_DASHBOARD_DIVISION_CONCLUSION'|trans }}</h5>
+                        <div class="card-body">
+                            <canvas
+                                    id="chartConclusion"
+                                    data-labels="{{ 'SYS_EV_DASHBOARD_CHART_COMPLETE'|trans }};{{ 'SYS_EV_DASHBOARD_CHART_INCOMPLETE'|trans }}"
+                                    data-vlabels="{{ indicationProgressByDivisionLabels|join(';') }}"
+                                    data-vvalues="{{ indicationProgressByDivisionValidValues|join(';') }}"
+                                    data-ivalues="{{ indicationProgressByDivisionInvalidValues|join(';') }}">
+
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1 class="mt-3 mb-2">{{ 'SYS_EV_DASHBOARD_DIVISION_THEME'|trans }}</h1>
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label for="filter-theme">{{ 'SYS_EV_DASHBOARD_FORM_SELECT'|trans }}</label>
+                    <select id="filter-theme">
+                        {% for d in indicationThemesByDivisionData %}
+                            <option value="{{ d.id }}">{{ d.initials }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-8 form-group align-self-end">
+                    <a class="btn btn-primary" id="filterTheme">{{ 'SYS_EV_DASHBOARD_FORM_UPDATE'|trans }}</a>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="card">
+                        <h5 class="card-header text-center" aria-expanded="true">{{ 'SYS_EV_DASHBOARD_DIVISION_THEME'|trans }} - {{ 'SYS_EV_DASHBOARD_DIVISION'|trans }} <span id="divisionName"></span></h5>
+                        <div class="card-body">
+                            <canvas id="chartTheme" data-labels="{{ 'SYS_EV_DASHBOARD_CHART_COMPLETE'|trans }};{{ 'SYS_EV_DASHBOARD_CHART_INCOMPLETE'|trans }}"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('systemEvaluationDashboard') }}
+{% endblock %}

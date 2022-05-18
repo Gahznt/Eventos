@@ -1,0 +1,109 @@
+{% set keywords = [] %}
+{% if data.userThemes.details.portugueseKeywords is not empty %}
+    {% for keys in data.userThemes.details.portugueseKeywords %}
+        {% set keywords = keywords|merge({(loop.index): keys }) %}
+    {% endfor %}
+{% endif %}
+
+<h1>{{ 'Dados da Submissão'|trans }}</h1>
+<div class="fieldset">
+    <div class="row" id="article">
+        <div class="col-2 col-lg-2 div-readonly">
+            <div class="label">{{ 'Status'|trans }}</div>
+            <div class="value">{{ data.status|article_evaluation_status('label')|trans }}</div>
+        </div>
+        <div class="col-10 col-lg-10 div-readonly">
+            <div class="label">{{ 'Título do Trabalho'|trans }}</div>
+            <div class="value">{{ data.title|trans }}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Divisão Acadêmica'|trans }}</div>
+            <div class="value">{{ data.divisionId|trans }}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Tema de Interesse'|trans }}</div>
+            <div class="value">{{ data.userThemes.position }} - {{ data.userThemes.details.title }}</div>
+        </div>
+        <div class="col-2 col-lg-2 div-readonly">
+            <div class="label">{{ 'Data'|trans }}</div>
+            <div class="value">{{ data.createdAt|date('d/m/Y') }}</div>
+        </div>
+        <div class="col-10 col-lg-10 div-readonly">
+            <div class="label">{{ 'Edition'|trans }}</div>
+            <div class="value">{{ data.editionId.namePortuguese }}</div>
+        </div>
+        <div class="col-12 div-readonly">
+            <div class="label">{{ 'Palavras chave'|trans }}</div>
+            <div class="value">{{ data.keywords|join(', ')|trans }}</div>
+        </div>
+        <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'Idioma do Trabalho'|trans }}</div>
+            <div class="value">{{ LANGUAGES[data.language]|trans }}</div>
+        </div>
+        <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'Como o trabalho se enquadra?'|trans }}</div>
+            <div class="value" data-value="">{{ FRAMES[data.frame]|trans }}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Este trabalho é decorrente de'|trans }}</div>
+            <div class="value" data-value="">{{ ARTICLE_RESULTING_FROM[data.lastId]|trans }}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Método Predominante empregado no trabalho'|trans }}</div>
+            <div class="value">{{ data.methodId|trans }}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Teoria predominante empregada no trabalho'|trans }}</div>
+            <div class="value">{{ data.theoryId|trans }}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Idiomas que sou apto a apresentar:'|trans }}</div>
+            <div class="value text-left">{{ LANGUAGES[1]|trans }}: <span style="float: right;">{% if data.portuguese %} {{ 'sim'|trans }} {% else %} {{ 'não'|trans }} {% endif %}</span></div>
+            <div class="value text-left">{{ LANGUAGES[2]|trans }}: <span style="float: right;">{% if data.english %} {{ 'sim'|trans }} {% else %} {{ 'não'|trans }} {% endif %}</span></div>
+            <div class="value text-left">{{ LANGUAGES[3]|trans }}: <span style="float: right;">{% if data.spanish %} {{ 'sim'|trans }} {% else %} {{ 'não'|trans }} {% endif %}</span></div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Caso aprovado, publicar no site da ANPAD'|trans }}</div>
+            {% if data.jobComplete %}
+                <div class="value">
+                    {{ 'ARTICLE_OPTION_FULL'|trans }}
+                </div>
+            {% endif %}
+            {% if data.resumeFlag %}
+                <div class="value">
+                    {{ 'ARTICLE_OPTION_ABST'|trans }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Caso premiado, aceito receber o convite para a submissão em um dos periódicos da ANPAD (RAC e BAR), para serem avaliados em regime fast-track.'|trans }}</div>
+            <div class="value">{% if data.premium %} {{ 'sim'|trans }} {% else %} {{ 'não'|trans }} {% endif %}</div>
+        </div>
+        <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'Afirmo que o trabalho submetido nunca foi aceito/publicado em periódico ou publicado como capítulo de livro, ou aceito/apresentado em eventos da ANPAD.'|trans }}</div>
+            <div class="value">{% if data.neverPublish %} {{ 'sim'|trans }} {% else %} {{ 'não'|trans }} {% endif %}</div>
+        </div>
+        <div class="col-12 div-readonly">
+            <div class="label">{{ 'Agradecimentos (exclusivamente institucional).'|trans }}</div>
+            <div class="value">{{ data.acknowledgment|raw|trans }}</div>
+        </div>
+        <div class="col-12 div-readonly">
+            <div class="label">{{ 'Resumo'|trans }}</div>
+            <div class="value">{{ data.resume|raw|trans }}</div>
+        </div>
+        <div class="col-2 div-readonly">
+            <div class="label">{{ 'IP'|trans }}</div>
+            <div class="value">{{ data.ip }}</div>
+        </div>
+        <div class="col-10 col-lg-10 div-readonly">
+            <div class="label">{{ 'File Sent'|trans }}</div>
+            <div class="value">
+                {% for file in data.userArticlesFiles %}
+                    {% if(file.realArticle) %}
+                        <a href="{{ linkPath ~ file.path }}" target="_blank"><strong>{{ 'Click here to open'|trans }}</strong></a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

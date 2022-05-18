@@ -1,0 +1,63 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <div class="row">
+      <div class="col-md-10">
+        <h1>{{ 'SYS_EV_REPORT_TITLE'|trans }}: {{ 'SYS_EV_REPORT_ARTICLES_THEME'|trans }}</h1>
+      </div>
+      <div class="col-md-2">
+        <!--a class="btn btn-primary btn-sm float-right mr-1" data-toggle="tooltip" title="{{ 'SYS_EV_REPORT_EXCEL'|trans }}"><i class="fas fa-file-excel"></i></a-->
+      </div>
+    </div>
+    <!--form action="/system_evaluation/reports/articles_theme" class="form mt-0">
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <label for="filter-theme_current">{{ 'SYS_EV_REPORT_CUR_THEME'|trans }}</label>
+          <select name="filter-theme_current" id="filter-theme_current" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-theme_original">{{ 'SYS_EV_REPORT_ORIG_THEME'|trans }}</label>
+          <select name="filter-theme_original" id="filter-theme_original" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-search">{{ 'SYS_EV_REPORT_FORM_SEARCH'|trans }}</label>
+          <input type="text" name="filter-search" id="filter-search" class="form-control">
+          <a class="inputSearchBtn"><i class="fas fa-search"></i></a>
+        </div>
+      </div>
+    </form-->
+    <div class="tabela my-2">
+      <table class="table table-sm table-striped table-responsive-md">
+        <thead>
+          <tr class="fw-normal">
+            <th class="">{{ 'Id'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_TITLE'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_FIT'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_ORIG_THEME'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_CUR_THEME'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_DATE'|trans }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in tableData %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ FRAMES[item.fit]|trans }}</td>
+            <td>{{ item.theme_original }}</td>
+            <td>{{ item.theme_current }}</td>
+            <td>{{ item.date|date('d/m/Y H:i') }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

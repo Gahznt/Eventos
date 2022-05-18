@@ -1,0 +1,11 @@
+{% if defaults is not defined %}
+    {% set defaults = 'false' %}
+{% endif %}
+
+<form action="{{ path('login') }}" id="formLogin{% if defaults == 'true' %}Login{% else %}Event{% endif %}" class="row" method="POST" autocomplete="off">
+    {{ include ('@Base/security/partials/login.html.twig', {'defaults': defaults}) }}
+</form>
+
+<form action="{{ path('password_recovery') }}" id="formPasswordRecovery" class="row d-none" method="POST" autocomplete="off">
+    {{ include ('@Base/security/partials/password_recovery.html.twig') }}
+</form>

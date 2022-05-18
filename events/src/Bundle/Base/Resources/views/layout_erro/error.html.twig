@@ -1,0 +1,24 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% set pageTitle = code|error_msg('title')|trans %}
+
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <div class="row">
+      <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 text-center">
+        <h1>{{ 'ERROR_TITLE'|trans }}</h1>
+        <div class="alert alert-{{ code|error_msg('color') }}">
+          <h2>{{ code|error_msg('msg')|trans }}</h2>
+          <span class="text-dark">{{ code|error_msg('text')|trans }}</span>
+        </div>
+        <a href="/" class="btn btn-primary">{{ 'GO_TO_EVENTS'|trans }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+{% endblock %}

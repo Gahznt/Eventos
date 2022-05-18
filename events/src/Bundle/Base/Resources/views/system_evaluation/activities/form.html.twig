@@ -1,0 +1,40 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a href="{{ path('system_evaluation_activities', {'edition' : edition.id}) }}" class="nav-item nav-link tab-6" id="nav-1">
+                    {{ 'LISTAGEM DE<br/>ATIVIDADES'|trans|raw }}
+                </a>
+                <a class="nav-item nav-link tab-6 active" id="nav-2" data-toggle="tab" href="#tab-2" role="tab">
+                    {{ 'DADOS DA<br/>ATIVIDADE'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane show active" id="tab-2" role="tabpanel">
+
+                {% if activity.id != '' %}
+                    <h1>{{ 'Activity'|trans }}: {{ activity.titlePortuguese }}</h1>
+                {% else %}
+                    <h1>{{ 'Activity'|trans }}</h1>
+                {% endif %}
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success mt-3">
+                        {{ message |trans }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger mt-3">
+                        {{ message |trans }}
+                    </div>
+                {% endfor %}
+
+                {% include "system_evaluation/activities/partials/_form.html.twig" %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

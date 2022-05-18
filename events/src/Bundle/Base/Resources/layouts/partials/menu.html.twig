@@ -1,0 +1,27 @@
+<nav class="navbar navbar-anpad navbar-expand-sm py-0">
+    <div class="container">
+        <div class="row">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('index') }}">Ínicio</a>
+        </li>
+            <!-- Dropdown -->
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Usuário
+                </a>
+                <div class="dropdown-menu">
+                    {% if app.user %}
+                    <a class="dropdown-item" href="{{ path('user_list') }}">Lista</a>
+                    <a class="dropdown-item" href="{{ path('login') }}">Logout</a>
+                    {% else %}
+                    <a class="dropdown-item" href="{{ path('login') }}">Login</a>
+                    <a class="dropdown-item" href="{{ path('signUp_index') }}">Cadastro</a>
+                    {% endif %}
+                </div>
+            </li>
+
+    </ul>
+        </div>
+    </div>
+</nav>

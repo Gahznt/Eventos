@@ -1,0 +1,39 @@
+{{ form_start(form,{'attr': {'class': 'form formSystemEvaluationAuthorRate', 'action': path('system_evaluation_author_rate', {evaluation: evaluation.id}), 'novalidate': 'novalidate'}}) }}
+
+<div class="row">
+    <div class="col-lg-12 form-group">
+        <label>{{ 'Qual a utilidade do comentário deste avaliador para o aprimoramento futuro do trabalho que você submeteu?'|trans }}</label>
+        <div class="radiocheck center">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.authorRateOne, {'attr': {'class': 'form-check-input'}}) }}
+            </div>
+        </div>
+        {% if form.authorRateOne.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.authorRateOne.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-lg-12 form-group">
+        <label>{{ 'Quão construtivo foi o tom do avaliador?'|trans }}</label>
+        <div class="radiocheck center">
+            <div class="form-check form-check-inline">
+                {{ form_widget(form.authorRateTwo, {'attr': {'class': 'form-check-input'}}) }}
+            </div>
+        </div>
+        {% if form.authorRateTwo.vars['errors']|length > 0 %}
+            <div class="form-error invalid-feedback">
+                {{ form.authorRateTwo.vars['errors'][0].message }}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}

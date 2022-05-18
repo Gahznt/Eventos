@@ -1,0 +1,205 @@
+{% if speaker.id != '' %}
+    {{ form_start(form, {'attr': {'id':'speakerForm', 'class': 'form', 'action':path('manager_speakers_edit', {id: speaker.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% else %}
+    {{ form_start(form, {'attr': {'id':'speakerForm', 'class': 'form', 'action':path('manager_speakers_new', {editionId: edition.id, id: speaker.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% endif %}
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-md-10 form-group">
+                <label for="speaker-tipo">{{ 'Type'|trans }}</label>
+                {{ form_widget(form.type, {'attr': {'id':'type', 'class': 'form-control'}}) }}
+                {% if form.type.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.type.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-2 form-group">
+                <label for="speaker-ordem">{{ 'SYS_EV_REPORT_AUTHOR_ORDER'|trans }}</label>
+                {{ form_widget(form.position, {'attr': {'id':'position', 'class': 'form-control'}}) }}
+                {% if form.position.vars['errors']|length > 0 %}
+                    <div class="form-error invalid-feedback">
+                        {{ form.position.vars['errors'][0].message }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-12 form-group">
+                <label>{{ 'Status'|trans }}</label>
+                <div class="radiocheck center">
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.status, {'attr': {'id':'status', 'class': 'form-check-input'}}) }}
+                        {% if form.status.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-feedback">
+                                {{ form.status.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.isHomolog, {'attr': {'id':'isHomolog', 'class': 'form-check-input'}}) }}
+                        <label class="form-check-label" for="speaker_isHomolog">{{ 'GESTOR_INFO_LABEL_HOM'|trans }}</label>
+                        {% if form.isHomolog.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-feedback">
+                                {{ form.isHomolog.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-lg-12">
+                <label for="speaker-foto">{{ 'SPEAKERS_PICTURE'|trans }}</label>
+                <div class="custom-file">
+                    {#                    <input type="file" class="custom-file-input" id="speaker-foto">#}
+                    {{ form_widget(form.picture, {'attr': {'id':'picture', 'class': 'custom-file-input'}}) }}
+                    {% if form.picture.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.picture.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+
+                    {% if speaker.picturePath != '' %}
+                        <label class="custom-file-label" for="speaker_picture">{{ speaker.picturePath }}</label>
+                    {% else %}
+                        <label class="custom-file-label" for="speaker_picture">{{ 'PANEL_UPLOAD_NOFILE'|trans }}</label>
+                    {% endif %}
+                </div>
+                {% if speaker.picturePath != '' %}
+                    <img id="speakerPicturePath" class="float-right mt-2" src="{{ asset(constant('PUBLIC_PATH', speaker) ~ speaker.picturePath) }}" width="150" height="150">
+                {% else %}
+                    <img id="speakerPicturePath" class="float-right mt-2" src="{{ asset('build/images/img-placeholder.jpg') }}" width="150" height="150">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3 validCard">
+    <div class="card-header" id="speaker-header1" data-toggle="collapse" data-target="#speaker-collapse1" data-toggle="tooltip">
+        {{ 'SPEAKERS_BIO'|trans}} ({{ 'LANG_PT'|trans }})
+    </div>
+    <div id="speaker-collapse1" class="collapse" aria-labelledby="speaker-header1">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-md-6 form-group">
+                    <label class="form-check-label" for="speaker_namePortuguese">{{ 'Name'|trans }}</label>
+                    {{ form_widget(form.namePortuguese, {'attr': {'id':'namePortuguese', 'class': 'form-control'}}) }}
+                    {% if form.namePortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.namePortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 form-group">
+                    <label class="form-check-label" for="speaker_curriculumLinkPortuguese">{{ 'LATTES_LINK'|trans }}</label>
+                    {{ form_widget(form.curriculumLinkPortuguese, {'attr': {'id':'curriculumLinkPortuguese', 'class': 'form-control'}}) }}
+                    {% if form.curriculumLinkPortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.curriculumLinkPortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="speaker_contentPortuguese">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.contentPortuguese, {'attr': {'id':'contentPortuguese', 'class': 'htmleditor'}}) }}
+                    {% if form.contentPortuguese.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.contentPortuguese.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3 validCard">
+    <div class="card-header" id="speaker-header2" data-toggle="collapse" data-target="#speaker-collapse2">
+        {{ 'SPEAKERS_BIO'|trans}} ({{ 'LANG_EN'|trans }})
+    </div>
+    <div id="speaker-collapse2" class="collapse" aria-labelledby="speaker-header2">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-md-6 form-group">
+                    <label class="form-check-label" for="speaker_nameEnglish">{{ 'Name'|trans }}</label>
+                    {{ form_widget(form.nameEnglish, {'attr': {'id':'nameEnglish', 'class': 'form-control'}}) }}
+                    {% if form.nameEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.nameEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 form-group">
+                    <label class="form-check-label" for="speaker_curriculumLinkEnglish">{{ 'LATTES_LINK'|trans }}</label>
+                    {{ form_widget(form.curriculumLinkEnglish, {'attr': {'id':'curriculumLinkEnglish', 'class': 'form-control'}}) }}
+                    {% if form.curriculumLinkEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.curriculumLinkEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="speaker_contentEnglish">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.contentEnglish, {'attr': {'id':'contentEnglish', 'class': 'htmleditor'}}) }}
+                    {% if form.contentEnglish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.contentEnglish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card mt-3 validCard">
+    <div class="card-header" id="speaker-header3" data-toggle="collapse" data-target="#speaker-collapse3">
+        {{ 'SPEAKERS_BIO'|trans}} ({{ 'LANG_ES'|trans }})
+    </div>
+    <div id="speaker-collapse3" class="collapse" aria-labelledby="speaker-header3">
+        <div class="card-body">
+            <div class="row form mt-0">
+                <div class="col-md-6 form-group">
+                    <label class="form-check-label" for="speaker_nameSpanish">{{ 'Name'|trans }}</label>
+                    {{ form_widget(form.nameSpanish, {'attr': {'id':'nameSpanish', 'class': 'form-control'}}) }}
+                    {% if form.nameSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.nameSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 form-group">
+                    <label class="form-check-label" for="speaker_curriculumLinkSpanish">{{ 'LATTES_LINK'|trans }}</label>
+                    {{ form_widget(form.curriculumLinkSpanish, {'attr': {'id':'curriculumLinkSpanish', 'class': 'form-control'}}) }}
+                    {% if form.curriculumLinkSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.curriculumLinkSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 form-group">
+                    <label class="form-check-label" for="speaker_contentSpanish">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+                    {{ form_widget(form.contentSpanish, {'attr': {'id':'contentSpanish', 'class': 'htmleditor'}}) }}
+                    {% if form.contentSpanish.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.contentSpanish.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary" href="{{ path('manager_speakers_index', {'editionId': edition.id}) }}">{{ 'CANCEL'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }}

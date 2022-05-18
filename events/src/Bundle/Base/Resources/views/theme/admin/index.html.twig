@@ -1,0 +1,43 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+
+            <a class="btn btn-primary" href="{{ path('theme_new') }}">{{ 'THEME_BTN_CREATE'|trans }}</a>
+        </div>
+        <div class="row">
+            <div class="col-md-12 ml-md-auto" style="background: white;color: black;">
+                <h1>{{ 'THEME_LIST'|trans }}</h1>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>{{ 'THEME_LIST_ID'|trans }}</th>
+                        <th>{{ 'THEME_LIST_NAME'|trans }}</th>
+                        <th>{{ 'THEME_LIST_DESC'|trans }}</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for theme in themes %}
+                        <tr>
+                            <td>{{ theme.id }}</td>
+                            <td>{{ theme.english }}</td>
+                            <td>{{ theme.descriptionEnglish }}</td>
+                            <td>
+                                <a class="btn btn-primary" href="{{ path('theme_show', {'id': theme.id}) }}">{{ 'THEME_BTN_SHOW'|trans }}</a>
+                                <a class="btn btn-primary" href="{{ path('theme_edit', {'id': theme.id}) }}">{{ 'THEME_BTN_EDIT'|trans }}</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="25">{{ 'THEME_NOFOUND'|trans }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

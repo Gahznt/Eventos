@@ -1,0 +1,30 @@
+{% set isGranted = isAdmin or isAdminOperational or isDivisionCoordinator or isDivisionCommittee %}
+
+<nav>
+    <div class="nav nav-tabs" role="tablist">
+        <a class="nav-item nav-link active" href="#details-tab" data-toggle="tab" role="tab">
+            {{ 'Detalhes do Tema'|trans|raw }}
+        </a>
+
+        {% if userTheme.themeSubmissionConfig.isResultAvailable or isGranted %}
+            <a class="nav-item nav-link" href="#logs-tab" data-toggle="tab" role="tab">
+                {{ 'Logs'|trans|raw }}
+            </a>
+        {% endif %}
+    </div>
+</nav>
+<div class="tab-content">
+    <div id="details-tab" class="tab-pane fade show active" role="tabpanel">
+        <h1>{{ 'Tema'|trans }} #{{ userTheme.division.initials }}{{ userTheme.id }}</h1>
+
+        {% include "@Base/theme/user/partials/_details.html.twig" %}
+    </div>
+
+    {% if userTheme.themeSubmissionConfig.isResultAvailable or isGranted %}
+        <div id="logs-tab" class="tab-pane fade show" role="tabpanel">
+            <h1>{{ 'Tema'|trans }} #{{ userTheme.division.initials }}{{ userTheme.id }}</h1>
+
+            {% include "@Base/theme/user/partials/_logs.html.twig" %}
+        </div>
+    {% endif %}
+</div>

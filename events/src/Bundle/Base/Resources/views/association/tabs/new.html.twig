@@ -1,0 +1,88 @@
+{% import _self as customizedMacro %}
+
+    {% macro customFields(main, aditionals) %}
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">{{ 'Divisão'|trans }}</th>
+                <th scope="col" class="text-center">{{ 'Principal'|trans }}</th>
+                <th scope="col" class="text-center">{{ 'Adicionais'|trans }}*</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for d in main %}
+                <tr>
+                    <td>
+                        {{ form_label(d) }}
+                    </td>
+                    <td class="text-center">
+                        {{ form_widget(d) }}
+                    </td>
+                    <td class="text-center">
+                        {% if aditionals.children|length > 0 and aditionals.children[d.vars.value] is defined %}
+                            {{ form_widget(aditionals.children[d.vars.value]) }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if main.vars['errors']|length > 0 %}
+            <div class="form-error div-danger">
+                {% for error in main.vars['errors'] %}
+                    {{ error.message }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endmacro %}
+<h2>{{ 'Associação / Renovação'|trans }}</h2>
+<div class="row">
+    <div class="col-lg-5">
+        <div class="alert alert-warning div-primary-alt">
+            <h2>{{ ''|trans }}Regras da Associação</h2>
+            <ul>
+                <li>Ao associar-se deverá, obrigatoriamente, selecionar uma divisão acadêmica.</li>
+                <li>O associado individual poderá se vincular a mais de uma divisão acadêmica, a um custo adicional. É permitido adicionar no máximo até 2 (duas) divisões acadêmicas adicionais.</li>
+                <li>O custo adicional por divisão, de R$ 25,00 para professor, pesquisador e profissional de administração e áreas afins e de R$ 15,00 para estudantes</li>
+                <li>A filiação como Associado Individual é válida por 12 meses, a contar do dia do pagamento da anuidade.</li>
+                <li>Estudantes devem enviar o comprovante de matrícula para o e-mail <a href="mailto:secretaria@anpad.org.br" class="info">secretaria@anpad.org.br</a>.</li>
+                <li>Os valores de associação não serão devolvidos em hipótese alguma.</li>
+                <li>Filiar-se como Associado Individual é ato pessoal e intransferível.</li>
+                <li>O acesso a downloads de anais eletrônicos no site da ANPAD será liberado após a confirmação do pagamento da anuidade.</li>
+            </ul>
+        </div>
+    </div>
+    {% if app.user.private %}
+        <div class="col-lg-7">
+            <h2>{{ 'Escolha a Forma de Associação'|trans }}</h2>
+            {{ form_start(form, {'attr': {'id' : 'associate' ,'class': 'form mt-0'}}) }}
+            <div class="form-group mb-5">
+                <label for="forma">{{ 'Forma de Associação'|trans }}</label>
+                {{ form_widget(form.type) }}
+                {% if form.type.vars['errors']|length > 0 %}
+                    <div class="form-error div-danger">
+                        {% for error in form.type.vars['errors'] %}
+                            {{ error.message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+            </div>
+            <h2 class="mb-2">{{ 'Escolha a(s) divisão(ões) acadêmica(s)'|trans }}:</h2>
+            <b>*{{ 'Permitido no máximo 2 (duas) divisões adicionais'|trans }}.</b>
+            <div class="tableForm my-2" id="divisionsTable">
+                {{ customizedMacro.customFields(form.division, form.aditionals) }}
+            </div>
+            <div class="mt-3">
+                <a class="btn btn-block btn-primary" id="submitForm">{{ 'Continuar'|trans }}</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    {% else %}
+        <div class="col-lg-7">
+            <p>- O acesso ao Download é liberado após a confirmação do pagamento e é válido por 12 meses.</p>
+            <p>- Não há devolução do valor pago em hipótese alguma.</p>
+            <button class="btn btn-block btn-primary">Confirmar</button>
+        </div>
+    {% endif %}
+</div>

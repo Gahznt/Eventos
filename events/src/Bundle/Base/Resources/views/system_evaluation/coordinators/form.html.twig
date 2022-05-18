@@ -1,0 +1,36 @@
+<form action="/" class="form" id="coordinatorForm">
+  <div class="row">
+    <div class="col-md-10">
+      <h1 class="mb-0">{{ 'Dados do Coordenador'|trans }}</h1>
+    </div>
+    <div class="col-md-2">
+      <a class="btn btn-danger float-right d-none delForm" id="delCoordinator" data-toggle="tooltip" title="{{ 'Excluir'|trans }}" data-form="coordinatorForm" data-modal-title="{{ 'Remover Coordenador'|trans }}" data-path="/delete_success" data-token="{{ csrf_token('delete') }}" data-type="{{ 'o coordenador'|trans }}"><i class="fas fa-times"></i></a>
+      <a class="btn btn-primary float-right mr-1" data-toggle="tooltip" title="{{ 'Enviar e-mail'|trans }}"><i class="fas fa-envelope"></i></a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2 form-group">
+      <label for="cod">{{ 'Código IANPAD'|trans }}</label>
+      <input type="text" name="cod" id="cod" class="form-control">
+    </div>
+    <div class="col-md-10 form-group">
+      <label for="name">{{ 'Nome Completo'|trans }}</label>
+      <input type="text" name="name" id="name" class="form-control" readonly>
+    </div>
+    <div class="col-md-4 form-group">
+      <label for="type">{{ 'Tipo de Usuário'|trans }}</label>
+      <select name="type" id="type" class="form-control">
+        <option value="">{{ 'Selecione'|trans }}</option>
+      </select>
+    </div>
+    <div class="col-md-8 form-group">
+      <label for="theme">{{ 'Tema(s) de Interesse'|trans }}</label>
+      <select name="theme" id="theme" class="form-control" multiple>
+        <option value="" disabled>{{ 'Selecione'|trans }}</option>
+      </select>
+    </div>
+    <div class="col-md-4 offset-md-8">
+      <button class="btn btn-block btn-primary">{{ 'SALVAR'|trans }}</button>
+    </div>
+  </div>
+</form>

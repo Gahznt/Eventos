@@ -1,0 +1,90 @@
+.navbar-anpad {
+  background-image: linear-gradient(to bottom, #1B4E7C, #184063);
+}
+
+.navbar-anpad .navbar-nav > li > a {
+  color: #FFF;
+}
+
+.navbar-anpad .navbar-nav > li > a:hover,
+.navbar-anpad .navbar-nav > li > a:focus {
+  color: #205C95;
+  background-color: #FFF;
+}
+.navbar-anpad .navbar-nav > .active > a,
+.navbar-anpad .navbar-nav > .active > a:hover,
+.navbar-anpad .navbar-nav > .active > a:focus {
+  color: #205C95;
+  background-color: #FFF;
+}
+.navbar-anpad .navbar-nav > .disabled > a,
+.navbar-anpad .navbar-nav > .disabled > a:hover,
+.navbar-anpad .navbar-nav > .disabled > a:focus {
+  color: #205C95;
+  background-color: transparent;
+}
+.navbar-anpad .navbar-toggle {
+  border-color: #FFF;
+}
+.navbar-anpad .navbar-toggle:hover,
+.navbar-anpad .navbar-toggle:focus {
+  background-color: #FFF;
+}
+.navbar-anpad .navbar-toggle .icon-bar {
+  background-color: #FFF;
+}
+
+.navbar-anpad .navbar-collapse,
+.navbar-anpad .navbar-form {
+  border-color: #FFF;
+}
+.navbar-anpad .navbar-nav > .open > a,
+.navbar-anpad .navbar-nav > .open > a:hover,
+.navbar-anpad .navbar-nav > .open > a:focus {
+  color: #205C95;
+  background-color: #FFF;
+}
+
+.submenu {
+  margin: 0px -15px 10px -15px;
+}
+
+.submenu ul,li {
+  list-style: none;
+  margin:0px;
+  padding:0px;
+}
+
+.submenu ul li {
+  padding: 10px 0px 10px 0px;
+  border-bottom: 1px solid #FADE62;
+  color: #666666;
+  cursor:pointer;
+  border-left: 3px solid #FCF8DC;
+}
+
+.submenu ul li:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+  margin-top: -5px;
+  margin-left:15px;
+  width: 0;
+  height: 0;
+
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #F7C335;
+}
+
+.submenu ul li:hover {
+  border-left: 3px solid #F7C335;
+}
+
+.menu-fixo  {
+  position:fixed !important;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+}

@@ -1,0 +1,41 @@
+<div id="panelist-container-form">
+    <div id="panelistas">
+        {% for panelist in panel.panelsPanelists %}
+            <div class="fieldsetBg painelista mb-3" data-count="__name__">
+                <h3 class="title">{{ 'PANELIST_DATA_COUNT'|trans|replace({'@panelistid': loop.index}) }}</h3>
+
+                <div class="row">
+
+                    <div class="col-lg-6 form-group">
+                        <label for="countryId">{{ 'PANEL_COUNTRY'|trans }}</label>
+                        <div class="form-control">{{ panelist.panelistId.city.country.name }}</div>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label id="label-cpf-__name__" for="cpf-__name__">CPF</label>
+                        <div class="form-control">{{ panelist.panelistId.identifier }}</div>
+                    </div>
+
+                    <div class="col-12 form-group">
+                        <label for="panelistIdFake">{{ 'PANEL_FULLNAME'|trans }}</label>
+                        <div class="form-control">{{ panelist.panelistId.name }}</div>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <label for="curriculum-0">{{ 'LATTES_LINK'|trans }}</label>
+                        <div class="form-control">{{ panelist.proponentCurriculumLattesLink }}</div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="curriculumpdf-0">{{ 'PANEL_CV_PDF'|trans }}</label>
+                        <div class="form-control">
+                            {% if panelist.proponentCurriculumPdfPath %}
+                                <a href="javascript:void(0)" class="panelDownload" data-file="{{ panelist.proponentCurriculumPdfPath }}">{{ 'PEVAL_LINK_DOWN'|trans }}</a>
+                            {% else %}
+                                {{ 'PEVAL_NOFILE'|trans }}.
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_index') }}" role="tab">
+                    {{ 'Events'|trans }}
+                </a>
+                <a class="nav-item nav-link" href="{{ path('manager_editions_index', {'eventId': event.id}) }}" role="tab">
+                    {{ 'MANAGER_EDITIONS'|trans }}
+                </a>
+                <a class="nav-item nav-link active" href="{{ path('manager_edition_payments_index', {'editionId': edition.id}) }}" role="tab">
+                    Formas de Pagamento
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link" href="{{ path('manager_edition_payments_index', {'editionId': edition.id}) }}" role="tab">
+                            Lista de<br/> Formas de Pagamento
+                        </a>
+                        <a class="nav-item nav-link active" href="#dados" role="tab">
+                            Dados da<br/> Forma de Pagamento
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+
+
+                        {% if editionPaymentMode.id != '' %}
+                            <h1>Dados da Forma de Pagamento {{ editionPaymentMode.name }}</h1>
+                        {% else %}
+                            <h1>Dados da Nova Forma de Pagamento</h1>
+                        {% endif %}
+
+                        {% include "gestor/tabs/payments/partials/_form.html.twig" %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorEditionPaymentModes') }}
+    {{ parent() }}
+{% endblock %}

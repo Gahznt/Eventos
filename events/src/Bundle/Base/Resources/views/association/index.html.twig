@@ -1,0 +1,113 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'JOIN_TITLE'|trans }}{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <h1>{{ 'JOIN_OPTIONS_HEAD'|trans }}</h1>
+    <div class="card mt-3">
+      <div class="card-header" id="header1" data-toggle="collapse" data-target="#collapse1">
+        <i class="fas fa-university mr-2"></i>
+        {{ 'JOIN_EDUCATIONAL'|trans }}
+      </div>
+      <div id="collapse1" class="collapse" aria-labelledby="header1">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h2>{{ 'Requirements'|trans }}:</h2>
+              <ul>
+                {{ 'JOIN_EDUCATIONAL_REQS'|trans|raw }}
+              </ul>
+              <h2>{{ 'Rights'|trans}}:</h2>
+              <ul>
+                {{ 'JOIN_EDUCATIONAL_RIGHTS'|trans|raw }}
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <h2>{{ 'Benefits'|trans }}:</h2>
+              <ul>
+                {{ 'JOIN_EDUCATIONAL_BEN'|trans|raw }}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header" id="header2" data-toggle="collapse" data-target="#collapse2">
+        <i class="fas fa-user mr-2"></i>
+          {{ 'JOIN_INDIVIDUAL'|trans }}
+      </div>
+      <div id="collapse2" class="collapse" aria-labelledby="header2">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <ul>
+                {{ 'JOIN_INDIVIDUAL_RULES'|trans|raw }}
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul>
+                {{ 'JOIN_INDIVIDUAL_BEN'|trans|raw }}
+              </ul>
+            </div>
+            <div class="col-12">
+              {% if app.user %}
+              <div class="text-center">
+                <a href="{{ path('associate_new',{'id': app.user.id}) }}" class="btn btn-primary">{{ 'JOIN_TITLE'|trans }}</a>
+              </div>
+              {% else %}
+              <div class="alert alert-warning div-primary-alt icon exclamation">
+                <h2 class="mb-2">{{ 'JOIN_SIGNUP'|trans }}</h2>
+                <div>{{ 'JOIN_SIGNUP_LINK1'|trans }} <a class="info" href="{{ path('signUp_index') }}">{{ 'JOIN_SIGNUP_LINK2'|trans }}</a>. {{ 'JOIN_SIGNUP_LINK3'|trans }}.</div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header" id="header3" data-toggle="collapse" data-target="#collapse3">
+        <i class="fas fa-briefcase mr-2"></i>
+        {{ 'JOIN_COMPANY'|trans }}
+      </div>
+      <div id="collapse3" class="collapse" aria-labelledby="header3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <ul>
+                {{ 'JOIN_COMPANY_RULES'|trans|raw }}
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul>
+                {{ 'JOIN_COMPANY_BEN'|trans|raw }}
+              </ul>
+            </div>
+            <div class="col-12">
+              {% if app.user %}
+              <div class="text-center">
+                <a href="{{ path('associate_new',{'id': app.user.id}) }}" class="btn btn-primary">{{ 'JOIN_TITLE'|trans }}</a>
+              </div>
+              {% else %}
+              <div class="alert alert-warning div-primary-alt icon exclamation">
+                <h2 class="mb-2">{{ 'JOIN_SIGNUP'|trans }}</h2>
+                <div>{{ 'JOIN_SIGNUP_LINK1'|trans }} <a class="info" href="{{ path('signUp_index') }}">{{ 'JOIN_SIGNUP_LINK2'|trans }}</a>. {{ 'JOIN_SIGNUP_LINK3'|trans }}.</div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('user') }}
+{% endblock %}

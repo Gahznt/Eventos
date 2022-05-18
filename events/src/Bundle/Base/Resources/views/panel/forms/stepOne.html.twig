@@ -1,0 +1,62 @@
+<div class="stepsTab" data-step="1">
+    <h1>{{ 'PANEL_STEP1_HEAD'|trans|raw }}</h1>
+    <div class="row">
+        <div class="col-lg-8 form-group">
+            <label for="divisionId">{{ 'ACADEMIC_DIVISION'|trans }}</label>
+            {{ form_widget(form.divisionId, {'attr': {'id':'divisionId', 'class': 'form-control'}}) }}
+            {% if form.divisionId.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.divisionId.vars['errors'] %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-4 form-group">
+            <label for="language">{{ 'PANEL_LANGUAGE'|trans }}</label>
+            {{ form_widget(form.language, {'attr': {'id':'language', 'class': 'form-control'}}) }}
+            {% if form.language.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.language.vars['errors'] %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-12 form-group">
+            <label for="title">{{ 'PANEL_DATA_TITLE'|trans }}</label>
+            {{ form_widget(form.title, {'attr': {'id':'title', 'class': 'form-control'}}) }}
+            {% if form.title.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.title.vars['errors'] %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-6 form-group">
+            <label for="justification">{{ 'PANEL_JUSTIFY'|trans }}</label>
+            {{ form_widget(form.justification, {'attr': {'id':'justification', 'class': 'form-control', 'rows': 5}}) }}
+            <p class="text-right">{{ 'Caracteres restantes'|trans }}: <span id="justification_remaining_chars_counter">4000</span></p>
+            {% if form.justification.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.justification.vars['errors'] %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-6 form-group">
+            <label for="suggestion">{{ 'PANEL_SUGGESTION'|trans }}</label>
+            {{ form_widget(form.suggestion, {'attr': {'id':'suggestion', 'class': 'form-control', 'rows': 5}}) }}
+            <p class="text-right">{{ 'Caracteres restantes'|trans }}: <span id="suggestion_remaining_chars_counter">800</span></p>
+            {% if form.suggestion.vars['errors']|length > 0 %}
+                <div class="invalid-feedback">
+                    {% for error in form.suggestion.vars['errors'] %}
+                        {{ error.message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="formDiv">
+            <div id="signup-main">
+                <div class="form-progress d-none d-md-block">
+                    <div class="time">
+                        {{ 'INPUT_TIME'|trans|raw }}
+                    </div>
+                    <div class="steps" id="signTimeLine">
+                        <div class="step f active" data-step="0">
+                            <span>5 min</span><br/>
+                            <i class="fas fa-circle"></i><br/>
+                            {{ 'SIGNUP_STEP0'|trans|raw }}
+                        </div>
+                        <div class="step" data-step="1">
+                            <span>4 min</span><br/>
+                            <i class="fas fa-circle"></i><br/>
+                            {{ 'SIGNUP_STEP1'|trans|raw }}
+                        </div>
+                        <div class="step" data-step="2">
+                            <span>3 min</span><br/>
+                            <i class="fas fa-circle"></i><br/>
+                            {{ 'SIGNUP_STEP4'|trans|raw }}
+                        </div>
+                        <div class="step" data-step="3">
+                            <span>2 min</span><br/>
+                            <i class="fas fa-circle"></i><br/>
+                            {{ 'SIGNUP_STEP2'|trans|raw }}
+                        </div>
+                        <div class="step" data-step="4">
+                            <span>1 min</span><br/>
+                            <i class="fas fa-circle"></i><br/>
+                            {{ 'SIGNUP_STEP3'|trans|raw }}
+                        </div>
+                        <div class="step l" data-step="5">
+                            <span>0 min</span><br/>
+                            <i class="fas fa-circle"></i><br/>
+                            {{ 'SIGNUP_STEP5'|trans|raw }}
+                        </div>
+                    </div>
+                </div>
+                <div class="mobileSteps d-md-none">{{ 'STEP'|trans }} <span>{{ step }}</span>/5</div>
+                {{ form_start(form, {'attr': {'id':'formSignStep','action':path('signUp_index'), 'novalidate': 'novalidate'}}) }}
+                <div id="userCadastro" class="form">
+                    <input type="hidden" id="step" name="step" value="{{ step }}">
+                    {% include "@Base/sign_up/forms/stepZero.html.twig" %}
+                    {% include "@Base/sign_up/forms/stepOne.html.twig" %}
+                    {% include "@Base/sign_up/forms/stepTwo.html.twig" %}
+                    {% include "@Base/sign_up/forms/stepThree.html.twig" %}
+                    {% include "@Base/sign_up/forms/stepFour.html.twig" %}
+                    {% include "@Base/sign_up/forms/stepFive.html.twig" %}
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mt-5">
+                        <a class="btn btn-outline-primary btCadastroVoltar">{{ 'STEP_BACK'|trans }}</a>
+                    </div>
+                    <div class="col-lg-6 mt-5">
+                        <a class="btn btn-primary btn-lg btn-block btCadastro">{{ 'STEP_FORWARD'|trans }} <i id="btnLoad"></i></a>
+                    </div>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('sign_up') }}
+{% endblock %}

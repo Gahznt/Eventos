@@ -1,0 +1,607 @@
+{% macro date_dm(date) %}
+    {% if app.request.getLocale() == 'en' %}
+        {{ date|format_datetime(pattern="MM/d") }}
+    {% else %}
+        {{ date|format_datetime(pattern="d/MM") }}
+    {% endif %}
+{% endmacro %}
+
+{% import _self as dateMacro %}
+
+{% if subsection.type == 8 %}
+    {# Palestrantes #}
+
+    {{ subsection.description|raw }}
+
+    {% if edition.speakers|filter(s => s.type == 1)|length > 0 %}
+        {#
+        Desativado cabeçalho para tipo de palestrante
+        <h2>{{ 'EVENT_DETAILS_LABEL_INT_SPEAKERS'|trans }}</h2>
+        #}
+        {% for speaker in edition.speakers|filter(s => s.type == 1) %}
+            <div class="row mb-3">
+                <div class="col-md-3 mb-3">
+                    <img src="{{ asset(constant('PUBLIC_PATH', speaker) ~ speaker.picturePath) }}" class="w-100 rounded-circle">
+                </div>
+                <div class="col-md-9">
+                    <h3 class="mb-0">{{ speaker.name }}</h3>
+                    <a href="{{ speaker.curriculumLink }}" class="text-break"
+                       target="_blank">{{ speaker.curriculumLink }}</a><br/>
+                    <div class="mt-3"><small>{{ speaker.content|raw }}</small></div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if edition.speakers|filter(s => s.type == 0)|length > 0 %}
+        {#
+        Desativado cabeçalho para tipo de palestrante
+        <h2>{{ 'EVENT_DETAILS_LABEL_NAC_SPEAKERS'|trans }}</h2>
+        #}
+        {% for speaker in edition.speakers|filter(s => s.type == 0) %}
+            <div class="row mb-3">
+                <div class="col-md-3 mb-3">
+                    <img src="{{ asset(constant('PUBLIC_PATH', speaker) ~ speaker.picturePath) }}" class="w-100 rounded-circle">
+                </div>
+                <div class="col-md-9">
+                    <h3 class="mb-0">{{ speaker.name }}</h3>
+                    <a href="{{ speaker.curriculumLink }}" class="text-break"
+                       target="_blank">{{ speaker.curriculumLink }}</a><br/>
+                    <div class="mt-3"><small>{{ speaker.content|raw }}</small></div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% elseif subsection.type == 9 %}
+    {# Coordenação e Comitê / Temas de Interesse #}
+
+    {% if edition.event.divisions|length > 0 %}
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% for division in edition.event.divisions %}
+                    <a class="nav-item nav-link {{ loop.index == 1 ? 'active' : '' }}" id="nav-home-tab" data-toggle="tab"
+                       href="#navdivision-{{ division.id }}" role="tab"
+                       aria-controls="nav-home" aria-selected="{{ loop.index == 1 ? 'true' : 'false' }}">
+                        {{ division.initials }}
+                    </a>
+                {% endfor %}
+            </div>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+            {% for division in edition.event.divisions %}
+                <div class="tab-pane fade {{ loop.index == 1 ? 'active show' : '' }}" id="navdivision-{{ division.id }}" role="tabpanel"
+                     aria-labelledby="nav-home-tab">
+                    <div>
+                        <h2>{{ division.name }}</h2>
+
+                        {% if division.getDivisionCoordinators({'edition': edition.id})|length > 0 %}
+                            <h3 class="mb-2">{{ 'EVENT_DETAILS_LABEL_COORDINATOR'|trans }}</h3>
+                            {% for dc in division.getDivisionCoordinators({'edition': edition.id}) %}
+                                <p class="m-0 ml-3">{{ dc.coordinator.name ~ ' ' ~ dc.coordinator.institutionsPrograms }}</p>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if division.getUserCommittees({'edition': edition.id})|length > 0 %}
+                            <h3 class="mt-3 mb-2">{{ 'EVENT_DETAILS_LABEL_COMMITTE'|trans }}</h3>
+                            {% for uc in division.getUserCommittees({'edition': edition.id}) %}
+                                <p class="m-0 ml-3">{{ uc.user.name }} {{ uc.user.institutionsPrograms }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {# {% if subsection.committe|length > 0 %} #}
+                    {% for theme in division.themes %}
+                        <div class="card mt-3">
+                            <div class="card-header" id="navtheme--{{ theme.id }}" data-toggle="collapse"
+                                 data-target="#navtheme-{{ theme.id }}" data-toggle="tooltip">
+                                {{ 'EVENT_DETAILS_LABEL_THEME'|trans }} {{ theme.position }}
+                                - {{ theme.details.title }}
+                            </div>
+                            <div id="navtheme-{{ theme.id }}" class="collapse"
+                                 aria-labelledby="header-{{ loop.index }}">
+                                <div class="card-body">
+                                    <h4>{{ 'EVENT_DETAILS_LABEL_LEADERS'|trans }}</h4>
+                                    {% for leader in theme.userThemesResearchers %}
+                                        <p class="ml-3"><b>{{ leader.researcher.name }}</b>: {{ leader.researcher.institutionsPrograms }}</p>
+                                    {% endfor %}
+                                    {{ theme.details.description|raw }}
+                                    <h4>{{ 'EVENT_DETAILS_LABEL_KEYWORDS'|trans }}</h4>
+                                    <div class="ml-3">{{ theme.details.keywords|join('; ') }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {# {% endif %} #}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% elseif subsection.type == 10 %}
+    {# Resultados #}
+
+    {% if app.user %}
+        {{ subsection.description|raw }}
+    {% else %}
+        <div class="alert alert-warning text-center">
+            <h1 class="mt-3 mb-2">{{ 'EVENT_DETAILS_LABEL_LOGIN'|trans }}</h1>
+            <p class="text-dark font-weight-bold">{{ 'EVENT_DETAILS_LABEL_LOGIN_PHRASE'|trans }}</p>
+        </div>
+    {% endif %}
+{% elseif subsection.type == 11 %}
+    {# Inscrições #}
+
+    <h3>{{ 'EVENT_DETAILS_LABEL_LOCAL'|trans }}</h3>
+    <p class="ml-3">{{ edition.place }}</p>
+
+    {% if edition.editionPaymentModes|length > 0 %}
+        <h3>{{ 'EVENT_DETAILS_LABEL_PRICES'|trans }}</h3>
+        <div class="tabela mb-3">
+            <table class="table table-sm table-striped table-responsive-md">
+                <thead>
+                <tr>
+                    <th class="border-top-0">{{ 'EVENT_DETAILS_LABEL_TYPE_REGISTER'|trans }}</th>
+                    <th class="border-top-0">{{ 'Valor'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for price in edition.editionPaymentModes %}
+                    <tr>
+                        <td>{{ price.name }}</td>
+                        <td>{{ price.value|format_currency('BRL') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    {{ subsection.description|raw }}
+
+    {% if edition.systemEvaluationConfigs[0].freeSignup == 1 %}
+
+        <h4 class="mt-3">{{ 'EVENT_DETAILS_LABEL_TERM_PHRASE'|trans }}</h4>
+        <a href="{{ path('event_signUp_edition', {edition: edition.id }) }}"
+           class="btn btn-primary">{{ 'EVENT_DETAILS_BTN_REGISTER'|trans }}</a>
+
+    {% endif %}
+
+{% elseif subsection.type == 7 %}
+    {# Programação Detalhada #}
+
+    <div id="detailed-event-schedule">
+
+        {% if edition.schedulings|length > 0 %}
+
+            <div class="position-relative mb-3">
+                <input name="s" class="form-control" placeholder="{{ 'Search'|trans }}" style="padding-right: 36px;">
+                <span class="position-absolute" style="top: 8px; right: 10px;"><i class="fa fa-search"></i></span>
+            </div>
+
+            {# division.id #}
+            {# systemEnsalementSlots.systemEnsalementSessions.date #}
+            {# systemEnsalementSlots.systemEnsalementSessions.start #}
+            {# systemEnsalementSlots.systemEnsalementRooms.name #}
+            {# systemEnsalementSlots.systemEnsalementSessions.type #}
+            {# userThemes.position #}
+            {# systemEnsalementSlots.systemEnsalementRooms.local #}
+
+            {# getDivision.getId #}
+            {# getSystemEnsalementSlots.getSystemEnsalementSessions.getDate #}
+            {# getSystemEnsalementSlots.getSystemEnsalementSessions.getStart #}
+            {# getSystemEnsalementSlots.getSystemEnsalementRooms.getName #}
+            {# getSystemEnsalementSlots.getSystemEnsalementSessions.getType #}
+            {# getUserThemes.getPosition #}
+            {# getSystemEnsalementSlots.getSystemEnsalementRooms.getLocal #}
+
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    {% set baseLoopIndex = 0 %}
+                    {% for isGlobal, activity_schedulings in edition.schedulings|obj_group_by_int('getActivity.getIsGlobal')|ksort|reverse(preserveKeys = true) %}
+                        {% set nextLoop = activity_schedulings|obj_group_by('getDivision.getId')|ksort %}
+                        {% if 1 == isGlobal %}
+                            {% set nextLoop = activity_schedulings|obj_group_by_int('getActivity.getIsGlobal') %}
+                        {% endif %}
+                        {% for division_schedulings in nextLoop %}
+                            {% set baseLoopIndex = baseLoopIndex+1 %}
+                            {% set division = division_schedulings[0].division %}
+                            <a class="nav-item nav-link {{ baseLoopIndex == 1 ? 'active' : '' }} nav-by-division-{{ isGlobal }}-{{ division.id }} nav-by-division-header position-relative" data-toggle="tab" href="#nav-by-division-{{ isGlobal }}-{{ division.id }}" role="tab" aria-selected="{{ loop.index == 1 ? 'true' : 'false' }}" data-ref-division="nav-by-division-{{ isGlobal }}-{{ division.id }}">
+                                {% if 1 == isGlobal %}
+                                    INTERDIVISIONAL
+                                {% else %}
+                                    {{ division.initials }}
+                                {% endif %}
+                            </a>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </nav>
+
+            <div class="tab-content" id="nav-tabContent">
+                {% set baseLoopIndex = 0 %}
+                {% for isGlobal, activity_schedulings in edition.schedulings|obj_group_by_int('getActivity.getIsGlobal')|ksort|reverse(preserveKeys = true) %}
+                    {% set nextLoop = activity_schedulings|obj_group_by('getDivision.getId')|ksort %}
+                    {% if 1 == isGlobal %}
+                        {% set nextLoop = activity_schedulings|obj_group_by_int('getActivity.getIsGlobal') %}
+                    {% endif %}
+                    {% for division_schedulings in nextLoop %}
+                        {% set baseLoopIndex = baseLoopIndex+1 %}
+                        {% set division = division_schedulings[0].division %}
+
+                        <div id="nav-by-division-{{ isGlobal }}-{{ division.id }}" class="tab-pane fade {{ baseLoopIndex == 1 ? 'active show' : '' }} nav-by-division-{{ isGlobal }}-{{ division.id }} nav-by-division-body" role="tabpanel" data-ref-division="nav-by-division-{{ isGlobal }}-{{ division.id }}">
+
+
+                            {# {% for date_schedulings in division_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getDate')|ksort %} #}
+                            {# {% set date = date_schedulings[0].systemEnsalementSlots.systemEnsalementSessions.date|format_datetime(pattern="Y-m-d") %} #}
+                            {# <a class="btn btn-block btn-primary nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}" data-toggle="collapse" data-target="#nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}" href="#nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}"> #}
+                            {# {{ 'Dia'|trans }} {{ dateMacro.date_dm(date_schedulings[0].systemEnsalementSlots.systemEnsalementSessions.date)|trim }} #}
+                            {# </a> #}
+                            {# {% endfor %} #}
+
+
+                            {% for date_schedulings in division_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getDate')|ksort %}
+
+                                {% set date = date_schedulings[0].systemEnsalementSlots.systemEnsalementSessions.date|format_datetime(pattern="Y-m-d") %}
+
+                                <div class="card {{ loop.index > 1 ? 'mt-3' : '' }}">
+                                    <a class="btn btn-block btn-primary nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }} nav-by-division-date-header" data-toggle="collapse" data-target="#nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}" href="#nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}" data-parent="#nav-by-division-{{ isGlobal }}-{{ division.id }}" data-ref-division="nav-by-division-{{ isGlobal }}-{{ division.id }}" data-ref-division-date="nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}">
+                                        {{ 'Dia'|trans }} {{ dateMacro.date_dm(date_schedulings[0].systemEnsalementSlots.systemEnsalementSessions.date)|trim }}
+                                    </a>
+                                </div>
+
+                                <div id="nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}" class="search-collapse mt-3 collapse nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }} nav-by-division-date-body" data-parent="#nav-by-division-{{ isGlobal }}-{{ division.id }}" data-ref-division="nav-by-division-{{ isGlobal }}-{{ division.id }}" data-ref-division-date="nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}">
+
+                                    {% for start_schedulings in date_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getStart')|ksort %}
+                                        {% for room_schedulings in start_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementRooms.getName')|ksort %}
+                                            {% for type_schedulings in room_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getType')|ksort %}
+                                                {% for position_schedulings in type_schedulings|obj_group_by('getUserThemes.getPosition')|ksort %}
+                                                    {# {% for local_schedulings in position_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementRooms.getLocal')|ksort %} #}
+                                                    {% for scheduling in position_schedulings %}
+                                                        <div class="card mt-1 mb-2">
+                                                            <div style="background-color: {{ scheduling.systemEnsalementSlots.systemEnsalementSessions.color }}" class="card-header nav-by-scheduling-{{ scheduling.id }} nav-by-scheduling-header" data-toggle="collapse" data-target="#nav-by-scheduling-{{ scheduling.id }}" data-ref-division="nav-by-division-{{ isGlobal }}-{{ division.id }}" data-ref-division-date="nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}" data-ref-scheduling="nav-by-scheduling-{{ scheduling.id }}">
+                                                                <span class="invisible d-none">
+                                                                    <span>{{ scheduling.systemEnsalementSlots.systemEnsalementSessions.start|format_datetime('none', 'short') }}-{{ scheduling.systemEnsalementSlots.systemEnsalementSessions.end|format_datetime('none', 'short') }} - {{ scheduling.systemEnsalementSlots.systemEnsalementRooms.name }}</span>
+                                                                </span>
+                                                                <span class="visible"></span>
+                                                            </div>
+                                                            <div id="nav-by-scheduling-{{ scheduling.id }}" class="collapse nav-by-scheduling-{{ scheduling.id }} nav-by-scheduling-body" data-ref-division="nav-by-division-{{ isGlobal }}-{{ division.id }}" data-ref-division-date="nav-by-division-date-{{ isGlobal }}-{{ division.id }}-{{ date }}" data-ref-scheduling="nav-by-scheduling-{{ scheduling.id }}">
+                                                                <div class="card-body">
+                                                                    <div class="invisible d-none">
+                                                                        {% if scheduling.systemEnsalementSlots.link != '' %}
+                                                                            {% set isActivity = scheduling.activity is not empty and scheduling.activity.id is not empty %}
+                                                                            {% if isUserSignedUpAndNotListener or ( isUserSignedUp and isActivity ) %}
+                                                                                <div class="mb-1">
+                                                                                    <u>
+                                                                                        <a class="btn btn-sm btn-warning" href="{{ scheduling.systemEnsalementSlots.link }}" target="_blank">
+                                                                                            {{ 'Clique aqui para acessar a sessão'|trans }}
+                                                                                        </a>
+                                                                                    </u>
+                                                                                </div>
+                                                                            {% endif %}
+                                                                        {% endif %}
+
+                                                                        <div class="mb-3">
+                                                                            {% if scheduling.systemEnsalementSlots.systemEnsalementSessions.type is not empty and 20 != scheduling.systemEnsalementSlots.systemEnsalementSessions.type %}
+                                                                                <strong>
+                                                                                    {{ constant('SESSION_TYPES', scheduling.systemEnsalementSlots.systemEnsalementSessions)|array_flip()[scheduling.systemEnsalementSlots.systemEnsalementSessions.type]|trans }}{% if scheduling.format is not empty %} - {{ constant('SECTION_FORMATS', scheduling)|array_flip()[scheduling.format]|trans }}{% endif %}
+                                                                                </strong><br>
+                                                                            {% endif %}
+                                                                            <strong>{{ scheduling.title }}</strong><br>
+                                                                        </div>
+                                                                        {#
+                                                                        {% if scheduling.userThemes is not empty %}
+                                                                            <div class="mb-4">
+                                                                                <strong>{{ 'Tema'|trans }}{{ scheduling.userThemes.position }} - {{ scheduling.userThemes.details.title }}</strong>
+                                                                            </div>
+                                                                        {% endif %}
+                                                                        #}
+
+                                                                        {% if scheduling.coordinatorDebater1 is not empty or scheduling.coordinatorDebater2 is not empty %}
+                                                                            <div class="mb-4">
+                                                                                {% if scheduling.coordinatorDebater1 is not empty %}
+                                                                                    <div class="mb-2">
+                                                                                        <strong>{{ constant('COORDINATOR_DEBATER_TYPES', scheduling)|array_flip()[scheduling.coordinatorDebater1Type]|trans }}:</strong>
+                                                                                        <span>{{ scheduling.coordinatorDebater1.name }} {{ scheduling.coordinatorDebater1.institutionsPrograms }}</span>
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                                {% if scheduling.coordinatorDebater2 is not empty %}
+                                                                                    <div class="mb-2">
+                                                                                        <strong>{{ constant('COORDINATOR_DEBATER_TYPES', scheduling)|array_flip()[scheduling.coordinatorDebater2Type]|trans }}:</strong>
+                                                                                        <span>{{ scheduling.coordinatorDebater2.name }} {{ scheduling.coordinatorDebater2.institutionsPrograms }}</span>
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        {% endif %}
+
+                                                                        {% if scheduling.articles|length > 0 %}
+                                                                            <div>
+                                                                                {% for article in scheduling.articles %}
+
+                                                                                    <div class="mb-4">
+                                                                                        <h4>
+                                                                                            {% set fileExists = ((uploadPath ~ article.userArticles.getApprovedFile) is file_exists) %}
+                                                                                            {% if isUserSignedUpAndNotListener and fileExists %}
+                                                                                            <a href="{{ asset(linkPath ~ article.userArticles.getApprovedFile) }}" target="_blank">
+                                                                                                {% endif %}
+
+                                                                                                {% set name = ("ENANPAD" == scheduling.edition.event.name|upper) ? article.userArticles.divisionId.initials : scheduling.edition.event.name %}
+                                                                                                <span>{{ name }}{{ article.userArticles.id }} {{ 'Tema '|trans }}{{ article.userArticles.userThemes.position }}</span>
+
+                                                                                                {% if isUserSignedUpAndNotListener and fileExists %}
+                                                                                                <i class="fa fa-download"></i>
+                                                                                            </a>
+                                                                                            {% endif %}
+                                                                                        </h4>
+
+                                                                                        <p class="font-weight-bold mb-2">
+                                                                                            {{ article.userArticles.title }}
+                                                                                        </p>
+
+                                                                                        {% if article.userArticles.userArticlesAuthors|length > 0 %}
+                                                                                            <div class="mb-2">
+                                                                                                {% for author in article.userArticles.userArticlesAuthors %}
+                                                                                                    <p class="small mb-1">
+                                                                                                        {{ author.userAuthor.name }} {{ author.institutionsPrograms }}
+                                                                                                    </p>
+                                                                                                {% endfor %}
+                                                                                            </div>
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        {% endif %}
+
+                                                                        {% if scheduling.activity.id is defined %}
+                                                                            <p class="font-weight-bold mb-4">{{ scheduling.activity.title }}</p>
+
+                                                                            <div>
+                                                                                {{ scheduling.activity.description|raw }}
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="visible"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {# {% endfor %} #}
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div><!-- /.tab-pane -->
+                    {% endfor %}
+                {% endfor %}
+            </div><!-- /.tab-content -->
+
+        {% endif %}
+    </div>
+{% elseif subsection.type == 3 %}
+    {# Trabalhos Aprovados #}
+
+    {{ subsection.description|raw }}
+
+    {% if edition.userArticles({'status': 2})|length > 0 %}
+
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% for division_articles in edition.userArticles({'status': 2})|obj_group_by('getDivisionId.getId')|ksort %}
+                    {% set division = division_articles[0].divisionId %}
+                    <a class="nav-item nav-link {{ loop.index == 1 ? 'active' : '' }}" data-toggle="tab" href="#navsdivision-{{ division.id }}" role="tab" aria-selected="{{ loop.index == 1 ? 'true' : 'false' }}">
+                        {{ division.initials }}
+                    </a>
+                {% endfor %}
+            </div>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+
+            {% for division_articles in edition.userArticles({'status': 2})|obj_group_by('getDivisionId.getId')|ksort %}
+
+                {% set division = division_articles[0].divisionId %}
+
+                <div class="tab-pane fade {{ loop.index == 1 ? 'active show' : '' }}" id="navsdivision-{{ division.id }}" role="tabpanel">
+
+                    {% for theme_articles in division_articles|obj_group_by('getUserThemes.getPosition')|ksort %}
+                        <div class="card mt-3">
+                            <div class="card-header" id="header-{{ loop.index }}" data-toggle="collapse"
+                                 data-target="#collapse-{{ loop.index }}" data-toggle="tooltip">
+                                {{ 'EVENT_DETAILS_LABEL_THEME'|trans }} {{ theme_articles[0].userThemes.position }}
+                                - {{ theme_articles[0].userThemes.details.title }}
+                            </div>
+                            <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="header-{{ loop.index }}">
+                                <div class="card-body ">
+                                    {% for article in theme_articles %}
+                                        {% set name = ("ENANPAD" == edition.event.name|upper) ? article.divisionId.initials : edition.event.name %}
+
+                                        <a href="#view" class="hover-info" data-toggle="modal" data-target="#approvedArticleModal-{{ article.id }}">
+                                            {{ name }}{{ article.id }} - {{ article.title }}
+                                        </a>
+
+                                        {{ loop.index < theme_articles|length ? '<hr/>' }}
+
+                                        <div class="modal" tabindex="-1" role="dialog" id="approvedArticleModal-{{ article.id }}">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                            <span>{{ name }}{{ article.id }}</span>
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <i class="fas fa-times-circle"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body fs-90">
+                                                        <h1>{{ article.title }}</h1>
+
+                                                        <div>
+                                                            <b>{{ 'EVENT_DETAILS_MODAL_AUTHOR_DETAILS_DIVISION'|trans }}</b>:
+                                                            <span>{{ article.divisionId.name }}</span>
+                                                        </div>
+                                                        <div>
+                                                            <b>{{ 'EVENT_DETAILS_MODAL_AUTHOR_DETAILS_THEME'|trans }}</b>:
+                                                            <span>{{ article.userThemes.details.title }}</span>
+                                                        </div>
+
+                                                        {% if article.userArticlesAuthors|length > 0 %}
+                                                            <h3 class="mt-3">{{ 'EVENT_DETAILS_MODAL_AUTHOR_DETAILS_AUTHORS'|trans }}</h3>
+                                                            <div class="authors mb-3">
+                                                                {% for author in article.userArticlesAuthors %}
+                                                                    <p class="mb-3">{{ author.userAuthor.name }}</p>
+                                                                {% endfor %}
+                                                            </div>
+                                                        {% endif %}
+
+                                                        <h3>{{ 'EVENT_DETAILS_MODAL_AUTHOR_DETAILS_RESUME'|trans }}</h3>
+                                                        <div>{{ article.resume|nl2br }}</div>
+
+                                                        <div class="row mt-3">
+                                                            {% set fileExists = ((uploadPath ~ article.getApprovedFile) is file_exists) %}
+                                                            {% if isUserAssociated and fileExists %}
+                                                                <div class="col-md-3">
+                                                                    <a href="{{ asset(linkPath ~ article.getApprovedFile) }}" class="btn btn-block btn-primary" target="_blank">
+                                                                        {{ 'EVENT_DETAILS_MODAL_AUTHOR_DETAILS_OPEN_PDF'|trans }}
+                                                                    </a>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="col-md-12">
+                                                                    <div class="alert alert-danger div-primary-alt icon exclamation">
+                                                                        <h1 class="mb-1">{{ 'EVENT_DETAILS_MODAL_AUTHOR_DETAILS_WARNING'|trans }}</h1>
+                                                                        <div>{{ 'EVENT_DETAILS_MODAL_AUTHOR_DETAILS_WARNING_PHRASE'|trans }}</div>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                </div><!-- /.tab-pane -->
+            {% endfor %}
+        </div><!-- /.tab-content -->
+    {% endif %}
+
+    {% set fileExists = ((uploadPath ~ edition.getApprovedArticlesFile) is file_exists) %}
+    {% if isUserAssociated and fileExists %}
+        <a href="{{ asset(linkPath ~ edition.getApprovedArticlesFile) }}" class="btn btn-block btn-primary mt-3" target="_blank">
+            <i class="fas fa-download"></i> {{ 'Download de todos os artigos do evento'|trans }}
+        </a>
+    {% endif %}
+
+    {# {% elseif subsection.type == 12 %} #}
+    {# Trabalhos indicados à premiação #}
+{% elseif subsection.type == 13 %}
+    {# Atividades Interdivisional/Divisional #}
+    {{ subsection.description|raw }}
+
+    {% if edition.activities|length > 0 %}
+
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% for isGlobal, activity_schedulings in edition.schedulings|obj_group_by_int('getActivity.getIsGlobal')|ksort|reverse(preserveKeys = true) %}
+                    <a class="nav-item nav-link {{ loop.index == 1 ? 'active' : '' }} nav-activities-{{ isGlobal }} nav-activities-header position-relative" data-toggle="tab" href="#nav-activities-{{ isGlobal }}" role="tab" aria-selected="{{ loop.index == 1 ? 'true' : 'false' }}">
+                        {% if 1 == isGlobal %}
+                            {{ 'Interdivisional'|trans }}
+                        {% else %}
+                            {{ 'Divisional'|trans }}
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+            {% for isGlobal, activity_schedulings in edition.schedulings|obj_group_by_int('getActivity.getIsGlobal')|ksort|reverse(preserveKeys = true) %}
+                <div id="nav-activities-{{ isGlobal }}" class="tab-pane fade {{ loop.index == 1 ? 'active show' : '' }} nav-activities-{{ isGlobal }} nav-activities-body" role="tabpanel">
+                    {% set baseLoopIndex = 0 %}
+                    {# {% set nextLoop = activity_schedulings|obj_group_by('getDivision.getId')|ksort %}
+                    {% if 1 == isGlobal %}
+                        {% set nextLoop = activity_schedulings|obj_group_by_int('getActivity.getIsGlobal') %}
+                    {% endif %} #}
+                    {# {% for division_schedulings in nextLoop %}
+                        {% for date_schedulings in division_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getDate')|ksort %} #}
+                    {% for date_schedulings in activity_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getDate')|ksort %}
+                        {% for start_schedulings in date_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getStart')|ksort %}
+                            {% for room_schedulings in start_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementRooms.getName')|ksort %}
+                                {% for type_schedulings in room_schedulings|obj_group_by('getSystemEnsalementSlots.getSystemEnsalementSessions.getType')|ksort %}
+                                    {% for position_schedulings in type_schedulings|obj_group_by('getUserThemes.getPosition')|ksort %}
+                                        {% for scheduling in position_schedulings %}
+
+                                            {% set isActivity = scheduling.activity is not empty and scheduling.activity.id is not empty %}
+
+                                            {% if isActivity %}
+                                                {% set baseLoopIndex = baseLoopIndex+1 %}
+
+                                                {% if baseLoopIndex > 1 %}
+                                                    <hr class="my-4">
+                                                {% endif %}
+
+                                                <div>
+
+                                                    {% if 1 == isGlobal %}
+                                                        <h2 class="mt-0">{{ 'Dia'|trans }} {{ dateMacro.date_dm(scheduling.systemEnsalementSlots.systemEnsalementSessions.date)|trim }} - {{ scheduling.systemEnsalementSlots.systemEnsalementSessions.start|format_datetime('none', 'short') }}-{{ scheduling.systemEnsalementSlots.systemEnsalementSessions.end|format_datetime('none', 'short') }} - {{ scheduling.systemEnsalementSlots.systemEnsalementRooms.name }}</h2>
+                                                    {% else %}
+                                                        <h2 class="mt-0">{{ scheduling.activity.division.name }}</h2>
+                                                        <h3>{{ 'Dia'|trans }} {{ dateMacro.date_dm(scheduling.systemEnsalementSlots.systemEnsalementSessions.date)|trim }} - {{ scheduling.systemEnsalementSlots.systemEnsalementSessions.start|format_datetime('none', 'short') }}-{{ scheduling.systemEnsalementSlots.systemEnsalementSessions.end|format_datetime('none', 'short') }} - {{ scheduling.systemEnsalementSlots.systemEnsalementRooms.name }}</h3>
+                                                    {% endif %}
+
+
+                                                    <p class="font-weight-bold mb-4">{{ scheduling.activity.title }}</p>
+
+                                                    <div>
+                                                        {{ scheduling.activity.description|raw }}
+                                                    </div>
+
+                                                    {# <p>{{ constant('ACTIVITY_TYPES', scheduling.activity)|array_flip()[scheduling.activity.activityType]|trans }}</p> #}
+
+                                                    {# % if scheduling.activity.panelists|length > 0 %}
+                                                        <h4>{{ 'Painelistas'|trans }} ({{ scheduling.activity.panelists|length }})</h4>
+
+                                                        <div>
+                                                            {% for panelist in scheduling.activity.panelists %}
+                                                                <p><strong>{{ panelist.panelist.name }}</strong> {{ panelist.panelist.institutionsPrograms }}</p>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endif %}
+
+                                                    {% if scheduling.activity.guests|length > 0 %}
+                                                        <h4>{{ 'Convidados'|trans }} ({{ scheduling.activity.guests|length }})</h4>
+
+                                                        <div>
+                                                            {% for guest in scheduling.activity.guests %}
+                                                                {% set name = guest.name %}
+                                                                {% set institutionsPrograms = '' %}
+                                                                {% if guest.guest is not empty %}
+                                                                    {% set name = guest.guest.name %}
+                                                                    {% set institutionsPrograms = guest.guest.institutionsPrograms %}
+                                                                {% endif %}
+
+                                                                <p><strong>{{ name }}</strong> {{ institutionsPrograms }}</p>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endif % #}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endfor %}
+                    {# {% endfor %} #}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% else %}
+    {# Simples #}
+    {{ subsection.description|raw }}
+{% endif %}

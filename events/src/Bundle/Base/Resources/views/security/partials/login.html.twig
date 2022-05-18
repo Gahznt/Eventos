@@ -1,0 +1,35 @@
+{% if defaults is not defined %}
+    {% set defaults = 'false' %}
+{% endif %}
+
+<div class="col-12 form-group">
+    <input id="inputIdentifier" type="text" class="form-control" name="identifier" required autofocus placeholder="{{ 'CPF / Passaport / E-Mail'|trans }}" autocomplete="off">
+</div>
+<div class="col-12 form-group">
+    <input id="inputPassword" type="password" class="form-control" name="password" required placeholder="Senha" autocomplete="off">
+    {% if error is defined %}
+        <div class="invalid-feedback">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+</div>
+
+{% if defaults == 'true' %}
+    <div class="col-6 links">
+        <a href="{{ path('signUp_index') }}">{{ 'LOGIN_LINK_SIGNUP'|trans }}</a><br/>
+        <a id="btn-password-recovery-show" href="#password-recovery">{{ 'LOGIN_REMEMBER'|trans }}</a>
+    </div>
+    <div class="col-6">
+        <button type="submit" class="btn btn-sm btn-primary btn-block follow" style="text-transform: none" id="BtFormLogin">{{ 'LOGIN_BTN'|trans }}
+            <i id="btnLoginLoad" style="margin-left:10px;" class="fa fa-spinner fa-spin d-none"></i>
+        </button>
+    </div>
+    <input type="hidden" id="login" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+{% else %}
+    <div class="col-12">
+        <button type="submit" class="btn btn-sm btn-primary btn-block follow" style="text-transform: none" id="BtFormLogin">{{ 'LOGIN_BTN'|trans }}
+            <i id="btnLoginLoad" style="margin-left:10px;" class="fa fa-spinner fa-spin d-none"></i>
+        </button>
+    </div>
+    <input type="hidden" id="event" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+{% endif %}

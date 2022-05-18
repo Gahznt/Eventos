@@ -1,0 +1,116 @@
+<div class="col-lg-12">
+    <div class="row">
+        <div class="col">
+            <h1 class="mb-0">{{ 'Listagem de Submissões'|trans }}: <span class="info">{{ pageTitle }}</span></h1>
+            <b class="text-dark">{{ 'Selecione o artigo para ver os detalhes.'|trans }}</b>
+        </div>
+        <div class="clearfix col">
+            <div class="float-right">
+                <a href="{{ path('article_submission_generate_ensalement_report', {'edition' : edition.id, 'export': 'excel'}) }}"
+                   class="btn btn-primary text-nowrap mr-3" data-toggle="tooltip" title="{{ 'Baixar Excel'|trans }}">
+                    <i class="fas fa-file-excel mr-2"></i> <small>Artigos Aprovados</small>
+                </a>
+
+                <a href="{{ path('system_evaluation_submissions', {'edition' : edition.id, 'export': 'excel'}) }}"
+                   class="btn btn-primary text-nowrap" data-toggle="tooltip" title="{{ 'Baixar Excel'|trans }}">
+                    <i class="fas fa-file-excel mr-2"></i> <small>Submissões</small>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12">
+    <div class="form mt-3">
+
+        {{ form_start(form) }}
+        <div class="col-6 col-md-6 form-group">
+            <label for="filter-theme">{{ 'Filtro de Tema de Interesse'|trans }}</label>
+            {{ form_widget(form.userThemes, {'attr': {'id':'userThemes', 'class': 'filter form-control'}}) }}
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="filter-status">{{ 'Status'|trans }}</label>
+            {{ form_widget(form.status, {'attr': {'id':'status', 'class': 'filter form-control'}}) }}
+        </div>
+        <div class="col-lg-12 form-group">
+            <label for="filter-search">{{ 'Busca'|trans }}</label>
+            <button type="submit" id="submissionsListBtn" class="inputSearchBtn" style="border: none; background: none;"><i class="fas fa-search"></i></button>
+            {{ form_widget(form.search, {'attr': {'id':'search', 'class': 'filter form-control'}}) }}
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+</div>
+<div class="col-lg-12">
+    {% if data is empty %}
+        <div class="alert alert-warning" role="alert">
+            Nenhum resultado encontrado.
+        </div>
+    {% else %}
+        <div class="tabela my-2">
+            <table class="table table-sm table-striped table-responsive-md">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>{{ 'SYS_EV_REPORT_TH_DIVISION'|trans }}</th>
+                    <th width="200">{{ 'Título'|trans }}</th>
+                    <th>{{ 'Status'|trans }}</th>
+                    <th>{{ 'Designações'|trans }}</th>
+                    <th>{{ 'Avaliações'|trans }}</th>
+                    <th>{{ 'Tema'|trans }}</th>
+                    <th>{{ 'Enquadramento'|trans }}</th>
+                    <th class="text-center" width="100">{{ 'Ações'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for a in data %}
+                    {% set evaluations = 0 %}
+                    {% set indications = 0 %}
+
+                    {% if a.id in indicationsCount|keys %}
+                        {% set indications = indicationsCount[a.id] %}
+                    {% else %}
+                        {% set indications = 0 %}
+                    {% endif %}
+
+                    {% if a.id in indicationsValidCount|keys %}
+                        {% set evaluations = indicationsValidCount[a.id] %}
+                    {% else %}
+                        {% set evaluations = 0 %}
+                    {% endif %}
+
+                    <tr>
+                        <td>{{ a.id }}</td>
+                        <td>{{ a.divisionId.initials }}</td>
+                        <td>{{ a.title }}</td>
+                        <td>
+                            <span class="badge badge-nl badge-{{ a.status|article_evaluation_status('color') }}">
+                                {{ a.status|article_evaluation_status('label')|trans }}
+                            </span>
+                        </td>
+                        <td class="text-left">{{ indications }}</td>
+                        <td class="text-left">{{ evaluations }}</td>
+                        <td class="text-left">{{ a.userThemes.position }} - {{ a.userThemes.details.title }}</td>
+                        <td class="text-left">{{ FRAMES[a.frame] }}</td>
+                        <td class="text-center">
+                            {% if 1 == a.editionId.systemEvaluationConfigs[0].resultsAvaliable
+                                and a.status == constant('ARTICLE_EVALUATION_STATUS_APPROVED', a) %}
+                                <a href="{{ path('article_submission_declaration', {'article': a.id}) }}" target="_blank" data-toggle="tooltip" class="mr-2 hover-success download" title="{{ 'Imprimir Declaração de Aceite'|trans }}">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            {% endif %}
+
+                            <a href="{{ path('system_evaluation_submissions_details', {'article': a.id}) }}" data-toggle="tooltip" class="hover-success viewSubmission" title="{{ 'Ver Submissão'|trans }}">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav class="d-flex justify-content-between" style="float: right">
+                {{ knp_pagination_render(data) }}
+            </nav>
+            <small class="text-muted">{{ 'Showing'|trans }} {{ data|length }} {{ 'of' |trans }} {{ data.getTotalItemCount }}</small>
+        </div>
+    {% endif %}
+</div>

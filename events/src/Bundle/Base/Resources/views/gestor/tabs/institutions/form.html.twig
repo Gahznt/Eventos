@@ -1,0 +1,45 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" href="{{ path('manager_institutions_index') }}" role="tab">
+                    {{ 'Institutions'|trans }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link" href="{{ path('manager_institutions_index') }}" role="tab">
+                            {{ 'MANAGER_INSTITUTION_LIST_TITLE'|trans|raw }}
+                        </a>
+                        <a class="nav-item nav-link active" href="#dados" role="tab">
+                            {{ 'MANAGER_INSTITUTION_EDIT_TITLE'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+
+                        {% if institution.id != '' %}
+                            <h1>{{ 'MANAGER_INSTITUTION_LIST_HEAD'|trans }}: {{ institution.name }}</h1>
+                        {% else %}
+                            <h1>{{ 'MANAGER_INSTITUTION_NEW_HEAD'|trans }}</h1>
+                        {% endif %}
+
+                        {% include "gestor/tabs/institutions/partials/_form.html.twig" %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorInstitutions') }}
+    {{ parent() }}
+{% endblock %}

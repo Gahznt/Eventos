@@ -1,0 +1,59 @@
+{{ form_start(formResearcher, {'method':'GET', 'attr': {'id':'researcherForm','action':path('theme_evaluation_index'), 'novalidate':'novalidate' }}) }}
+
+<div class="stepsTab" data-step="5">
+  <div class="row">
+    <div class="col-md-10">
+      <h1>{{ 'TEVAL_STEP5_HEAD'|trans }}</h1>
+    </div>
+    <div class="col-md-2">
+      {#<a class="btn btn-primary float-right" data-toggle="tooltip" title="{{ 'Enviar e-mail para todos'|trans }}"><i class="fas fa-envelope"></i></a>#}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <label for="researcher-list-division">{{ 'ACADEMIC_DIVISION'|trans }}</label>
+      {{ form_widget(formResearcher.divisionId, {'attr': {'class': 'form-control select-div'}}) }}
+    </div>
+    <div class="col-md-6 form-group">
+      <label for="researcher-list-search">{{ 'Busca'|trans }}</label>
+      <a id="researcherListBtn" class="inputSearchBtn"><i class="fas fa-search"></i></a>
+      {{ form_widget(formResearcher.search, {'attr': {'class': 'filter form-control', 'style': 'height:calc(1.5em + 0.75rem + 12px);'}}) }}
+    </div>
+  </div>
+
+  <div class="tabela my-2">
+    <table class="table table-sm table-striped table-responsive-md w-100" id="researchersTable">
+      <thead>
+        <tr>
+          <th data-title="">{{ 'Id'|trans }}</th>
+          <th data-title="">{{ 'Nome'|trans }}</th>
+          <th data-title="">{{ 'Institution'|trans }} 1</th>
+          <th data-title="">{{ 'Program'|trans }} 1</th>
+          <th data-title="" data-true="{{ 'Sim'|trans }}" data-false="{{ 'Não'|trans }}">{{ 'ASSOC_LEVEL_MEMBER'|trans }}</th>
+          <th data-title="">{{ 'Institution'|trans }} 2</th>
+          <th data-title="">{{ 'Program'|trans }} 2</th>
+          <th data-title="" data-true="{{ 'Sim'|trans }}" data-false="{{ 'Não'|trans }}">{{ 'ASSOC_LEVEL_MEMBER'|trans }}</th>
+        </tr>
+      </thead>
+      <tbody> 
+      {% for item in researchers %}
+        <tr>
+          <td>{{ item.id }}</td>          
+          <td>{{ item.name }}</td>
+          <td>{{ item.inst1 }}</td>
+          <td>{{ item.prog1 }}</td>
+          <td>{{ (item.paid1==1 ? 'YES'|trans : 'NO'|trans) }}</td>
+          <td>{{ item.inst2 }}</td>
+          <td>{{ item.inst2 }}</td>
+          <td>{{ (item.paid2==1 ? 'YES'|trans : 'NO'|trans) }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<input type="hidden" id="themeId" name="themeId" value="{{ themeId }}">
+<input type="hidden" name="step" value="5">
+{{ form_end(formResearcher, {'render_rest': false}) }}

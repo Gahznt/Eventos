@@ -1,0 +1,32 @@
+<div class="fieldset mt-3">
+  <h1 class="mb-3">{{ 'Historic'|trans }}</h1>
+
+  <div class="tabela my-2">
+    <table class="table table-sm table-striped table-responsive-md w-100" id="panelLogTable">
+      <thead>
+        <tr>
+          <th width="40">{{ 'THEME_LIST_ID'|trans }}</th>
+          <th>{{ 'User'|trans }}</th>
+          <th>{{ 'Date'|trans }}</th>
+          <th>{{ 'Consideration'|trans }}</th>
+          <th>{{ 'Author'|trans }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {# Filtra logs de CONSIDERAÇÃO no twig para não buscar duas vezes #}      
+      {% for log in panelLog %}
+        {% if log.action == 'CONSIDERAÇÃO' %}
+        <tr>
+          <td>{{ log.id }}</td>
+          <td>{{ log.user.name }}</td>
+          <td>{{ log.createdAt|date("d/m/Y H:i") }}</td>
+          <td>{{ log.reason }}</td>
+          <td>{{ (log.visibleAuthor == 0) ? 'NO'|trans : 'YES'|trans }}</td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

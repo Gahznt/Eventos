@@ -1,0 +1,17 @@
+.schedule {
+  @media only screen and (max-width: $mobile-vp) {
+  }
+
+
+.badge-round{
+    color:#fff;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    width: 20px;
+    height: 20px;
+    &.int, &.apr{background-color:$danger;
+    }
+    &.tra{background-color:$primary;}
+    }
+}

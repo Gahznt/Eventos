@@ -1,0 +1,57 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="formDiv">
+            <div class="form-progress d-none d-md-block">
+                <div class="time">
+                    {{ 'Average time <br /> to the end'|trans|raw }} :
+                </div>
+                <div class="steps" id="eventSignUpTimeLine">
+                    <div class="step f active" data-step="1">
+                        <span>4 min</span><br/>
+                        <i class="fas fa-circle"></i><br/>
+                        {{ 'Login'|trans|raw }}
+                    </div>
+                    <div class="step" data-step="2">
+                        <span>2 min</span><br/>
+                        <i class="fas fa-circle"></i><br/>
+                        {{ 'EVENT_TITLE9'|trans|raw }}
+                    </div>
+                    <div class="step l" data-step="3">
+                        <span>1 min</span><br/>
+                        <i class="fas fa-circle"></i><br/>
+                        {{ 'EVENT_TITLE10'|trans|raw }}
+                    </div>
+                </div>
+            </div>
+            <div class="mobileSteps d-md-none">{{ 'STEP'|trans }} <span>{{ step }}</span>/3</div>
+            <input type="hidden" id="is_guest" name="is_guest" value="{{ is_guest ? "true" : "false" }}">
+
+            {% if is_guest %}
+                {% include "@Base/event/sign_up/forms/stepOne.html.twig" %}
+            {% endif %}
+
+            {{ form_start(form, {'attr': {'id':'formEventSignUp','action':path('event_signUp_edition', {'edition': edition.id}), 'novalidate': 'novalidate'}}) }}
+                <div id="eventSignUpForm" class="form">
+                    <input type="hidden" id="step" name="step" value="{{ step }}">
+                    {% include "@Base/event/sign_up/forms/stepTwo.html.twig" %}
+                    {% include "@Base/event/sign_up/forms/stepThree.html.twig" %}
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mt-5">
+                        <a class="btn btn-outline-primary btCadastroVoltar" id="btCadastroVoltar">{{ 'Back'|trans }}</a>
+                    </div>
+                    <div class="col-lg-6 mt-5">
+                        <a class="btn btn-primary btn-lg btn-block btCadastro" id="btCadastro">{{ 'Continue'|trans }} <i id="btnLoad"></i></a>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('events/sign_up') }}
+{% endblock %}

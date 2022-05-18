@@ -1,0 +1,45 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+  
+  {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message |trans }}
+    </div>
+  {% endfor %}
+  {% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message |trans }}
+    </div>
+  {% endfor %}
+
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link text-center tab-2 {{ step==1 ? 'active':'' }}" id="nav-1" data-toggle="tab" href="#tab-1" role="tab">
+        {{ 'TEVAL_STEP2'|trans|raw }}
+      </a>
+      <a class="nav-item nav-link text-center tab-2 {{ step==2 ? 'active':'' }}" id="nav-2" data-toggle="tab" href="#tab-2" role="tab">
+        {{ 'TEVAL_ACTION'|trans|raw }}
+      </a>
+    </div>
+  </nav>
+
+  <div class="tab-content">
+    <div class="tab-pane fade {{ step==1 ? 'show active':'' }}" id="tab-1" role="tabpanel">
+      {% include 'theme/user/evaluation/action/tabs/list.html.twig' %}
+    </div>
+    <div class="tab-pane fade {{ step==2 ? 'show active':'' }}" id="tab-2" role="tabpanel">
+      {% include 'theme/user/evaluation/action/tabs/action.html.twig' %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('themeEvaluationAction') }}
+{% endblock %}

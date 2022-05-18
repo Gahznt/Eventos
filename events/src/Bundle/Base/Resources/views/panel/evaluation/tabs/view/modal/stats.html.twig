@@ -1,0 +1,129 @@
+<div class="modal fade" id="panelStats" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog big">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">{{'STATS_TITLE'|trans }}</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{ 'Close'|trans }}</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4">
+                        <div class="alert alert-warning text-center">
+                            <div class="mb-2 text-dark">
+                                <h3 style="font-weight:bold" class="text-dark">{{ 'Panel'|trans }} {{ panel.id }}</h3>
+                            </div>
+                            {% if panelLogSub %}
+                                <div class="mb-2 text-dark">
+                                    <span style="font-weight:bold">{{ 'STATS_SUB_DATE'|trans }}</span><br/>
+                                    <span class="text-muted">{{ panelLogSub.createdAt|date("d/m/Y H:i:s") }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="mb-2 text-dark">
+                                <span style="font-weight:bold">{{ 'STATS_SUB_STATUS'|trans }}</span><br/>
+                            {% if panel.statusEvaluationText == 'APPROVED' %}
+                                <span class="text-success">
+                                {{ 'STATS_MSG_APPROVED'|trans|raw }}
+                                </span><br/><br/>
+                                <span class="text-danger">
+                                {{ 'STATS_SUBMIT_WARN1'|trans|raw }} {{ panel.editionId.dateEnd|date("d/m/Y") }} {{ 'STATS_SUBMIT_WARN2'|trans|raw }}
+                                </span>
+                            {% elseif panel.statusEvaluationText == 'REPROVED' %}
+                                <span class="text-danger">
+                                {{ 'STATS_MSG_REPROVED'|trans }}
+                                </span>
+                            {% elseif panel.statusEvaluationText == 'CANCELED' %}
+                                <span class="text-danger">
+                                {{ 'STATS_MSG_CANCELED'|trans }}
+                                </span>
+                            {% else %}
+                                <span class="text-muted">{{ 'STATS_MSG_WAITING'|trans }}</span>
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9 col-md-8">
+                        <h3 style="font-weight:bold" class="text-dark">{{ 'PANEL_STEP1_HEAD'|trans }}</h3>
+                        <div class="mt-2 mb-2">
+                            <span style="font-weight:bold">{{ 'STATS_PANEL_TITLE'|trans }}</span><br/>
+                            {{ panel.title }}
+                        </div>
+                        <div class="mb-2">
+                            <span style="font-weight:bold">{{ 'ACADEMIC_DIVISION'|trans }}</span><br/>
+                            {{ panel.divisionId.initials }} - {{ panel.divisionId.name }}
+                        </div>
+                        <div class="mb-2">
+                            <span style="font-weight:bold">{{ 'Justification'|trans }}</span><br/>
+                            {{ panel.justification|raw }}
+                        </div>
+                        <div class="mb-2">
+                            <span style="font-weight:bold">{{ 'Suggestion'|trans }}</span><br/>
+                            {{ panel.suggestion|raw }}
+                        </div>
+
+                        <h3 style="font-weight:bold" class="text-dark mt-4">{{ 'ACTIVITY_STEP2_HEAD'|trans }}</h3>
+                        <ol>
+                        {% for panelist in panel.panelsPanelists %}
+
+                            {% set pid = panelist.panelistId.id %}
+                            {% set pidfirstIso2 = "" %}
+                            {% set pidsecondtIso2 = "" %}
+
+                            {% if instPanelists[pid].stateFirstId.iso2 is defined %}
+                                {% set pidfirstIso2 = instPanelists[pid].stateFirstId.iso2 %}
+                            {% endif %}
+
+                            <li>{{ panelist.panelistId.name }} - {{ panelist.panelistId.email }}</li>
+
+                            {% if ((instPanelists[pid] is defined) and instPanelists[pid]) %}
+                                <ul>
+                                    <li>{{ instPanelists[pid].institutionFirstId.name }} - {{ instPanelists[pid].programFirstId.name }} - {{ pidfirstIso2 }}</li>
+                                {% if (instPanelists[pid].institutionSecondId) %}
+                                    {% if instPanelists[pid].stateSecondId.iso2 is defined %}
+                                        {% set pidsecondtIso2 = instPanelists[pid].stateSecondId.iso2 %}
+                                    {% endif %}
+                                    <li>{{ instPanelists[pid].institutionSecondId.name }} - {{ instPanelists[pid].programSecondId.name }} - {{ pidsecondtIso2 }}</li>
+                                {% endif %}
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                        </ol>
+
+                        <h3 style="font-weight:bold" class="text-dark mt-4">{{ 'PANEL_STEP3_HEAD'|trans }}</h3>
+                        <ol>
+                            {% set name = "" %}
+                            {% set email = "" %}
+                            {% if panel.proponentId is defined and panel.proponentId is not null %}
+                                {% set name =  panel.proponentId.name %}
+                                {% set email = panel.proponentId.email %}
+                            {% endif %}
+                            <li>{{ name }} - {{ email }}</li>
+
+                            {% set firstIso2 = "" %}
+                            {% set secondtIso2 = "" %}
+
+                            {% if ((instProponent is defined) and instProponent) %}
+                                {% if instProponent.stateFirstId.iso2 is defined %}
+                                    {% set firstIso2 = instProponent.stateFirstId.iso2 %}
+                                {% endif %}
+
+                                <ul>
+                                    <li>{{ instProponent.institutionFirstId.name }} - {{ instProponent.programFirstId.name }} - {{ firstIso2 }}</li>
+                                {% if (instProponent.institutionSecondId) %}
+                                    {% if instProponent.stateFirstId.iso2 is defined %}
+                                        {% set secondtIso2 = instProponent.stateSecondId.iso2 %}
+                                    {% endif %}
+                                    <li>{{ instProponent.institutionSecondId.name }} - {{ instProponent.programSecondId.name }} - {{ secondtIso2 }}</li>
+                                {% endif %}
+                                </ul>
+                            {% endif %}
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link tab-2 active" id="nav-1" data-toggle="tab" href="#tab-1" role="tab">
+        {{ 'LISTAGEM DE<br/>INSCRIÇÕES'|trans|raw }}
+      </a>
+    </div>
+  </nav>
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+      {% include 'system_evaluation/sign_ups/list.html.twig' %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+{#  {{ encore_entry_script_tags('systemEvaluationSubmissions') }}#}
+{% endblock %}

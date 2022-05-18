@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}ANPAD{% endblock %}</title>
+    {% block stylesheets %}
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900" rel="stylesheet">
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+
+<body class="webapp">
+    
+    <header class="bggBlue">
+        <h1>EnANPAD 2020</h1>
+    </header>
+
+
+<!--Login-->            
+         
+    <div class="container">
+        <div class="row p-2">
+            <div class="col-12 box p-3"><h2 class="text-uppercase">Seja Bem Vindo!</h2></div>
+        </div>
+
+        <div class="row">
+            <a href="#" class="col-4 p-2 shortItem">
+                <div class="box">
+                    <div class="fa fa-info cOrange"></div>
+                    <p>Informações</p>
+                </div>
+            </a>
+            <a href="#"  class="col-4 p-2  shortItem">
+                <div class="box">
+                    <div class="fa fa-calendar cPurple"></div>
+                    <p>Programação</p>
+                </div>
+            </a>
+            <a href="#"  class="col-4 p-2  shortItem">
+                <div class="box">
+                    <div class="fa fa-file-pdf cMagenta"></div>
+                    <p>Programação em PDF</p>
+                </div>
+            </a>
+        </div>
+        <div class="row p-2">
+            <div class="col-12 box  py-3">
+                <form action="">
+
+                    <p class="text-uppercase bold mdBlack">Faça o seu login</p>
+                    
+                    <div class="form-group col-12">
+                        <input type="text" placeholder="E-mail" class="col-12">
+                        <input type="text" placeholder="CPF/CNPJ" class="col-12">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 smBlack pt-3">
+                            Esqueci minha senha
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-primary">Entrar<span class="fa fa-arrow-right pl-2"></span></button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div> 
+
+<!--/Login-->            
+
+
+<!---------------------------------------->
+
+
+<!--Informações-->
+<!-- <div class="container">
+    <div class="row">
+<div class="col-12 mainTitle">
+    <div class="iconSquare">
+        <div class="fa fa-info cOrange"></div>
+    </div>
+    <h2>Informações</h2>
+</div>
+
+<div class="col-12 txtContent">
+    <p class="title">XLIII Encontro da ANPAD - EnANPAD 2019
+    </p>
+
+    <div class="txtMd">
+        <p>
+        Datas: 02 a 05/10/2019 <br>
+        Local: Universidade Mackenzie - São Paulo
+        </p>
+        <p>O XLIII Encontro da ANPAD - EnANPAD 2019 - está organizado em 11 (onze) Divisões Acadêmicas, que agregam temas de interesse da área de Administração e afins. Os interessados poderão submeter trabalhos teórico-empíricos, ensaios teóricos, casos para ensino e artigos tecnológicos.</p>
+        <p>O EnANPAD é um espaço de interlocução entre pares e, nesse sentido, privilegia e estimula o debate aprofundado e a interação entre os participantes. Esse debate torna-se importante, uma vez que todo texto publicado em anais de evento científico é um texto provisório - working paper - mesmo que decorrente de pesquisa concluída. A partir dos debates e das críticas recebidas durante o evento, o autor poderá aperfeiçoar seu trabalho e submetê-lo a um periódico, dando sequência ao processo de divulgação científica. Além disso, o EnANPAD proporciona a oportunidade de interação social entre pares, de modo a alavancar a formação e o fortalecimento de redes de pesquisa.
+        </p>
+        <p>O XLIII Encontro da ANPAD - EnANPAD 2019 - está organizado em 11 (onze) Divisões Acadêmicas, que agregam temas de interesse da área de Administração e afins. Os interessados poderão submeter trabalhos teórico-empíricos, ensaios teóricos, casos para ensino e artigos tecnológicos.</p>
+        <p>O EnANPAD é um espaço de interlocução entre pares e, nesse sentido, privilegia e estimula o debate aprofundado e a interação entre os participantes. Esse debate torna-se importante, uma vez que todo texto publicado em anais de evento científico é um texto provisório - working paper - mesmo que decorrente de pesquisa concluída. A partir dos debates e das críticas recebidas durante o evento, o autor poderá aperfeiçoar seu trabalho e submetê-lo a um periódico, dando sequência ao processo de divulgação científica. Além disso, o EnANPAD proporciona a oportunidade de interação social entre pares, de modo a alavancar a formação e o fortalecimento de redes de pesquisa.
+        </p>
+        <p>O XLIII Encontro da ANPAD - EnANPAD 2019 - está organizado em 11 (onze) Divisões Acadêmicas, que agregam temas de interesse da área de Administração e afins. Os interessados poderão submeter trabalhos teórico-empíricos, ensaios teóricos, casos para ensino e artigos tecnológicos.</p>
+        <p>O EnANPAD é um espaço de interlocução entre pares e, nesse sentido, privilegia e estimula o debate aprofundado e a interação entre os participantes. Esse debate torna-se importante, uma vez que todo texto publicado em anais de evento científico é um texto provisório - working paper - mesmo que decorrente de pesquisa concluída. A partir dos debates e das críticas recebidas durante o evento, o autor poderá aperfeiçoar seu trabalho e submetê-lo a um periódico, dando sequência ao processo de divulgação científica. Além disso, o EnANPAD proporciona a oportunidade de interação social entre pares, de modo a alavancar a formação e o fortalecimento de redes de pesquisa.
+        </p>
+    </div>    
+</div>
+</div>
+</div> 
+-->
+<!--/Informações-->
+
+<!---------------------------------------->
+
+<!--Programação-->
+<!--Destaque com alert-warning somente para palestras internacionais. Ex.Micro-foundations...
+Destaque com alert-info para atividades e paineis. - Ex. Coffee Break.
+Destaque sem alert para todas as seções de Trabalho.
+Cards Primários para dias (ex. id="day1") e Cards secundárias para horas (ex. id="day1_time1")-->
+
+<!-- 
+<div class="container schedule">
+    <div class="row">
+        <div class="col-12 mainTitle">
+            <div class="iconSquare">
+                <div class="fa fa-calendar cPurple"></div>
+            </div>
+            <h2>Programação</h2>
+        </div>
+        
+
+        <div class="col-12 px-2">
+              
+            <div class="card" id="day1">
+                <div class="card-header stickyPri slotDate">
+                10/02/2020 - Quarta Feira
+                </div>
+                <div class="card-body">
+                    <div class="col-12 p-0">
+
+                        <div class="card" id="day1_time1">
+                            <div class="card-header stickySec slotTime">
+                            11:00 - 12:00 
+                            </div>
+                            <div class="card-body">
+                                <p class="bgBlack slotPlace">
+                                    Auditório Principal
+                                </p>
+
+                                <div class="alert alert-warning itemContent">
+                                    <p class="itemHighlight text-danger">Atividade Internacional</p>
+                                    
+                                    <p class="itemTitle">Micro-foundations in Strategy Research <br>
+                                    <span class="itemInfo">Amarolinda Zanela Klein (Prog de Pós-Grad em Admin/Área Escola de Gestão e Negócios - PPGAdm/UNISINOS) Isabel Maria Pinto Ramos (Universidade do Minho - Portugal)</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="id="day1_time2">
+                            <div class="card-header stickySec slotTime">
+                            12:00 - 13:00 
+                            </div>
+
+                            <div class="card-body">
+
+                            <p class="bgBlack slotPlace">
+                                Salão Principal
+                            </p>
+
+                            <div class="alert alert-info itemContent">
+                                <p class="itemHighlight text-success">Atividade</p>
+                                
+                                <p class="itemTitle">Coffee Break <br>
+                                <span class="itemInfo"></span></p>
+                            </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="card" id="day1_time3">
+                            <div class="card-header stickySec slotTime">
+                            13:00 - 14:00 
+                            </div>
+                            <div class="card-body">
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+              
+            <div class="card" id="day2">
+                <div class="card-header stickyPri slotDate">
+                11/02/2020 - Quinta Ferira
+                </div>
+                <div class="card-body">
+                    <div class="col-12 p-0">
+
+                            <div class="card" id="id="day2_time1">
+                                <div class="card-header stickySec slotTime">
+                                11:00 - 12:00 
+                                </div>
+
+                                <div class="card-body">
+
+                                <p class="bgBlack slotPlace">
+                                    Auditório Principal
+                                </p>
+                                <div class="alert alert-warning itemContent">
+                                    <p class="itemHighlight text-danger">Atividade Internacional</p>
+                                    
+                                    <p class="itemTitle">Micro-foundations in Strategy Research <br>
+                                    <span class="itemInfo">Amarolinda Zanela Klein (Prog de Pós-Grad em Admin/Área Escola de Gestão e Negócios - PPGAdm/UNISINOS) Isabel Maria Pinto Ramos (Universidade do Minho - Portugal)</span></p>
+                                </div>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="card" id="id="day2_time2">
+                                <div class="card-header stickySec slotTime">
+                                11:00 - 12:00 
+                                </div>
+
+                                <div class="card-body">
+
+                                <p class="bgBlack slotPlace">
+                                    Salão Principal
+                                </p>
+                                <div class="alert alert-info itemContent">
+                                    <p class="itemHighlight text-success">Atividade</p>
+                                    
+                                    <p class="itemTitle">Coffee Break <br>
+                                    <span class="itemInfo">Amarolinda Zanela Klein (Prog de Pós-Grad em Admin/Área Escola de Gestão e Negócios - PPGAdm/UNISINOS) Isabel Maria Pinto Ramos (Universidade do Minho - Portugal)</span></p>
+                                </div>
+
+                                </div>
+                            </div>
+
+
+                        <div class="card" id="day2_time3">
+                            <div class="card-header stickySec slotTime">
+                            14:00 - 15:00 
+                            </div>
+                            <div class="card-body">
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                                <div class="itemContent">
+                                    <p class="slotPlace mb-0">Sala 1 - Bloco 2</p>
+                                    <p class="itemHighlight pb-3">Seção de Trabalho</p>
+                                    <p class="itemTitle">Compromisso da Pesquisa em SI para Eficiência e Transparência nos Processos Organizacionais na Gestão Pública <br>
+                                    <p class="itemTitle text-success py-3">Trabalhos da Seção:</p>
+                                    <span class="itemInfo">
+                                        <ul>
+                                            <li>Process-Based Management Effectiveness in a Public High Education Institution</li>
+                                            <li>A Systematic Review of e-Government: Setting a Research Agenda</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                            <li>Contributions of the Theory of Adaptive Structuring for the Analysis of Social Media Usage: A Protocol Proposal for Systematic Literature Review</li>
+                                        </ul>
+                                    </span></p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+ -->
+<!--/Programação-->
+
+<!---------------------------------------->
+
+<!--Programação em PDF-->
+<!-- <div class="container">
+    <div class="">
+        <div class="col-12 mainTitle">
+            <div class="iconSquare">
+                <div class="fa fa-file-pdf cMagenta"></div>
+            </div>
+            <h2>Programação em PDF</h2>
+        </div>
+
+            <a href="#" class="col-12 shortItem">
+                <div class="box tall">
+                    <div class="fa fa-download primary"></div>
+                    <p>Programação Sintética</p>
+                </div>
+            </a>
+            <a href="#" class="col-12 shortItem">
+                <div class="box tall">
+                    <div class="fa fa-download primary"></div>
+                    <p>Programação das Atividades Divisionais</p>
+                </div>
+            </a>
+            <a href="#" class="col-12 shortItem">
+                <div class="box tall">
+                    <div class="fa fa-download primary"></div>
+                    <p>Programação Detalhada</p>
+                </div>
+            </a>
+
+    </div>
+</div> 
+-->
+<!--/Programação em PDF-->
+
+
+<!---------------------------------------->
+
+
+<!--Modal Lembrar minha senha
+No desenvolvimento, incluir classe fade junto da classe modal.
+Inserir cor de fundo como rgba(32,47,86,.8), se necessário z-index:9999;
+-->
+
+<!-- 
+<div class="modal" style="display: block;" id="modalRememberPassword" tabindex="-1" role="dialog" aria-labelledby="rememberPassword" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rememberPassword">Lembrar minha Senha</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Insira  pelo menos um dos campos abaixo informados para resgatar sua senha.
+
+        <div class="row">
+            <div class="col-12">
+                <form action="">
+                    
+                    <div class="mt-2">
+                        <input type="text" placeholder="E-mail" class="col-12">
+                        <input type="text" placeholder="CPF/CNPJ" class="col-12">
+                    </div>
+
+                    <div class="row">
+                    <div class="col-6"><button type="button" class="btn btn-outline-primary btn-block" data-dismiss="modal">Cancelar</button></div>
+
+                    <div class="col-6">
+                    <button type="button" class="btn btn-primary btn-block">Enviar</button>
+                    </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+ -->
+<!--/Modal Lembrar minha senha-->
+
+
+
+<!--Modal Solicitação Concluída
+No desenvolvimento, incluir classe fade junto da classe modal.
+Inserir cor de fundo como rgba(32,47,86,.8), se necessário z-index:9999;
+-->
+<!-- 
+<div class="modal" style="display: block;" id="ModalRequestCompleted" tabindex="-1" role="dialog" aria-labelledby="requestCompleted" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bgcSuccess">
+        <h5 class="modal-title" id="requestCompleted">Solicitação Concluída</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Enviamos um e-mai para que você possa resetar a sua senha.
+        <div class="row">
+            <div class="col-8 offset-2">
+                <form action="">
+                    <button type="button" class="btn btn-primary btn-block mt-4">OK</button>
+                </form>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div> 
+-->
+
+<!--Modal Solicitação  Concluída-->
+
+
+
+    <footer>
+        <div class="bgDeg">
+        <div class="col-12">
+            <nav class="row">
+
+                    <a href="#" class="item col-2">
+                        <div class="fa fa-calendar"></div>
+                    </a>
+
+                    <a href="#" class="item col-2">
+                        <div class="fa fa-file-pdf float-right"></div>
+                    </a>
+
+                    <a href="#" class="item col-4">
+                        <div class="circle">
+                            <div class="fa fa-home"></div>
+                        </div>
+                    </a>
+
+                    <a href="#" class="item col-2">
+                        <div class="fa fa-info-circle float-left"></div>
+                    </a>
+
+                    <a href="#" class="item col-2">
+                        <div class="fa fa-user-circle"></div>
+                    </a>
+
+                    <!--Icone acima, depois de conectado muda para o item abaixo, para que o usuário possa se desconectar no mesmo local onde se conectou.-->
+<!--                     <a href="#" class="item col-2">
+                        <div class="fa fa-times-circle"></div>
+                    </a>
+ -->
+            </nav>
+        </div>
+        </div>
+    </footer>

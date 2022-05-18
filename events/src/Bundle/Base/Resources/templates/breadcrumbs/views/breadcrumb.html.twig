@@ -1,0 +1,27 @@
+{% if wo_breadcrumbs()|length %}
+    {% apply spaceless %}
+
+        {% for b in breadcrumbs %}
+                {% if b.url and not loop.last %}
+                    <a href="{{ b.url }}" {% if linkRel is defined and linkRel|length %} rel="{{ linkRel }}"{% endif %}>
+                {% endif %}
+                        <span>
+                            {% if b.translate is defined and b.translate == true %}
+                                {{- ('BC_' ~ b.text) | trans(b.translationParameters, 'breadcrumbs', locale) -}}
+                            {% else %}
+                                {{- b.text -}}
+                            {% endif %}
+                        </span>
+                {% if b.url and not loop.last %}
+                    </a>
+                {% elseif b.url %}
+                <meta content="{{ b.url }}"/>
+                {% endif %}
+                    <meta itemprop="position" content="{{ loop.index }}"/>
+
+                    {% if separator is not null and not loop.last %}
+                        <span class='{{ separatorClass }}'>{{ separator }}</span>
+                    {% endif %}
+        {% endfor %}
+    {% endapply %}
+{% endif %}

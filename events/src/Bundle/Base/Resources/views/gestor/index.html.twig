@@ -1,0 +1,46 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+  <nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link tab-2 active" id="nav-1" data-toggle="tab" href="#tab-1" role="tab">
+        {{ 'Eventos'|trans }}
+      </a>
+      <a class="nav-item nav-link tab-2" id="nav-2" data-toggle="tab" href="#tab-2" role="tab">
+        {{ 'Edições'|trans }}
+      </a>
+      <a class="nav-item nav-link tab-2" id="nav-3" data-toggle="tab" href="#tab-3" role="tab">
+        {{ 'Subseção'|trans }}
+      </a>
+      <a class="nav-item nav-link tab-2" id="nav-4" data-toggle="tab" href="#tab-4" role="tab">
+        {{ 'Palestrantes'|trans }}
+      </a>
+      <a class="nav-item nav-link tab-2" id="nav-5" data-toggle="tab" href="#tab-5" role="tab">
+        {{ 'Arquivos'|trans }}
+      </a>
+    </div>
+  </nav>
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+      {% include 'gestor/tabs/events/index.html.twig' %}
+    </div>
+    <div class="tab-pane fade" id="tab-2" role="tabpanel">
+      {% include 'gestor/tabs/editions/index.html.twig' %}
+    </div>
+    <div class="tab-pane fade" id="tab-3" role="tabpanel">
+      {% include 'gestor/tabs/subsections/index.html.twig' %}
+    </div>
+    <div class="tab-pane fade" id="tab-4" role="tabpanel">
+      {% include 'gestor/tabs/speakers/index.html.twig' %}
+    </div>
+    <div class="tab-pane fade" id="tab-5" role="tabpanel">
+      {% include 'gestor/tabs/files/index.html.twig' %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+{% endblock %}

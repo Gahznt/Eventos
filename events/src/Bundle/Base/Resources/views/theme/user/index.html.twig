@@ -1,0 +1,59 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    {% set last = constant('App\\Bundle\\Base\\Controller\\Site\\ThemeSubmissionController::LAST_STEP') %}
+    <div class="container">
+        <div class="formDiv">
+            <div class="form-progress d-none d-md-block">
+                <div class="time">
+                    {{ 'INPUT_TIME'|trans|raw }}
+                </div>
+                <div class="steps" id="themeTimeLine">
+                    <div class="step f{{ 1 == step ? ' active' : '' }}{{ step > 1 ? ' complete' : '' }}" data-step="1">
+                        <span>3 min</span><br/>
+                        <i class="fas fa-circle"></i><br/>
+                        {{ 'THEME_STEP1'|trans|raw }}
+                    </div>
+                    <div class="step{{ 2 == step ? ' active' : '' }}{{ step > 2 ? ' complete' : '' }}" data-step="2">
+                        <span>2 min</span><br/>
+                        <i class="fas fa-circle"></i><br/>
+                        {{ 'THEME_STEP2'|trans|raw }}
+                    </div>
+                    <div class="step l{{ last == step ? ' complete' : '' }}{{ step > last ? ' complete' : '' }}" data-step="{{ last }}">
+                        <br/>
+                        <i class="fas fa-circle"></i><br/>
+                        {{ 'THEME_STEP_LAST'|trans|raw }}
+                    </div>
+                </div>
+            </div>
+            <div class="mobileSteps d-md-none">{{ 'STEP'|trans }} <span>{{ step }}</span>/{{ last }}</div>
+            {{ form_start(form, {'attr': {'id':'formThemeStep', 'action':path('theme_submission_index'), 'novalidate':'novalidate'}}) }}
+            <div id="themeForm" class="form">
+                <input type="hidden" id="step" name="step" value="{{ step }}"/>
+                {% include "@Base/theme/user/forms/stepOne.html.twig" %}
+                {% include "@Base/theme/user/forms/stepTwo.html.twig" %}
+                {% include "@Base/theme/user/forms/stepThree.html.twig" %}
+            </div>
+            {% if step < last %}
+                <div class="row">
+                    <div class="col-lg-6 mt-5">
+                        <a class="g-step-back btn btn-outline-primary" style="display: {{ step > 1 ? 'inline-block' : 'none' }};">{{ 'STEP_BACK'|trans }}</a>
+                    </div>
+                    <div class="col-lg-6 mt-5">
+                        <button type="submit" class="g-step-forward btn btn-primary btn-lg btn-block">{{ 'STEP_FORWARD'|trans }} <i class="g-step-forward-loader fas fa-spinner fa-spin" style="display: none;"></i></button>
+                    </div>
+                </div>
+            {% endif %}
+            {{ form_widget(form._token) }}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('themesSubmission') }}
+{% endblock %}
+

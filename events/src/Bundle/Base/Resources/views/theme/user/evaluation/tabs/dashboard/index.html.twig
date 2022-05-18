@@ -1,0 +1,52 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% if isAdmin or isAdminOperational %}
+                    <a class="nav-item nav-link text-center tab-1 active" id="nav-1" href="{{ path('theme_evaluation_index') }}" role="tab">
+                        {{ 'TEVAL_STEP1'|trans|raw }}
+                    </a>
+                {% endif %}
+                <a class="nav-item nav-link text-center tab-2" id="nav-2" href="{{ path('theme_evaluation_list') }}" role="tab">
+                    {{ 'TEVAL_STEP2'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+                {% if isAdmin or isAdminOperational %}
+                    <div class="row">
+                        {% set total = 0 %}
+                        {% for item in dashboard %}
+                            {% set total = total + item.qtd %}
+                            <div class="col-lg-2 col-md-3 col-6 mb-3">
+                                <div class="text-center cBox">
+                                    <div>
+                                        <h1 class="m-0">{{ item.initials }}</h1>
+                                        <span><a href="{{ path('theme_evaluation_list', {'search' : {'division': item.id}}) }}">{{ item.qtd }}</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="col-lg-2 col-md-3 col-6 mb-3">
+                            <div class="text-center bg-success cBox">
+                                <div>
+                                    <h1 class="m-0 text-uppercase">{{ 'Total'|trans }}</h1>
+                                    <span><a href="{{ path('theme_evaluation_list') }}">{{ total }}</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

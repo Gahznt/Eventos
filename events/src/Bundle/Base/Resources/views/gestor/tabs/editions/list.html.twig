@@ -1,0 +1,128 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'eventId': app.request.get('eventId'), 'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_index') }}" role="tab">
+                    {{ 'Events'|trans }}
+                </a>
+                <a class="nav-item nav-link active" href="{{ path('manager_editions_index', {'eventId': event.id}) }}" role="tab">
+                    {{ 'MANAGER_EDITIONS'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link active" href="{{ path('manager_editions_index', {'eventId': event.id}) }}" role="tab">
+                            {{ 'MANAGER_EDITIONS_LIST'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+                        <div class="float-left">
+                            <h1 class="mb-1">{{ 'MANAGER_EDITIONS_LIST_HEAD'|trans }}: <span class="info" id="eventName"></span></h1>
+                            <b class="text-dark">{{ 'MANAGER_EDITIONS_LIST_MSG'|trans }}.</b>
+                        </div>
+
+                        <a id="novaEdicao" class="btn btn-primary float-right" href="{{ path('manager_editions_new', {'eventId': event.id}) }}" data-toggle="tooltip" title="{{ 'MANAGER_EDITIONS_NEW'|trans }}"><i class="fas fa-plus"></i></a>
+
+                        <div class="clearfix"></div>
+
+                        {% if editions|length > 0 %}
+                            <div class="tabela my-2">
+                                <table class="table table-sm table-striped table-responsive-md w-100" id="editionsTable">
+
+                                    <thead>
+                                    <tr>
+                                        {{ sortMacro.sortColumnHeader('', 's.id', 'Id') }}
+                                        {{ sortMacro.sortColumnHeader('', 's.position', 'GESTOR_INFO_LABEL_ORDER'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('', 's.namePortuguese', 'Name'|trans) }}
+                                        <th class="">{{ 'Change'|trans }}</th>
+                                        {{ sortMacro.sortColumnHeader('', 's.place', 'EVENT_DETAILS_LABEL_LOCAL'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('text-center', 's.status', 'Status'|trans) }}
+                                        <th class="text-center" width="140">{{ 'Areas'|trans }}</th>
+                                        <th class="text-center" width="70">{{ 'Actions'|trans }}</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for s in editions %}
+                                        <tr>
+                                            <td>{{ s.id }}</td>
+                                            <td>{{ s.position }}</td>
+                                            <td>{{ s.namePortuguese }}</td>
+                                            <td>{{ s.dateStart|format_datetime('medium', 'none') }}</td>
+                                            <td>{{ s.place }}</td>
+                                            <td class="text-center">
+                                            <span class="badge badge-{{ s.status|status_evento('color') }}">
+                                                {{ s.status|status_evento('label')|trans }}
+                                            </span>
+                                                {% if s.isHomolog %}
+                                                    <span class="badge badge-warning">{{ 'GESTOR_INFO_LABEL_HOM'|trans }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center">
+                                                <a data-toggle="tooltip" class="hover-success viewSubsection" href="{{ path('manager_subsections_index', {'editionId': s.id}) }}" title="{{ 'EDITIONS_TOOLTIP_SUB'|trans }}"><i class="fas fa-clone"></i></a>
+                                                <a data-toggle="tooltip" class="hover-success ml-1 viewFiles" href="{{ path('manager_files_index', {'editionId': s.id}) }}" title="{{ 'EDITIONS_TOOLTIP_FILES'|trans }}"><i class="fas fa-upload"></i></a>
+                                                <a data-toggle="tooltip" class="hover-success ml-1 viewSpeakers" href="{{ path('manager_speakers_index', {'editionId': s.id}) }}" title="{{ 'EDITIONS_TOOLTIP_SPEAKERS'|trans }}"><i class="fas fa-user"></i></a>
+                                                <a data-toggle="tooltip" class="hover-success ml-1 viewPayments" href="{{ path('manager_edition_payments_index', {'editionId': s.id}) }}" title="Ver Formas de Pagamento"><i class="fas fa-money-bill"></i></a>
+                                                <a data-toggle="tooltip" class="hover-success ml-1 viewDiscounts" href="{{ path('manager_edition_discounts_index', {'editionId': s.id}) }}" title="Ver Descontos"><i class="fas fa-percent"></i></a>
+                                                <a data-toggle="tooltip" class="hover-success ml-1 viewCertificates" href="{{ path('certificate_list', {'edition': s.id}) }}" title="Ver Certificados"><i class="fas fa-certificate"></i></a>
+                                            </td>
+                                            <td class="text-center">
+                                                <a data-toggle="tooltip" href="{{ path('manager_editions_edit', {'id': s.id}) }}" class="hover-success editEdicao" title="{{ 'EDITIONS_TOOLTIP_EDIT'|trans }}">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                                <a data-toggle="tooltip" href="#excluir" class="hover-danger ml-2 tdDel" title="{{ 'EDITIONS_TOOLTIP_DEL'|trans }}" data-path="{{ path('manager_editions_remove', {'id': s.id}) }}" data-token="{{ csrf_token('delete' ~ s.id) }}" data-action="remove" data-type="{{ 'a edição'|trans }}" data-name="{{ s.namePortuguese }}">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <nav class="d-flex justify-content-between">
+                                    <small class="text-muted">{{ 'Showing'|trans }} {{ editions|length }} {{ 'of'|trans }} {{ editions.getTotalItemCount }}</small>
+
+                                    {{ knp_pagination_render(editions) }}
+                                </nav>
+                            </div>
+                        {% else %}
+                            <p class="my-2">{{ 'THEME_NOFOUND'|trans }}.</p>
+                        {% endif %}
+                    </div>
+                    <br/>
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message |trans }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorEditions') }}
+    {{ parent() }}
+{% endblock %}

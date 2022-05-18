@@ -1,0 +1,82 @@
+<h1>{{ 'ARTICLE_STATS_AUTHOR_TITLE'|trans }}</h1>
+
+<div id="author">
+    {% if data.userArticlesAuthors is not empty %}
+
+        {% set userSubmitted = userArticle.userId %}
+        {% set userDeleted = userArticle.userDeletedId %}
+
+        {% for author in userArticle.userArticlesAuthors %}
+            <div class="card mt-3 author">
+                <div class="card-header" id="header-{{ author.order }}" data-toggle="collapse" data-target="#collapse-{{ author.order }}">
+                    <span>
+                        {{ '#' ~ author.order ~ ' - ' ~ author.userAuthor.name }}
+                        {% if(userSubmitted.id == author.userAuthor.id ) %}
+                            <span class="badge badge-success">{{ 'Author submitted the article'|trans }}</span>
+                        {% endif %}
+                        {% if(userDeleted is not empty) and (userDeleted.id == author.userAuthor.id) %}
+                            <span class="badge badge-danger">{{ 'Author canceled the article'|trans }}</span>
+                        {% endif %}
+                    </span>
+                </div>
+                <div id="collapse-{{ author.order }}" class="collapse" aria-labelledby="header-{{ author.order }}">
+                    <div class="card-body">
+                        <div class="row form mt-0">
+                            <div class="col-2 col-lg-1 div-readonly">
+                                <div class="label">{{ 'Ordem'|trans }}</div>
+                                <div class="value" data-value="ordem">{{ author.order }}</div>
+                            </div>
+                            <div class="col-10 col-lg-5 div-readonly">
+                                <div class="label">{{ 'País de Origem'|trans }}</div>
+                                <div class="value" data-value="country">{{ author.userAuthorId.city.country.name }}</div>
+                            </div>
+                            <div class="col-lg-6 div-readonly">
+                                <div class="label">{{ 'CPF'|trans }}</div>
+                                <div class="value" data-value="cpf">{{ author.userAuthor.identifier }}</div>
+                            </div>
+                            <div class="col-lg-6 div-readonly">
+                                <div class="label">{{ 'Nome Completo'|trans }}</div>
+                                <div class="value" data-value="name">{{ author.userAuthor.name }}</div>
+                            </div>
+                            <div class="col-lg-6 div-readonly">
+                                <div class="label">{{ 'E-mail'|trans }}</div>
+                                <div class="value" data-value="email">{{ author.userAuthor.email }}</div>
+                            </div>
+                            <div class="col-md-3 div-readonly">
+                                <div class="label">{{ 'Telefone Celular'|trans }}</div>
+                                <div class="value" data-value="celular">{{ author.userAuthor.cellphone }}</div>
+                            </div>
+                            <div class="col-md-3 div-readonly">
+                                <div class="label">{{ 'Telefone Fixo'|trans }}</div>
+                                <div class="value" data-value="phone">{{ author.userAuthor.phone }}</div>
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6 div-readonly">
+                                <div class="label">{{ '1 Instituição (vinculada)'|trans }}</div>
+                                <div class="value" data-value="institution">{{ author.institutionsFirst }}</div>
+                            </div>
+                            <div class="col-md-6 div-readonly">
+                                <div class="label">{{ '2 Instituição (vinculada)'|trans }}</div>
+                                <div class="value" data-value="institution2">{{ author.institutionsSecond }}</div>
+                            </div>
+                            <div class="col-md-6 div-readonly">
+                                <div class="label">{{ 'Programa (vinculado)'|trans }}</div>
+                                <div class="value" data-value="program">{{ author.programsFirst }}</div>
+                            </div>
+                            <div class="col-md-6 div-readonly">
+                                <div class="label">{{ 'Programa (vinculado)'|trans }}</div>
+                                <div class="value" data-value="program2">{{ author.programsSecond }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            {{ 'Nenhum resultado encontrado.'|trans }}
+        </div>
+    {% endif %}
+</div>
+

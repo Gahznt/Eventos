@@ -1,0 +1,114 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" href="{{ path('manager_theme_submission_config') }}" role="tab">
+                    {{ 'Configurações de <br/>Submissão de Temas'|trans|raw }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link active" href="{{ path('manager_theme_submission_config') }}" role="tab">
+                            {{ 'Lista de<br/>Configurações'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+
+                    <div class="tab-pane fade show active" role="tabpanel">
+                        <div class="float-left">
+                            <h1 class="mb-0">{{ 'Configurações de Submissão de Temas'|trans|raw }}</h1>
+                        </div>
+
+                        <a id="novoEvento" class="btn btn-primary float-right" href="{{ path('manager_theme_submission_config_new') }}" data-toggle="tooltip" title="{{ 'Nova Configuração'|trans }}"><i class="fas fa-plus"></i></a>
+
+                        <div class="clearfix"></div>
+
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success  my-2">
+                                {{ message |trans }}
+                            </div>
+                        {% endfor %}
+
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger  my-2">
+                                {{ message |trans }}
+                            </div>
+                        {% endfor %}
+
+                        {% if items|length > 0 %}
+                            <div class="tabela my-2">
+                                <table class="table table-sm table-striped table-responsive-md">
+                                    <thead>
+                                    <tr>
+                                        {{ sortMacro.sortColumnHeader('', 'c.id', 'Id') }}
+                                        {{ sortMacro.sortColumnHeader('', 'c.year', 'Ano'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('text-center', 'c.isCurrent', 'Atual'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('text-center', 'c.isAvailable', 'Disponível'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('text-center', 'c.isEvaluationAvailable', 'Avaliação'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('text-center', 'c.isResultAvailable', 'Resultado'|trans) }}
+                                        <th class="text-center">{{ 'GESTOR_INFO_LABEL_EDIT'|trans }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for e in items %}
+                                        <tr>
+                                            <td>{{ e.id }}</td>
+                                            <td>{{ e.year }}</td>
+                                            <td class="text-center">{{ constant('IS_CURRENT', e)|array_flip()[e.isCurrent] }}</td>
+                                            <td class="text-center">{{ constant('IS_AVAILABLE', e)|array_flip()[e.isAvailable] }}</td>
+                                            <td class="text-center">{{ constant('IS_AVAILABLE', e)|array_flip()[e.isEvaluationAvailable] }}</td>
+                                            <td class="text-center">{{ constant('IS_AVAILABLE', e)|array_flip()[e.isResultAvailable] }}</td>
+                                            <td class="text-center" width="150">
+                                                <a data-toggle="tooltip" class="hover-success" href="{{ path('manager_themes', {'themeSubmissionConfig': e.id}) }}" title="{{ 'Listar Temas'|trans }}"><i class="fas fa-clone"></i></a>
+                                                <a data-toggle="tooltip" class="hover-success ml-2" href="{{ path('manager_themes_selected', {'themeSubmissionConfig': e.id}) }}" title="{{ 'Aprovar Selecionados'|trans }}"><i class="fas fa-check"></i></a>
+                                                <a data-toggle="tooltip" href="{{ path('manager_theme_submission_config_edit', {'id': e.id}) }}" class="hover-success ml-2 editEvento" title="{{ 'Editar'|trans }}">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                                {# data-path colocar o path para remocao ex: data-path="{{ path('user_delete', {'id': user.id}) }}" #}
+                                                <a data-toggle="tooltip" href="#excluir" class="hover-danger ml-2 tdDel" title="{{ 'Remover'|trans }}" data-path="{{ path('manager_theme_submission_config_remove', {'id': e.id}) }}" data-token="{{ csrf_token('delete' ~ e.id) }}" data-action="remove" data-type="{{ 'a configuração'|trans }}" data-name="{{ e.year }}">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <nav class="d-flex justify-content-between">
+                                    <small class="text-muted">{{ 'Showing'|trans }} {{ items|length }} {{ 'of'|trans }} {{ items.getTotalItemCount }}</small>
+
+                                    {{ knp_pagination_render(items) }}
+                                </nav>
+                            </div>
+                        {% else %}
+                            <p class="my-2">{{ 'THEME_NOFOUND'|trans }}.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{#    {{ encore_entry_script_tags('gestorItems') }}#}
+    {{ parent() }}
+{% endblock %}

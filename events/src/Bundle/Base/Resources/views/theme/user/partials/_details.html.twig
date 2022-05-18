@@ -1,0 +1,89 @@
+<div class="row form mt-0">
+    <div class="col-6 div-readonly">
+        <div class="label">{{ 'Date'|trans }}</div>
+        <div class="value">{{ userTheme.details.createdAt|date('d/m/Y H:i:s') }}</div>
+    </div>
+    <div class="col-6 div-readonly">
+        <div class="label">{{ 'Status'|trans }}</div>
+        {% set isInEvaluationStatus = (
+            userTheme.status == constant('THEME_EVALUATION_STATUS_WAITING', userTheme)
+            or userTheme.status == constant('THEME_EVALUATION_STATUS_NOT_SELECTED', userTheme)
+            or userTheme.status == constant('THEME_EVALUATION_STATUS_SELECTED', userTheme)
+            ) %}
+
+        {% set isGranted = isAdmin or isAdminOperational or isDivisionCoordinator or isDivisionCommittee %}
+
+        {% if (not userTheme.themeSubmissionConfig.isResultAvailable) and isInEvaluationStatus and (not isGranted) %}
+            <div class="value">{{ constant('THEME_EVALUATION_STATUS_WAITING', userTheme)|tema_avaliacao_status('label')|trans }}</div>
+        {% else %}
+            <div class="value">{{ userTheme.status|tema_avaliacao_status('label')|trans }}</div>
+        {% endif %}
+    </div>
+
+    <h2 class="col-12 mt-3">{{ 'Português' }}</h2>
+    <div class="col-12 div-readonly">
+        <div class="label">{{ 'Título Português'|trans }}</div>
+        <div class="value">{{ userTheme.details.portugueseTitle }}</div>
+    </div>
+    <div class="col-12 div-readonly">
+        <div class="label">{{ 'Descrição Português'|trans }}</div>
+        <div class="value">{{ userTheme.details.portugueseDescription|raw }}</div>
+    </div>
+    <div class="col-12 div-readonly">
+        <div class="label">{{ 'Palavras-chave Português'|trans }}</div>
+        <div class="value">{{ userTheme.details.portugueseKeywords|join(' , ') }}</div>
+    </div>
+
+    <h2 class="col-12 mt-3">{{ 'English' }}</h2>
+    <div class="col-12 div-readonly">
+        <div class="label">{{ 'Título English'|trans }}</div>
+        <div class="value">{{ userTheme.details.englishTitle }}</div>
+    </div>
+    <div class="col-12 div-readonly">
+        <div class="label">{{ 'Descrição English'|trans }}</div>
+        <div class="value">{{ userTheme.details.englishDescription|raw }}</div>
+    </div>
+    <div class="col-12 div-readonly">
+        <div class="label">{{ 'Palavras-chave English'|trans }}</div>
+        <div class="value">{{ userTheme.details.englishKeywords|join(' , ') }}</div>
+    </div>
+
+    {% if userTheme.userThemesBibliographies|length > 0 %}
+        <h2 class="col-12 mt-3">{{ 'Bibliografias' }}</h2>
+        {% for bibliographie in userTheme.userThemesBibliographies %}
+            <div class="col-12 div-readonly">
+                <div class="label">{{ 'Name'|trans }}</div>
+                <div class="value">{{ bibliographie.name }}</div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if userTheme.userThemesResearchers|length > 0 %}
+        <h2 class="col-12 mt-3 mb-0">{{ 'Pesquisadores' }}</h2>
+        {% for researchers in userTheme.userThemesResearchers %}
+            <div class="col-12 col-lg-9 col-xl-10 div-readonly mt-3">
+                <div class="label">{{ 'Name'|trans }}</div>
+                <div class="value">
+                    {{ researchers.researcher.name }}<br/>
+                    <small>{{ researchers.researcher.institutionsPrograms|trim('()')|split(') - (')|join('<br />')|raw }}</small>
+                </div>
+            </div>
+            <div class="col-12 col-lg-3 col-xl-2 div-readonly mt-3">
+                <div class="label">{{ 'Docente de PPG'|trans }}</div>
+                <div class="value">{{ (researchers.isPostgraduateProgramProfessor ? 'YES' : 'NO')|trans }}</div>
+            </div>
+            {% if '' != researchers.biography|trim %}
+                <div class="col-12 div-readonly">
+                    <div class="label">{{ 'Biography'|trans }}</div>
+                    <div class="value">{{ researchers.biography|nl2br|raw }}</div>
+                </div>
+            {% endif %}
+            {% if '' != researchers.curriculumLattesLink|trim %}
+                <div class="col-12 div-readonly">
+                    <div class="label">{{ 'LATTES_LINK'|trans }}</div>
+                    <div class="value">{{ researchers.curriculumLattesLink }}</div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>

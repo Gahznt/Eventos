@@ -1,0 +1,30 @@
+{% set exibir = true %}
+
+{% if exibir%}
+    {% if app.request.cookies.get('COOKIE_CONSENT') is same as(null) %}   
+        <div role="dialog" id="cookieconsent_modal" class="p-3" style="display: none; position: fixed; bottom: 15px; right: 30px; max-width: 300px; background: white;">
+            <!--googleoff: all-->
+            <div class="osano-cm-dialog__content osano-cm-content">
+                <p id="" class="">
+                    {{ 'COOKIE_CONSENT'|trans }}
+                </p>
+                <p>
+                    <a href="{{ path('legal_cookies', {choice: 'deny'}) }}" target="_blank" class="" rel="noopener noreferrer nofollow"><!---->{{ 'Data Storage Policy'|trans }}<!----></a>
+                </p>
+            </div>
+            <div class="text-center">
+                <a id="cookieconsent_accept" class="btn btn-success" href="{{ path('legal_cookieconsent', {choice: '1'}) }}">
+                    <i class="activity-indicator"></i> {{ 'Accept'|trans }}
+                </a>
+                <a id="cookieconsent_deny" class="btn btn-danger" href="{{ path('legal_cookieconsent', {choice: '2'}) }}">
+                    <i class="activity-indicator"></i> {{ 'Deny'|trans }}
+                </a>
+            </div>
+            <!--googleon: all-->
+        </div>
+    {% endif %}
+{% endif %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('cookieconsent') }}
+{% endblock %}

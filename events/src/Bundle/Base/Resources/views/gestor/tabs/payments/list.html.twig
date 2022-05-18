@@ -1,0 +1,113 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'editionId': app.request.get('editionId'), 'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_index') }}" role="tab">
+                    {{ 'Events'|trans }}
+                </a>
+                <a class="nav-item nav-link" href="{{ path('manager_editions_index', {'eventId': event.id}) }}" role="tab">
+                    {{ 'MANAGER_EDITIONS'|trans }}
+                </a>
+                <a class="nav-item nav-link active" href="{{ path('manager_edition_payments_index', {'editionId': edition.id}) }}" role="tab">
+                    Formas de Pagamento
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message |trans }}
+                    </div>
+                {% endfor %}
+
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link active" href="{{ path('manager_edition_payments_index', {'editionId': edition.id}) }}" role="tab">
+                            Lista de<br/> Formas de Pagamento
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+                        <div class="float-left">
+                            <h1 class="mb-1">Formas de Pagamento: <span class="info editionPaymentModeEditionName"></span></h1>
+                            <b class="text-dark">Selecione a forma de pagamento para ver os detalhes, ou crie uma nova.</b>
+                        </div>
+
+                        <a id="novaPaymentMode" class="btn btn-primary float-right neweditionPaymentMode" href="{{ path('manager_edition_payments_new', {'editionId': edition.id}) }}" data-toggle="tooltip" title="Nova Forma de Pagamento"><i class="fas fa-plus"></i></a>
+
+                        <div class="clearfix"></div>
+
+                        {% if editionPaymentModes|length > 0 %}
+                            <div class="tabela my-2">
+                                <table class="table table-sm table-striped table-responsive-md w-100" id="editionPaymentModesTable">
+
+                                    <thead>
+                                    <tr>
+                                        {{ sortMacro.sortColumnHeader('', 'item.id', 'Id') }}
+                                        {{ sortMacro.sortColumnHeader('', 'item.name', 'Nome') }}
+                                        {{ sortMacro.sortColumnHeader('', 'item.value', 'Valor') }}
+                                        {{ sortMacro.sortColumnHeader('text-center', 'item.type', 'Exibir para') }}
+                                        <th class="text-center" width="60">{{ 'Actions'|trans }}</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for item in editionPaymentModes %}
+                                        <tr>
+                                            <td>{{ item.id }}</td>
+                                            <td>{{ item.name }}</td>
+                                            <td>{{ item.value }}</td>
+                                            <td class="text-center">
+                                                <span class="badge badge-{{ item.type == 1 ? 'warning' : (item.type == 2 ? 'success' : 'danger') }}">
+                                                    {{ TYPES[item.type] }}
+                                                </span>
+                                            </td>
+                                            <td class="text-center">
+                                                <a data-toggle="tooltip" href="{{ path('manager_edition_payments_edit', {'id': item.id}) }}" class="hover-success editPaymentMode" title="Editar Forma de Pagamento">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                                <a data-toggle="tooltip" href="#excluir" class="hover-danger ml-2 tdDel" title="Excluir Forma de Pagamento" data-path="{{ path('manager_edition_payments_remove', {'id': item.id}) }}" data-token="{{ csrf_token('delete' ~ item.id) }}" data-action="remove" data-type="{{ 'da forma de pagamento'|trans }}" data-name="{{ item.name }}">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <nav class="d-flex justify-content-between">
+                                    <small class="text-muted">{{ 'Showing'|trans }} {{ editionPaymentModes|length }} {{ 'of'|trans }} {{ editionPaymentModes.getTotalItemCount }}</small>
+
+                                    {{ knp_pagination_render(editionPaymentModes) }}
+                                </nav>
+                            </div>
+                        {% else %}
+                            <p class="my-2">{{ 'THEME_NOFOUND'|trans }}.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorEditionPaymentModes') }}
+    {{ parent() }}
+{% endblock %}

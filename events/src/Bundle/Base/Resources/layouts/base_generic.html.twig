@@ -1,0 +1,29 @@
+{# layouts/base.html.twig #}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}ANPAD{% endblock %}</title>
+    {% block stylesheets %}
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900" rel="stylesheet">
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% include 'navbar.html.twig' %}
+
+<div class="content">
+    {% block body %}{% endblock %}
+</div>
+
+{% include 'footer.html.twig' %}
+{% include 'cookieconsent.html.twig' %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('login') }}
+{% endblock %}
+</body>
+</html>

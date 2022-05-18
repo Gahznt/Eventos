@@ -1,0 +1,71 @@
+{# desktop 4 cards por linha #}
+<div class="d-none d-lg-block carousel slide dashboardEvents" id="cDesktop" data-ride="carousel" data-interval="5000" data-pause="hover">
+    <ol class="carousel-indicators">
+        {% for row in dashboard.next|batch(4) %}
+            <li data-target="#cDesktop" data-slide-to="{{ loop.index0 }}" class="{{ loop.index0 == 0 ? 'active' : '' }}"></li>
+        {% endfor %}
+    </ol>
+    <div class="carousel-inner">
+        {% for row in dashboard.next|batch(4) %}
+            <div class="carousel-item {{ loop.index0 == 0 ? 'active' : '' }}">
+                <div class="row justify-content-center">
+                    {% for edition in row %}
+                        {% include 'home/events/card.html.twig' %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{# tablet 2 cards por linha #}
+<div class="d-none d-md-block d-lg-none carousel slide dashboardEvents" id="cTablet" data-ride="carousel" data-interval="5000" data-pause="hover">
+    <ol class="carousel-indicators">
+        {% for row in dashboard.next|batch(2) %}
+            <li data-target="#cTablet" data-slide-to="{{ loop.index0 }}" class="{{ loop.index0 == 0 ? 'active' : '' }}"></li>
+        {% endfor %}
+    </ol>
+    <a class="carousel-control-prev" href="#cTablet" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#cTablet" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    <div class="carousel-inner">
+        {% for row in dashboard.next|batch(2) %}
+            <div class="carousel-item {{ loop.index0 == 0 ? 'active' : '' }}">
+                <div class="row justify-content-center">
+                    {% for edition in row %}
+                        {% include 'home/events/card.html.twig' %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{# celular 1 card por linha #}
+<div class="d-md-none carousel slide dashboardEvents" id="cCelular" data-ride="carousel" data-interval="5000" data-pause="hover">
+    <ol class="carousel-indicators">
+        {% for edition in dashboard.next %}
+            <li data-target="#cCelular" data-slide-to="{{ loop.index0 }}" class="{{ loop.index0 == 0 ? 'active' : '' }}"></li>
+        {% endfor %}
+    </ol>
+    <a class="carousel-control-prev" href="#cCelular" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#cCelular" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    <div class="carousel-inner">
+        {% for edition in dashboard.next %}
+            <div class="carousel-item {{ loop.index0 == 0 ? 'active' : '' }}">
+                <div class="row">
+                    {% include 'home/events/card.html.twig' %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

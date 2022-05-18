@@ -1,0 +1,22 @@
+<div class="stepsTab" data-step="5">
+    <div class="text-center">
+        <div id="formSignSuccessOff"  style="display: none;" class="col-lg-6 offset-lg-3">
+            <div class="cadastroSuccess">
+                <div class="title">{{'I confirm my register data'|trans}}</div>
+                <div>
+                    <h1>{{ 'This site uses cookies.'|trans }}</h1>
+                    <p>{{ 'COOKIE_SIGNUP'|trans }}</p>
+                </div>
+            </div>
+            <a class="btn btn-primary btn-lg btn-block btCadastro">{{ 'STEP_FORWARD'|trans }} <i id="btnLoadConfirm"></i></a>
+        </div>
+        <div id="formSignSuccess" style="display: none;" class="col-lg-6 offset-lg-3">
+            <h1>{{ 'SIGNUP_SUCCESS'|trans }}</h1>
+            <div class="cadastroSuccess">
+                <div class="title">{{ 'SIGNUP_SUCCESS_MSG1'|trans }}.</div>
+                <div>{{ 'SIGNUP_SUCCESS_MSG2'|trans }}.</div>
+            </div>
+            <a  href="{{ path('index') }}" class="btn btn-block btn-primary">{{ 'PANEL_BACK'|trans }}</a>
+        </div>
+    </div>
+</div>

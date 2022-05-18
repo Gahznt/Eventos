@@ -1,0 +1,174 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <div class="row">
+      <div class="col-md-10">
+        <h1>{{ 'SYS_EV_REPORT_TITLE'|trans }}: {{ 'SYS_EV_REPORT_TABLE'|trans }}</h1>
+      </div>
+      <div class="col-md-2">
+        <!--a class="btn btn-primary btn-sm float-right mr-1" data-toggle="tooltip" title="{{ 'SYS_EV_REPORT_EXCEL'|trans }}"><i class="fas fa-file-excel"></i></a-->
+      </div>
+    </div>
+    <!--form action="/system_evaluation/reports/pending_action" class="form mt-0">
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <label for="filter-theme">{{ 'SYS_EV_REPORT_FORM_THEME'|trans }}</label>
+          <select name="filter-theme" id="filter-theme" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-fit">{{ 'SYS_EV_REPORT_FORM_FIT'|trans }}</label>
+          <select name="filter-fit" id="filter-fit" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-search">{{ 'SYS_EV_REPORT_FORM_SEARCH'|trans }}</label>
+          <input type="text" name="filter-search" id="filter-search" class="form-control">
+          <a class="inputSearchBtn"><i class="fas fa-search"></i></a>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-ev_final1">{{ 'SYS_EV_REPORT_FORM_APPROVE'|trans|replace({'#': 1}) }}</label>
+          <select name="filter-ev_final1" id="filter-ev_final1" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+            <option value="0">{{ 'SYS_EV_REPORT_FINAL_EV_APPROVE'|trans }}</option>
+            <option value="1">{{ 'SYS_EV_REPORT_FINAL_EV_REJECT'|trans }}</option>
+            <option value="2">{{ 'SYS_EV_REPORT_FINAL_EV_APPROVE_LOW'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-ev_final2">{{ 'SYS_EV_REPORT_FORM_APPROVE'|trans|replace({'#': 2}) }}</label>
+          <select name="filter-ev_final2" id="filter-ev_final2" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+            <option value="0">{{ 'SYS_EV_REPORT_FINAL_EV_APPROVE'|trans }}</option>
+            <option value="1">{{ 'SYS_EV_REPORT_FINAL_EV_REJECT'|trans }}</option>
+            <option value="2">{{ 'SYS_EV_REPORT_FINAL_EV_APPROVE_LOW'|trans }}</option>
+          </select>
+        </div>
+        <div class="col-md-4 form-group">
+          <label for="filter-pubish">{{ 'SYS_EV_REPORT_FORM_PUBLISH'|trans }}</label>
+          <select name="filter-pubish" id="filter-pubish" class="form-control">
+            <option value="">{{ 'Select'|trans }}</option>
+          </select>
+        </div>
+      </div>
+    </form-->
+    <div class="tabela my-2">
+      <table class="table table-sm table-striped table-responsive-md">
+        <thead>
+          <tr class="fw-normal">
+            <th class="">{{ 'ID'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_FINAL_THEME'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_FIT'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_FINAL_EV'|trans|replace({'#': 1}) }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_FINAL_EV'|trans|replace({'#': 2}) }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_PONT_PRIMARY'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_PONT_SECONDARY'|trans }}</th>
+            <th class="">{{ 'SYS_EV_REPORT_TH_DETAILS'|trans }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i, item in tableData %}
+          {% set item = item|merge({'ev_final1': "<span class='badge badge-#{item.ev_final1|ev_final('color')}'>#{item.ev_final1|ev_final('label')|trans}</span>"}) %}
+          {% set item = item|merge({'ev_final2': "<span class='badge badge-#{item.ev_final2|ev_final('color')}'>#{item.ev_final2|ev_final('label')|trans}</span>"}) %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.theme }}</td>
+            <td>{{ FRAMES[item.fit]|trans }}</td>
+            <td>{{ item.ev_final1|raw }}</td>
+            <td>{{ item.ev_final2|raw }}</td>
+            <td>{{ item.pont_primary }}</td>
+            <td>{{ item.pont_secundary }}</td>
+            <td class="text-center">
+              <a class="hover-success" data-toggle="modal" data-target="#tableModal" data-data="{{ item|json_encode }}">
+                <i class="fas fa-eye" data-toggle="tooltip" data-title="{{ 'SYS_EV_REPORT_TOOLTIP_DETAILS'|trans }}"></i>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="tableModal">
+  <div class="modal-dialog mw-100 w-75" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><span >{{ 'SYS_EV_REPORT_MODAL_TABLE'|trans }}</span>: <span class="value" data-field="id"></span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="fas fa-times-circle"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-2 div-readonly">
+            <div class="label">{{ 'ID'|trans }}</div>
+            <div class="value" data-field="id"></div>
+          </div>
+          <div class="col-md-10 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_TITLE'|trans }}</div>
+            <div class="value" data-field="title"></div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_THEME'|trans }}</div>
+            <div class="value" data-field="theme"></div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_FIT'|trans }}</div>
+            <div class="value" data-field="fit"></div>
+          </div>
+          <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_APPROVED'|trans|replace({'#': 1}) }}</div>
+            <div class="value" data-field="ev_final1"></div>
+          </div>
+          <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_APPROVED'|trans|replace({'#': 2}) }}</div>
+            <div class="value" data-field="ev_final2"></div>
+          </div>
+          <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_PONT_PRI'|trans }}</div>
+            <div class="value" data-field="pont_primary"></div>
+          </div>
+          <div class="col-md-3 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_PONT_SEC'|trans }}</div>
+            <div class="value" data-field="pont_secundary"></div>
+          </div>
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_LEADER'|trans }}</div>
+            <div class="value" data-field="leader"></div>
+          </div>
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_COMMITTE'|trans }}</div>
+            <div class="value" data-field="committe"></div>
+          </div>
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_COORD'|trans }}</div>
+            <div class="value" data-field="coord"></div>
+          </div>
+          <div class="col-12 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_DIR'|trans }}</div>
+            <div class="value" data-field="dir"></div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_PUBLISH'|trans }}</div>
+            <div class="value" data-field="publish"></div>
+          </div>
+          <div class="col-md-6 div-readonly">
+            <div class="label">{{ 'SYS_EV_REPORT_TABLE_WORK'|trans }}</div>
+            <div class="value" data-field="work"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  {{ encore_entry_script_tags('systemEvaluationReports') }}
+{% endblock %}

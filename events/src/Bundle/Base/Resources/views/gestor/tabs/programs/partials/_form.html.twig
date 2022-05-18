@@ -1,0 +1,226 @@
+{% if program.id != '' %}
+    {{ form_start(form, {'attr': {'id':'programForm', 'class': 'form', 'action':path('manager_programs_edit', {program: program.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% else %}
+    {{ form_start(form, {'attr': {'id':'programForm', 'class': 'form', 'action':path('manager_programs_new', {institution: institution.id, id: program.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+{% endif %}
+
+<div class="card mt-3">
+    <div class="card-header" id="header1" data-toggle="collapse" data-target="#collapse1" data-toggle="tooltip">
+        {{ 'Descrição do Programa'|trans }}
+    </div>
+    <div id="collapse1" class="collapse" aria-labelledby="header1">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12 form-group">
+                    <label class="required-{{ form.name.vars.required }}" for="program_name">{{ 'Nome do Programa'|trans }}</label>
+                    {{ form_widget(form.name, {'attr': {'id':'name', 'class': 'form-control'}}) }}
+                    {% if form.name.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.name.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label>{{ 'Status'|trans }}</label>
+                    <div class="radiocheck center">
+                        <div class="form-check form-check-inline">
+                            {{ form_widget(form.status, {'attr': {'id':'status', 'class': 'form-check-input'}}) }}
+                            {% if form.status.vars['errors']|length > 0 %}
+                                <div class="form-error invalid-feedback">
+                                    {{ form.status.vars['errors'][0].message }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 mt-4 form-group">
+                    <div class="form-check form-check-inline">
+                        {{ form_widget(form.paid, {'attr': {'id':'paid', 'class': 'form-check-input'}}) }}
+                        <label class="form-check-label" for="program_paid">{{ 'Pago'|trans }}</label>
+                        {% if form.paid.vars['errors']|length > 0 %}
+                            <div class="form-error invalid-feedback">
+                                {{ form.paid.vars['errors'][0].message }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <label class="required-{{ form.sortPosition.vars.required }}" for="sort_position">{{ 'SYS_EV_REPORT_AUTHOR_ORDER'|trans }}</label>
+                    {{ form_widget(form.sortPosition, {'attr': {'id':'sort_position', 'class': 'form-control'}}) }}
+                    {% if form.sortPosition.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-feedback">
+                            {{ form.sortPosition.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-4 form-group">
+                    <label class="required-{{ form.coordinator.vars.required }}" for="coordinator">{% trans %}Coordenador{% endtrans %}</label>
+                    {{ form_widget(form.coordinator, {'attr': {'id':'coordinator', 'class': 'form-control'}}) }}
+                    {% if form.coordinator.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.coordinator.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 form-group">
+                    <label class="required-{{ form.cellphone.vars.required }}" for="cellphone">{% trans %}Cellphone{% endtrans %}</label>
+                    {{ form_widget(form.cellphone, {'attr': {'id':'cellphone','class': 'form-control phone'}}) }}
+                    {% if form.cellphone.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.cellphone.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-6 form-group">
+                    <label class="required-{{ form.phone.vars.required }}" for="phone">{% trans %}Phone{% endtrans %}</label>
+                    {{ form_widget(form.phone, {'attr': {'id':'phone','class': 'form-control phone'}}) }}
+                    {% if form.phone.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.phone.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 form-group">
+                    <label class="required-{{ form.email.vars.required }}" for="email">{% trans %}E-mail{% endtrans %}</label>
+                    {{ form_widget(form.email, {'attr': {'id':'email','class': 'form-control'}}) }}
+                    {% if form.email.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {{ form.email.vars['errors'][0].message }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-7 form-group">
+                    <label class="required-{{ form.website.vars.required }}" for="website">{% trans %}Website{% endtrans %}</label>
+                    {{ form_widget(form.website, {'attr': {'id':'website','class': 'form-control'}}) }}
+                    {% if form.website.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.website.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header" id="header2" data-toggle="collapse" data-target="#collapse2" data-toggle="tooltip">
+        {{ 'Endereço do Programa'|trans }}
+    </div>
+    <div id="collapse2" class="collapse" aria-labelledby="header2">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label class="required-{{ form.zipcode.vars.required }}" for="zipcode">{% trans %}Zipcode{% endtrans %}</label>
+                    {{ form_widget(form.zipcode, {'attr': {'class': 'form-control'}}) }}
+                    {% if form.zipcode.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.zipcode.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-6 form-group">
+                    <label class="required-{{ form.street.vars.required }}" for="street">{% trans %}Street{% endtrans %}</label>
+                    {{ form_widget(form.street, {'attr': {'class': 'form-control'}}) }}
+                    {% if form.street.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.street.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-2 form-group">
+                    <label class="required-{{ form.number.vars.required }}" for="number">{% trans %}Number{% endtrans %}</label>
+                    {{ form_widget(form.number, {'attr': {'class': 'form-control'}}) }}
+                    {% if form.number.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.number.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-2 form-group">
+                    <label class="required-{{ form.complement.vars.required }}" for="complement">{% trans %}Complement{% endtrans %}</label>
+                    {{ form_widget(form.complement, {'attr': {'class': 'form-control'}}) }}
+                    {% if form.complement.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.complement.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label class="required-{{ form.neighborhood.vars.required }}" for="neighborhood">{% trans %}Neighborhood{% endtrans %}</label>
+                    {{ form_widget(form.neighborhood, {'attr': {'class': 'form-control'}}) }}
+                    {% if form.neighborhood.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.neighborhood.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="required-{{ form.state.vars.required }}" for="state">{% trans %}State{% endtrans %}</label>
+                    {{ form_widget(form.state, {'attr': {'class': 'form-control','route': path('state_by_country'), 'select' : 'Select'|trans, 'autocomplete': 'new-address'}}) }}
+                    {% if form.state.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.state.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-6 form-group">
+                    <label class="required-{{ form.city.vars.required }}" for="city">{% trans %}City{% endtrans %}</label>
+                    {{ form_widget(form.city, {'attr': {'class': 'form-control','route': path('city_by_state_and_country'), 'select' : 'Select'|trans, 'autocomplete': 'new-address'}}) }}
+                    {% if form.city.vars['errors']|length > 0 %}
+                        <div class="form-error invalid-input">
+                            {% for error in form.city.vars['errors'] %}
+                                {{ error.message }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-6">
+        <a class="btn btn-lg btn-outline-primary"
+           href="{{ path('manager_programs_index', {'institution': institution.id}) }}">{{ 'CANCEL'|trans }}</a>
+    </div>
+    <div class="col-md-6">
+        <button type="submit" class="btn btn-lg btn-block btn-primary">
+            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+        </button>
+    </div>
+</div>
+
+
+{{ form_end(form) }}

@@ -1,0 +1,72 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'edition': app.request.get('edition').id, 'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    {# @TODO: remover quando implementar as permissões de acesso para cada etapa #}
+    <style>
+        .nav-tabs .nav-item.nav-link {
+            font-size: 11px !important;
+            padding: 0.5rem .5rem !important;
+        }
+    </style>
+
+    <div class="schedule">
+        <div class="container">
+            <nav>
+                <div class="nav nav-tabs" id="class-nav-tab" role="tablist">
+                    <a class="nav-item nav-link tab-4" href="{{ path('ensalement_rooms_index', {edition: edition.id}) }}" role="tab">Cadastro de Salas</a>
+                    <a class="nav-item nav-link tab-4" href="{{ path('ensalement_sessions_index', {edition: edition.id}) }}" role="tab">Cadastro de Sessões</a>
+                    <a class="nav-item nav-link tab-4" href="{{ path('ensalement_slots_index', {edition: edition.id}) }}" role="tab">Cadastro de Slots</a>
+                        {% if ensalementPriorityEnable == true %}
+                            <a class="nav-item nav-link tab-4" href="{{ path('ensalement_priority_index', {edition: edition.id}) }}" role="tab">Ensalamento Prioritário</a>
+                        {% endif %}
+
+                        {% if secionsEnable == true %}
+                            <a class="nav-item nav-link tab-4" id="back-route" href="{{ path('ensalement_sections_index', {edition: edition.id}) }}" role="tab">Listagem de Seções</a>
+                            <a class="nav-item nav-link tab-4 active" href="#dados" role="tab">Cadastro de Seções</a>
+                        {% endif %}
+
+                        {% if ensalementGeneralEnable == true %}
+                            <a class="nav-item nav-link tab-4" href="{{ path('ensalement_general_index', {edition: edition.id}) }}" role="tab">Ensalamento Geral</a>
+                        {% endif %}
+                </div>
+            </nav>
+
+            <div class="tab-content">
+
+                <!--ABA 2-->
+                <div class="tab-pane fade show active" role="tabpanel">
+                    <h2>Cadastro de Seção</h2>
+
+                    <div class="form">
+
+                        {% include "ensalamento_classroom_registration/tabs/sections/partials/_form.html.twig" %}
+                        {% if entity.id != '' %}
+                            {{ form_start(form, {'attr': {'id':'sectionScheduleFilterForm', 'class': 'row', 'action':path('ensalement_sections_filter', {edition: edition.id, id: entity.id}), 'novalidate': 'novalidate'}}) }}{{ form_end(form) }}
+                        {% else %}
+                            {{ form_start(form, {'attr': {'id':'sectionScheduleFilterForm', 'class': 'row', 'action':path('ensalement_sections_filter', {edition: edition.id}), 'novalidate': 'novalidate'}}) }}{{ form_end(form) }}
+                        {% endif %}
+
+                    </div>
+                </div><!--FIM ABA 2-->
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('ensalement/sections') }}
+{% endblock %}

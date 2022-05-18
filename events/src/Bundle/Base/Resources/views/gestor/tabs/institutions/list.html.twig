@@ -1,0 +1,140 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" href="{{ path('manager_institutions_index') }}" role="tab">
+                    {{ 'Institutions'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link active" href="{{ path('manager_institutions_index') }}"
+                           role="tab">
+                            {{ 'MANAGER_INSTITUTION_LIST_TITLE'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+                        <div class="float-left">
+                            <h1 class="mb-0">{{ 'Institutions'|trans }}</h1>
+                            <b class="text-dark">{{ 'MANAGER_INSTITUTION_LIST_MSG'|trans }}</b>
+                        </div>
+
+                        <a id="newInstitution" class="btn btn-primary float-right" href="{{ path('manager_institutions_new') }}"
+                           data-toggle="tooltip" title="{{ 'MANAGER_NEW_INSTITUTION'|trans }}"><i
+                                    class="fas fa-plus"></i></a>
+
+                        <div class="clearfix"></div>
+
+                        {% if institutions|length > 0 %}
+
+                            <div class="form mb-3">
+                                {{ form_start(form) }}
+                                <div class="row">
+                                    <div class="col-6 col-md-3">
+                                        {{ form_label(form.status, 'Status') }}
+                                        {{ form_widget(form.status, {'attr': {'class': 'filter form-control'}}) }}
+                                    </div>
+                                    <div class="col-6 col-md-6 col-lg-7">
+                                        {{ form_label(form.q, 'Buscar') }}
+                                        {{ form_widget(form.q, {'attr': {'class': 'filter form-control'}}) }}
+                                    </div>
+                                    <div class="col-6 col-md-3 col-lg-2" style="padding-top: 31px;">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block">Filtrar</button>
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+
+                            <div class="tabela my-2">
+                                <table class="table table-sm table-striped table-responsive-md">
+                                    <thead>
+                                    <tr>
+                                        {{ sortMacro.sortColumnHeader('', 'institution.id', 'Id') }}
+                                        {{ sortMacro.sortColumnHeader('', 'institution.name', 'Name'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('', 'institution.initials', 'Sigla'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('text-center', 'institution.status', 'Status'|trans) }}
+                                        <th class="text-center">{{ 'GESTOR_INFO_LABEL_EDIT'|trans }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for institution in institutions %}
+                                        <tr>
+                                            <td>{{ institution.id }}</td>
+                                            <td>{{ institution.name }}</td>
+                                            <td>{{ institution.initials }}</td>
+                                            <td class="text-center">
+                                            <span class="badge badge-{{ institution.status|status_institution('color') }}">
+                                                {{ institution.status|status_institution('label')|trans }}
+                                            </span>
+                                            </td>
+                                            <td class="text-center" width="100">
+                                                <a data-toggle="tooltip" href="{{ path('manager_institutions_edit', {'id': institution.id}) }}"
+                                                   class="hover-success editInstitution"
+                                                   title="{{ 'MANAGER_INSTITUTION_TOOLTIP_EDIT'|trans }}">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                                <a data-toggle="tooltip"
+                                                   href="{{ path('manager_programs_index', {'institution': institution.id}) }}"
+                                                   class="hover-success ml-2"
+                                                   title="{{ 'MANAGER_INSTITUTION_TOOLTIP_LIST'|trans }}">
+                                                    <i class="fas fa-book"></i>
+                                                </a>
+                                                <a data-toggle="tooltip" href="#excluir" class="hover-danger ml-2 tdDel"
+                                                   title="{{ 'MANAGER_INSTITUTION_TOOLTIP_DEL'|trans }}"
+                                                   data-path="{{ path('manager_institutions_remove', {'id': institution.id}) }}"
+                                                   data-token="{{ csrf_token('delete' ~ institution.id) }}" data-action="remove"
+                                                   data-type="{{ 'a instituição'|trans }}"
+                                                   data-name="{{ institution.name }}">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <nav class="d-flex justify-content-between">
+                                    <small class="text-muted">{{ 'Showing'|trans }} {{ institutions|length }} {{ 'of'|trans }} {{ institutions.getTotalItemCount }}</small>
+
+                                    {{ knp_pagination_render(institutions) }}
+                                </nav>
+                            </div>
+                        {% else %}
+                            <p class="my-2">{{ 'THEME_NOFOUND'|trans }}.</p>
+                        {% endif %}
+                    </div>
+                    <br/>
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message |trans }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorInstitutions') }}
+    {{ parent() }}
+{% endblock %}

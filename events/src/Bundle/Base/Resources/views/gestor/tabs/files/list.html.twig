@@ -1,0 +1,112 @@
+{# src/layouts/base.html.twig #}
+{% macro sortColumnHeader(cssClass, field, label) %}
+
+    {% set direction = app.request.get('sort') == field and app.request.get('direction') == 'asc' ? 'desc' : 'asc' %}
+
+    <th class="sort {{ app.request.get('sort') == field ? app.request.get('direction') : '' }} {{ cssClass }}">
+        <a href="{{ path(app.request.get('_route'), app.request.query.all|merge({'editionId': app.request.get('editionId'), 'sort': field, 'direction': direction})) }}">{{ label|trans }}</a>
+    </th>
+
+{% endmacro %}
+
+{% import _self as sortMacro %}
+
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link" href="{{ path('manager_index') }}" role="tab">
+                    {{ 'Events'|trans }}
+                </a>
+                <a class="nav-item nav-link" href="{{ path('manager_editions_index', {'eventId': event.id}) }}" role="tab">
+                    {{ 'MANAGER_EDITIONS'|trans }}
+                </a>
+                <a class="nav-item nav-link active" href="{{ path('manager_files_index', {'editionId': edition.id}) }}" role="tab">
+                    {{ 'FILES_TAB'|trans }}
+                </a>
+            </div>
+        </nav>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" role="tabpanel">
+                <nav>
+                    <div class="nav nav-tabs" role="tablist">
+                        <a id="manager-back-route" class="nav-item nav-link active" href="{{ path('manager_files_index', {'editionId': edition.id}) }}" role="tab">
+                            {{ 'FILES_LIST_TAB'|trans|raw }}
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" role="tabpanel">
+
+                        <div class="float-left">
+                            <h1 class="mb-1">{{ 'FILES_TAB'|trans }}: <span class="info fileEditionName" id="fileEditionName"></span></h1>
+                            <b class="text-dark">{{ 'FILES_LIST_MSG'|trans }}.</b>
+                        </div>
+
+                        <a id="newFile" class="btn btn-primary float-right newFile" href="{{ path('manager_files_new', {'editionId': edition.id}) }}" data-toggle="tooltip" title="{{ 'FILES_NEW'|trans }}"><i class="fas fa-plus"></i></a>
+
+                        <div class="clearfix"></div>
+
+                        {% if files|length > 0 %}
+                            <input id="copy-content-input" class="d-none" type="text" readonly="readonly" value=""/>
+
+                            <div class="tabela my-2">
+                                <table class="table table-sm table-striped table-responsive-md w-100" id="filesTable">
+
+                                    <thead>
+                                    <tr>
+                                        {{ sortMacro.sortColumnHeader('', 'ef.id', 'Id') }}
+                                        {{ sortMacro.sortColumnHeader('', 'ef.description', 'GESTOR_INFO_LABEL_DESCRIPTION'|trans) }}
+                                        {{ sortMacro.sortColumnHeader('', 'ef.fileName', 'EVENT_DETAILS_LABEL_FILE'|trans) }}
+                                        <th class="text-center" width="150">{{ 'Actions'|trans }}</th>
+                                    </tr>
+                                    </thead>
+
+
+                                    <tbody>
+                                    {% for ef in files %}
+                                        <tr>
+                                            <td>{{ ef.id }}</td>
+                                            <td>{{ ef.description }}</td>
+                                            <td>{{ ef.fileName }}</td>
+                                            <td class="text-center">
+                                                <a data-toggle="tooltip" href="{{ asset(constant('\\App\\\Bundle\\Base\\Entity\\EditionFile::PUBLIC_PATH') ~ ef.filePath) }}" class="hover-success mr-2" target="_blank" title="Download/Visualizar"><i class="fas fa-download"></i></a>
+                                                <a data-toggle="tooltip" href="#copiar-link" data-content="{{ asset(constant('\\App\\\Bundle\\Base\\Entity\\EditionFile::PUBLIC_PATH') ~ ef.filePath) }}" class="hover-success copy-content mr-2" title="Copiar Link"><i class="fas fa-link"></i></a>
+                                                <a data-toggle="tooltip" href="#copiar-codigo-html" data-content='<a href="{{ asset(constant('\\App\\\Bundle\\Base\\Entity\\EditionFile::PUBLIC_PATH') ~ ef.filePath) }}" target="_blank">{{ ef.description }}</a>' class="hover-success copy-content mr-2" title="Copiar Código HTML"><i class="fas fa-code"></i></a>
+                                                <a data-toggle="tooltip" href="{{ path('manager_files_edit', {'id': ef.id}) }}" class="hover-success editArquivo mr-1" title="{{ 'FILES_TOOLTIP_EDIT'|trans }}"><i class="fas fa-pencil-alt"></i></a>
+                                                <a data-toggle="tooltip" href="#excluir" class="hover-danger ml-2 tdDel" title="{{ 'FILES_TOOLTIP_DEL'|trans }}" data-path="{{ path('manager_files_remove', {'id': ef.id}) }}" data-token="{{ csrf_token('delete' ~ ef.id) }}" data-action="remove" data-type="{{ 'o arquivo'|trans }}" data-name="{{ ef.description }}"><i class="fas fa-times"></i></a>
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <nav class="d-flex justify-content-between">
+                                    <small class="text-muted">{{ 'Showing'|trans }} {{ files|length }} {{ 'of'|trans }} {{ files.getTotalItemCount }}</small>
+
+                                    {{ knp_pagination_render(files) }}
+                                </nav>
+                            </div>
+                        {% else %}
+                            <p class="my-2">{{ 'THEME_NOFOUND'|trans }}.</p>
+                        {% endif %}
+                    </div>
+                    <br/>
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message |trans }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('gestorFiles') }}
+    {{ parent() }}
+{% endblock %}
+

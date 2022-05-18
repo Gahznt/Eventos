@@ -1,0 +1,132 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="fieldset">
+
+            <div class="mb-3">
+                <form id="filter" data-route="{{ path('user_search') }}">
+                    <div class="row">
+                        <div class="col-lg-10 form-group">
+                            <label for="search">{{ 'PERMISSIONS_LABEL_SEARCH'|trans }}</label>
+                            <input type="text" id="search" class="filter form-control">
+                            <div id="search-error" class="form-error invalid-feedback" style="display: none"></div>
+                        </div>
+                        <div class="col-lg-2 form-group">
+                            <label for="btn">&ensp;</label>
+                            <button type="submit" id="btn" class="btn btn-block btn-primary">
+                                {{ 'PERMISSIONS_LABEL_FILTER'|trans }} <i id="btnSearch"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                {{ form_start(form, {'attr': {'id':'permissionCoordinatorForm', 'class': 'form', 'action':path(app.request.get('_route')), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <label for="permission_coordinator_coordinator">{{ 'Coordinator'|trans }}</label>
+                        {{ form_widget(form.coordinator, {'attr': {'disabled': 'true', 'class': 'form-control', 'select': 'Select'|trans}}) }}
+                        {% if form.coordinator.vars['errors']|length > 0 %}
+                            <div class="form-error div-danger">
+                                {% for error in form.coordinator.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 form-group">
+                        <label for="permission_coordinator_event">Evento</label>
+                        {{ form_widget(form.event, {'attr': {'class': 'form-control', 'select': 'Select'|trans}}) }}
+                        {% if form.event.vars['errors']|length > 0 %}
+                            <div class="form-error div-danger">
+                                {% for error in form.event.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="permission_coordinator_edition">Edição</label>
+                        {{ form_widget(form.edition, {'attr': {'data-route': path('edition_by_event'), 'data-route_find_permissions': path('division_coordinator_by_edition'), 'class': 'form-control', 'data-select': 'Select'|trans}}) }}
+                        {% if form.edition.vars['errors']|length > 0 %}
+                            <div class="form-error div-danger">
+                                {% for error in form.edition.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 form-group">
+                        <label for="permission_coordinator_division">{{ 'Division'|trans }}</label>
+                        {{ form_widget(form.division, {'attr': {'class': 'form-control', 'select': 'Select'|trans}}) }}
+                        {% if form.division.vars['errors']|length > 0 %}
+                            <div class="form-error div-danger">
+                                {% for error in form.division.vars['errors'] %}
+                                    {{ error.message }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <a id="manager-back-route" class="btn btn-lg btn-primary" href="{{ path('permission_index') }}">
+                            {{ 'CANCEL'|trans|raw }}
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-lg btn-block btn-primary">
+                            {{ 'SAVE'|trans }} <i id="btnLoad"></i>
+                        </button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+
+                <div id="table" class="tabela my-3">
+                    <table class="table table-sm table-striped table-responsive-md">
+                        <thead>
+                        <tr>
+                            <th>{{ 'Id'|trans }}</th>
+                            <th>{{ 'PERMISSIONS_LABEL_NAME'|trans }}</th>
+                            <th>{{ 'Edição'|trans }}</th>
+                            <th>{{ 'Divisão'|trans }}</th>
+                            <th class="text-right">{{ 'Remover'|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody id="division_coordinator_table">
+                            <tr>
+                                <td colspan="5">Nenhum item encontrado!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                <a href="{{ path('permission_index') }}" class="btn btn-primary btn-lg btn-block mt-4">Permissões</a>
+                <a href="{{ path('permission_index_committe') }}" class="btn btn-primary btn-lg btn-block">Comitê
+                    de divisão</a>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('permissionsCoordinator') }}
+{% endblock %}

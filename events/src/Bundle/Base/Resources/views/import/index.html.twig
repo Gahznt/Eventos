@@ -1,0 +1,22 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+  <div class="fieldset">
+    <h1>{{ 'IMPORT_HEAD'|trans }}</h1>
+    <form action="/import" class="form row align-items-end">
+      <div class="col-lg-6">
+        <label for="import">{{ 'IMPORT_LABEL'|trans }}</label>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input" id="import" name="import">
+          <label class="custom-file-label" for="import" data-label="{{ 'PANEL_UPLOAD_NOFILE'|trans }}">{{ 'PANEL_UPLOAD_NOFILE'|trans }}</label>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <button class="btn btn-block btn-lg btn-primary">{{ 'IMPORT_BUTTON'|trans }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

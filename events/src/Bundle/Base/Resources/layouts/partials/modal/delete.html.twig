@@ -1,0 +1,37 @@
+<div class="modal" id="modalDelete" tabindex="-1" role="dialog" data-word="{{ 'MODAL_DELETE'|trans }}">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-title">{{ 'MODAL_CONFIRM_DELETE'|trans }}</span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="fas fa-times-circle"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ 'MODAL_CONFIRM_DELETE_MSG1'|trans|raw }}</p>
+        <p>{{ 'MODAL_CONFIRM_DELETE_MSG2'|trans|raw }}</p>
+        <div class="row form my-0">
+          <div class="col-12 form-group">
+            <input type="text" id="deleteInput" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <button type="button" class="btn btn-block btn-lg btn-grey-dark" data-dismiss="modal" aria-label="Close">{{ 'MODAL_CANCEL'|trans }}</button>
+          </div>
+          <div class="col-md-6">
+            <button type="button" id="deleteConfirm" class="btn btn-block btn-lg btn-danger" disabled>
+              {{ 'MODAL_CONFIRM'|trans }}
+              <span class="d-none fa fa-spinner fa-spin"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="alert alert-success d-none" id="itemDeleted" role="alert">
+  <b class="message"></b>
+  <a class="close ml-3">
+    <span aria-hidden="true">&times;</span>
+  </a>
+</div>

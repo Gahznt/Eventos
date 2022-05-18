@@ -1,0 +1,35 @@
+<h1 class="mb-3">{{ 'Logs'|trans }}</h1>
+
+<div class="fieldset mt-3">
+  <div class="tabela my-2">
+    <table class="table table-sm table-striped table-responsive-md w-100" id="themeLogTable">
+      <thead>
+        <tr>
+          <th width="40">{{ 'THEME_LIST_ID'|trans }}</th>
+          <th>{{ 'User'|trans }}</th>
+          <th>{{ 'IP'|trans }}</th>
+          <th>{{ 'Date'|trans }}</th>
+          <th>{{ 'Action'|trans }}</th>
+          <th>{{ 'Reason'|trans }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {# Filtra logs de CONSIDERAÇÃO no twig para não buscar duas vezes #}
+
+      {% for log in panelLog2 %}
+        {% if not (log.action matches '/^CONSID/') %}
+        <tr>
+          <td>{{ log.id }}</td>
+          <td>{{ log.user.name }}</td>
+          <td>{{ log.ip }}</td>
+          <td>{{ log.createdAt|date("d/m/Y H:i") }}</td>
+          <td>{{ log.action }}</td>
+          <td>{{ log.reason }}</td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>

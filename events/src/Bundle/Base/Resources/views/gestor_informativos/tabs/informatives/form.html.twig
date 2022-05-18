@@ -1,0 +1,117 @@
+<div class="row">
+  <div class="col-md-8">
+    <h1 class="mb-0">{{ 'GESTOR_INFO_TITLE_DATA'|trans }}</h1>
+  </div>
+  <div class="col-md-4 align-self-end">
+    <a class="btn btn-sm btn-outline-danger float-right d-none delForm" id="delInformative" data-form="informativeForm" data-modal-title="{{ 'GESTOR_INFO_TOOLTIP_DELETE_INFO'|trans }}" data-path="/delete_success" data-token="{{ csrf_token('delete') }}" data-type="{{ 'GESTOR_INFO_DELETE_INFO'|trans }}">
+      {{ 'GESTOR_INFO_TOOLTIP_DELETE_INFO'|trans }} <i class="fas fa-times ml-2"></i>
+    </a>
+  </div>
+</div>
+<form action="/gestor_informativos" method="post" id="informativeForm" class="form">
+  <input type="hidden" name="informative-id" id="informative-id">
+  <div class="row">
+    <div class="col-lg-4">
+      <label>{{ 'Status'|trans }}</label><br/>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="informative-status" id="informative-ativo" value="1" required>
+        <label class="form-check-label" for="informative-ativo">{{ 'Ativo'|trans }}</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="informative-status" id="informative-inativo" value="0" required>
+        <label class="form-check-label" for="informative-inativo">{{ 'Inativo'|trans }}</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="informative-highlight" id="informative-highlight">
+        <label class="form-check-label" for="informative-highlight">{{ 'GESTOR_INFO_LABEL_HIGHLIGHT'|trans }}</label>
+      </div>
+    </div>
+    <div class="col-lg-2 form-group">
+      <label for="informative-date_enter">{{ 'GESTOR_INFO_LABEL_DATE_ENTER'|trans }}</label>
+      <input type="text" name="informative-date_enter" id="informative-date_enter" class="form-control" data-mask="99/99/9999">
+    </div>
+    <div class="col-lg-2 form-group">
+      <label for="informative-date_out">{{ 'GESTOR_INFO_LABEL_DATE_OUT'|trans }}</label>
+      <input type="text" name="informative-date_out" id="informative-date_out" class="form-control" data-mask="99/99/9999">
+    </div>
+    <div class="col-lg-4 form-group">
+      <label for="informative-type">{{ 'GESTOR_INFO_LABEL_TYPE'|trans }}</label>
+      <select name="informative-type" id="informative-type" class="form-control">
+        <option value="">{{ 'Select'|trans }}</option>
+        {% for type in types %}
+        <option value="{{ type.id }}">{{ type.title }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="card validCard mt-3">
+    <div class="card-header invalid" id="header1" data-toggle="collapse" data-target="#collapse1" data-toggle="tooltip">
+      {{ 'GESTOR_INFO_CARD_DESCRIPTION'|trans }} ({{ 'LANG_PT'|trans }})
+    </div>
+    <div id="collapse1" class="collapse" aria-labelledby="header1">
+      <div class="card-body">
+        <div class="row form mt-0">
+          <div class="col-12 form-group">
+            <label class="form-check-label" for="informative-title-pt">{{ 'GESTOR_INFO_LABEL_TITLE'|trans }}</label>
+            <input type="text" name="informative-title-pt" id="informative-title-pt" class="form-control" required>
+            <div class="form-error invalid-feedback"></div>
+          </div>
+          <div class="col-12 form-group">
+            <label class="form-check-label" for="informative-desc-pt">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+            <textarea name="informative-desc-pt" id="informative-desc-pt" class="htmleditor" required></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card validCard mt-3">
+    <div class="card-header invalid" id="header2" data-toggle="collapse" data-target="#collapse2">
+      {{ 'GESTOR_INFO_CARD_DESCRIPTION'|trans }} ({{ 'LANG_EN'|trans }})
+    </div>
+    <div id="collapse2" class="collapse" aria-labelledby="header2">
+      <div class="card-body">
+        <div class="row form mt-0">
+          <div class="col-12 form-group">
+            <label class="form-check-label" for="informative-title-en">{{ 'GESTOR_INFO_LABEL_TITLE'|trans }}</label>
+            <input type="text" name="informative-title-en" id="informative-title-en" class="form-control" required>
+            <div class="form-error invalid-feedback"></div>
+          </div>
+          <div class="col-12 form-group">
+            <label class="form-check-label" for="informative-desc-en">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+            <textarea name="informative-desc-en" id="informative-desc-en" class="htmleditor" required></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card validCard mt-3">
+    <div class="card-header invalid" id="header3" data-toggle="collapse" data-target="#collapse3">
+      {{ 'GESTOR_INFO_CARD_DESCRIPTION'|trans }} ({{ 'LANG_ES'|trans }})
+    </div>
+    <div id="collapse3" class="collapse" aria-labelledby="header3">
+      <div class="card-body">
+        <div class="row form mt-0">
+          <div class="col-12 form-group">
+            <label class="form-check-label" for="informative-title-es">{{ 'GESTOR_INFO_LABEL_TITLE'|trans }}</label>
+            <input type="text" name="informative-title-es" id="informative-title-es" class="form-control" required>
+            <div class="form-error invalid-feedback"></div>
+          </div>
+          <div class="col-12 form-group">
+            <label class="form-check-label" for="informative-desc-es">{{ 'GESTOR_INFO_LABEL_DESCRIPTION'|trans }}</label>
+            <textarea name="informative-desc-es" id="informative-desc-es" class="htmleditor" required></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-lg btn-outline-primary text-uppercase">{{ 'CANCEL'|trans }}</button>
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-lg btn-block btn-primary text-uppercase">
+        {{ 'SAVE'|trans }}
+      </button>
+    </div>
+  </div>
+</form>

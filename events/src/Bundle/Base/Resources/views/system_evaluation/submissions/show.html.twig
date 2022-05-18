@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-8">
+        <h1 class="mb-0">{{ 'Submissão'|trans }} : <span class="info" id="articleName">{{ data.title }}</span></h1>
+    </div>
+    <div class="col-md-4">
+        <!--
+            <a href="{{ path('article_submission_stats_download', {'id': data.id }) }}" class="btn btn-primary float-right ml-1" data-toggle="tooltip" title="{{ 'Baixar PDF'|trans }}"><i class="fas fa-download"></i></a>
+        -->
+        <a href="{{ path('article_submission_stats', {'id': data.id }) }}" class="btn btn-primary float-right ml-1" data-toggle="tooltip" title="{{ 'Acessar Stats'|trans }}"><i class="fas fa-link"></i></a>
+
+    </div>
+</div>
+<nav>
+    <div class="nav nav-tabs" id="nav-tab-form" role="tablist">
+        <a class="nav-item nav-link tab-1 active" id="nav-form-1" data-toggle="tab" href="#tab-form-1" role="tab">
+            {{ 'DADOS DA<br/>SUBMISSÃO'|trans|raw }}
+        </a>
+        <a class="nav-item nav-link tab-2" id="nav-form-2" data-toggle="tab" href="#tab-form-2" role="tab">
+            {{ 'DADOS DOS<br/>AUTORES'|trans|raw }}
+        </a>
+        {% if 1 == data.editionId.systemEvaluationConfigs[0].resultsAvaliable
+            and constant('ARTICLE_EVALUATION_STATUS_WAITING', data) != data.status
+            and constant('ARTICLE_EVALUATION_STATUS_CANCELED', data) != data.status %}
+            <a class="nav-item nav-link tab-4" id="nav-form-4" data-toggle="tab" href="#tab-form-4" role="tab">
+                {{ 'RESULTADO<br/>FINAL'|trans|raw }}
+            </a>
+        {% endif %}
+        <a class="nav-item nav-link tab-3" id="nav-form-3" data-toggle="tab" href="#tab-form-3" role="tab">
+            {{ 'LOGS'|trans }}
+        </a>
+    </div>
+</nav>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="tab-form-1" role="tabpanel">
+        {% include 'system_evaluation/submissions/tabs/1.html.twig' %}
+    </div>
+    <div class="tab-pane fade" id="tab-form-2" role="tabpanel">
+        {% include 'system_evaluation/submissions/tabs/2.html.twig' %}
+    </div>
+    {% if 1 == data.editionId.systemEvaluationConfigs[0].resultsAvaliable
+        and constant('ARTICLE_EVALUATION_STATUS_WAITING', data) != data.status
+        and constant('ARTICLE_EVALUATION_STATUS_CANCELED', data) != data.status %}
+        <div class="tab-pane fade" id="tab-form-4" role="tabpanel">
+            {% include 'system_evaluation/submissions/tabs/4.html.twig' %}
+        </div>
+    {% endif %}
+    <div class="tab-pane fade" id="tab-form-3" role="tabpanel">
+        {% include 'system_evaluation/submissions/tabs/3.html.twig' %}
+    </div>
+</div>

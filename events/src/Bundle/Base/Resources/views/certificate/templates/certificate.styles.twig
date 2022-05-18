@@ -1,0 +1,92 @@
+<style>
+    div.back {
+
+{% if layout != '' %}
+
+        background-image: url("{{ layout }}");
+
+{% endif %}
+
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        text-align: center;
+        margin: 0;
+        width: 1800px;
+        height: 1245px;
+        position: relative;
+    }
+
+    div.back .title {
+        font-weight: bold;
+        font-size: 2.5em;
+        padding-top: 350px;
+        padding-left: 50px;
+        padding-right: 50px;
+        margin-bottom: 120px;
+        /*width: 90%;*/
+    }
+
+    div.back .title-manual {
+        font-weight: bold;
+        font-size: 2.5em;
+        padding-top: 250px;
+        padding-left: 50px;
+        padding-right: 50px;
+        margin-bottom: 50px;
+        /*width: 90%;*/
+    }    
+
+    div.back .text {
+        font-size: 1.5em;
+        padding-left: 100px;
+        padding-right: 100px;
+        margin-bottom: 40px;
+    }
+
+    div.back .text-title {
+        padding-top: 350px;
+        font-size: 2em;
+        padding-left: 100px;
+        padding-right: 100px;
+        margin-bottom: 40px;
+    }
+
+    div.back .footer {
+        font-size: 1.5em;
+        padding-left: 70px;
+        padding-right: 70px;
+        padding-top: 60px;
+    }
+
+    div.text-author-plus {
+        position: absolute;
+        width: 600px;
+        left: 1450px;
+        bottom: 50%;
+        font-size: 1em;
+        transform: rotate(-90deg);
+    }
+
+    div.qr-code {
+
+{% if qrCode != '' %}
+
+        background-image: url("{{ qrCode }}");
+
+{% endif %}
+
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+
+        display: block;
+        width: {{ qrCodeSize }}px;
+        height: {{ qrCodeSize }}px;
+
+        position: absolute;
+        bottom: {{ qrCodeBottom }}px;
+        right: {{ qrCodeRight }}px;
+    }
+
+</style>

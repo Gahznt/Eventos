@@ -1,0 +1,22 @@
+<div class="stepsTab" data-step="1">
+    <h1>{{ 'EVENT_STEP1'|trans }}</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="alert alert-warning div-primary-alt icon exclamation">
+                <h2>{{ 'EVENT_WARNING_HEAD'| trans }}</h2>
+                <p class="dark">{{ 'EVENT_WARNING_MSG' | trans|raw }} <br><br>{{ 'EVENT_SINGUP'|trans }} <a
+                            href="{{ path('signUp_index') }}">{{ 'EVENT_HERE'|trans }}</a>.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2>{{ 'EVENT_LOGIN'| trans }}</h2>
+                    <div id="eventLoginForm" class="form">
+                        {{ include ('@Base/security/login.html.twig', {'defaults': 'false'}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

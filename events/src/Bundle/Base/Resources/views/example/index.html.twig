@@ -1,0 +1,43 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+    <p style="color:red;">Não tomar como base para layout de CSS e HTML</p>
+    <div class="row">
+
+        <a class="btn btn-primary" href="{{ path('example_new') }}">Create new</a>
+    </div>
+    <div class="row">
+        <div class="col-md-12 ml-md-auto" style="background: white;color: black;">
+    <h1>Example index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>SubExample</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for example in examples %}
+            <tr>
+                <td>{{ example.id }}</td>
+                <td>{{ example.name }}</td>
+                <td>{{ example.subDependentExample }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('example_show', {'id': example.id}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('example_edit', {'id': example.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="25">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+  <div class="container">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link tab-6 active" id="nav-1" data-toggle="tab" href="#tab-1" role="tab">
+          {{ 'INSCRIÇÃO - TRABALHOS <br/>APROVADOS'|trans|raw }}
+        </a>
+      </div>
+    </nav>
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
+        <div class="row">
+          <div class="col-md-10">
+            <h1 class="mb-0">{{ 'Inscrição - Trabalhos Aprovados'|trans }}</h1>
+          </div>
+          <div class="col-md-2">
+            <a href="{{ path('approved_articles', {'edition' : edition.id, 'export': 'excel'}) }}" class="btn btn-primary float-right mr-1" data-toggle="tooltip" title="{{ 'Baixar Excel'|trans }}">
+              <i class="fas fa-file-excel"></i>
+            </a>
+          </div>
+        </div>
+
+        {% if approved_articles is empty %}
+          <div class="alert alert-warning" role="alert">
+            Nenhum resultado encontrado.
+          </div>
+        {% else %}
+          <div class="tabela my-2 mt-4">
+            <table class="table table-sm table-striped table-responsive-md">
+              <thead>
+              <tr>
+                <th>{{ 'Id'|trans }}</th>
+                <th>{{ 'Divisão'|trans }}</th>
+                <th>{{ 'Tema'|trans }}</th>
+                <th>{{ 'Autor'|trans }}</th>
+                <th>{{ 'Documento'|trans }}</th>
+                <th>{{ 'Email'|trans }}</th>
+                <th>{{ 'Status'|trans }}</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for approved_article in approved_articles %}
+
+                {% set status = EDITION_SIGNUP_STATUS_PAY[approved_article.status_pay] %}
+
+                {% set status_class = "badge-warning" %}
+                {% if approved_article.status_pay == 1 %}
+                  {% set status_class = "badge-success" %}
+                {% endif %}
+
+                <tr>
+                  <td>{{ approved_article.id }}</td>
+                  <td>{{ approved_article.divisao }}</td>
+                  <td>{{ approved_article.ordem ~ '-' ~ approved_article.theme_title }}</td>
+                  <td>{{ approved_article.author }}</td>
+                  <td>{{ approved_article.document }}</td>
+                  <td>{{ approved_article.email }}</td>
+                  <td>
+                    <span class='badge {{ status_class }}'>
+                      {{ status|trans }}
+                    </span>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <nav class="d-flex justify-content-between" style="float: right">
+              {{ knp_pagination_render(approved_articles) }}
+            </nav>
+            <small class="text-muted">{{ 'Showing'|trans }} {{ approved_articles|length }} {{ 'of' |trans }} {{ approved_articles.getTotalItemCount }}</small>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+{% endblock %}

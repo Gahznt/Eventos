@@ -1,0 +1,62 @@
+<form action="/" class="form" id="evaluatorForm">
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="mb-0">{{ 'Dados do Avaliador'|trans }}</h1>
+    </div>
+    <div class="col-md-4">
+      <a class="btn btn-danger float-right d-none delForm" id="delEvaluator" data-toggle="tooltip" title="{{ 'Remover Avaliador'|trans }}" data-form="evaluatorForm" data-modal-title="{{ 'Remover Avaliador'|trans }}" data-path="/delete_success" data-token="{{ csrf_token('delete') }}" data-type="{{ 'o avaliador'|trans }}"><i class="fas fa-times"></i></a>
+      <a class="btn btn-primary float-right mr-1" data-toggle="tooltip" title="{{ 'Cobrar Avaliação'|trans }}"><i class="fas fa-envelope"></i></a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 form-group">
+      <label for="filter-search-show">{{ 'Busca'|trans }}</label>
+      <input type="text" name="filter-search-show" id="filter-search-show" class="form-control">
+      <a id="evaluatorsShowBtn" class="inputSearchBtn"><i class="fas fa-search"></i></a>
+    </div>
+  </div>
+  <div class="row" id="evaluator">
+    <div class="col-lg-6 div-readonly">
+      <div class="label">{{ 'Nome Completo'|trans }}</div>
+      <div class="value" data-value="name"></div>
+    </div>
+    <div class="col-lg-6 div-readonly">
+      <div class="label">{{ 'Documento'|trans }}</div>
+      <div class="value" data-value="doc"></div>
+    </div>
+    <div class="col-lg-6 div-readonly">
+      <div class="label">{{ 'E-mail'|trans }}</div>
+      <div class="value" data-value="email"></div>
+    </div>
+    <div class="col-md-6 col-lg-3 div-readonly">
+      <div class="label">{{ 'Telefone Celular'|trans }}</div>
+      <div class="value" data-value="celular"></div>
+    </div>
+    <div class="col-md-6 col-lg-3 div-readonly">
+      <div class="label">{{ 'Telefone Fixo'|trans }}</div>
+      <div class="value" data-value="phone"></div>
+    </div>
+    <div class="col-12 div-readonly">
+      <div class="label">{{ 'Temas de Interesse'|trans }}</div>
+      <div class="value" data-value="themes"></div>
+    </div>
+  </div>
+  {#<div class="card mt-3">#}
+    {#<div class="card-header" id="header-logs" data-toggle="collapse" data-target="#collapse-logs">#}
+      {#<span>{{ 'Acesso ao Stats'|trans }}</span>#}
+    {#</div>#}
+    {#<div id="collapse-logs" class="collapse show" aria-labelledby="header-logs">#}
+      {#<div class="tabela m-3">#}
+        {#<table class="table table-sm table-striped table-responsive-md w-100" id="logsTable">#}
+          {#<thead>#}
+            {#<tr>#}
+              {#<th data-title="{{ 'Id'|trans }}"></th>#}
+              {#<th data-title="{{ 'Data'|trans }}"></th>#}
+              {#<th data-title="{{ 'IP'|trans }}"></th>#}
+            {#</tr>#}
+          {#</thead>#}
+        {#</table>#}
+      {#</div>#}
+    {#</div>#}
+  {#</div>#}
+</form>

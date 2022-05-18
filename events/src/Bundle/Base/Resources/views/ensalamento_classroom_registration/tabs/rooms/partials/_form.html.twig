@@ -1,0 +1,37 @@
+{{ form_start(form, {'attr': {'id':'roomsForm', 'class': 'row', 'action':path('ensalement_rooms_new', {edition: edition.id}), 'novalidate': 'novalidate', 'enctype':'multipart/form-data'}}) }}
+
+<div class="col-12 col-md-4 form-group">
+    {{ form_label(form.name, 'Identificação da Sala') }}
+    {{ form_widget(form.name, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.name.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.name.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-4 form-group">
+    {{ form_label(form.type, 'Tipo da Sala') }}
+    {{ form_widget(form.type, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.type.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.type.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-4 form-group">
+    {{ form_label(form.local, 'Localização') }}
+    {{ form_widget(form.local, {'attr': {'class': 'filter form-control'}}) }}
+    {% if form.local.vars['errors']|length > 0 %}
+        <div class="form-error invalid-feedback">
+            {{ form.local.vars['errors'][0].message }}
+        </div>
+    {% endif %}
+</div>
+
+<div class="col-12 col-md-4 offset-md-8">
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar Sala <i id="btnLoad"></i></button>
+</div>
+
+{{ form_end(form) }}

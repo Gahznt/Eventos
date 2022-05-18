@@ -1,0 +1,50 @@
+{{ form_start(formAction, {
+  'method':'GET', 
+  'attr': {'id':'panelActionForm','action':path('panel_evaluation_action'), 'data-url': path('panel_evaluation_action_evaluate'), 'novalidate':'novalidate'}  
+  }) }}
+
+<div class="stepsTab" data-step="2">
+
+{% if formAction.vars.value.id %}
+
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <label for="panel-evaluation-action-portugueseTitle">{{ 'Panel'|trans }}</label>
+      {{ form_widget(formAction.title, {'attr': {'disabled': true, 'id':'title', 'class': 'form-control'}}) }}
+    </div>
+
+    <div class="col-md-6 form-group">    
+      <label for="panel-evaluation-action-divisionId">{{ 'ACADEMIC_DIVISION'|trans }}</label>
+      {{ form_widget(formAction.divisionId, {'attr': {'disabled': true, 'id':'divisionId', 'class': 'form-control'}}) }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 form-group">
+      <label for="panel-evaluation-action-status">{{ 'Status'|trans }}</label>
+      {{ form_widget(formAction.statusEvaluation, {'attr': {'id':'statusEvaluation', 'class': 'form-control'}}) }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 form-group">
+      <label for="panel-evaluation-action-reason">{{ 'Reason'|trans }}</label>
+      {{ form_widget(formAction.reason, {'attr': {'id':'reason', 'class': 'form-control'}}) }}
+    </div>
+  </div>
+
+  <div class="col-md-6 offset-md-6 mt-1">
+    <a id="panelEvalActionBtn" class="btn btn-lg btn-block btn-primary">{{ 'PEVAL_ACTION_BTN'|trans }}</a>
+  </div>
+
+  {% include "@Base/panel/evaluation/tabs/view/tabs/partials/_considerations.html.twig" %}
+
+{% else %}
+  <h1>{{ 'PEVAL_ACTION_NOPANEL'|trans }}.
+{% endif %}
+</div>
+
+<input type="hidden" id="panelId" name="panelId" value="{{ panelId }}">
+<input type="hidden" id="step" name="step" value="1">
+<input type="hidden" id="flashSuccess" name="flashSuccess" value="">
+{{ form_end(formAction, {'render_rest': false}) }}
