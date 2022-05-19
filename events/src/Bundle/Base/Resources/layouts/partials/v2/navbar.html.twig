@@ -1,0 +1,114 @@
+<header id="top">
+    <div id="menu-topo">
+        <div id="navbar-cus">
+            <!-- Menu Anpad -->
+            <div  class="container container-cus py-2">
+                <nav class="navbar navbar-expand-lg navbar-light col-md-12 flex-nowrap">
+                    
+                    <a class="navbar-brand" href="/">
+                        <img class="header-logo" src="{{ asset('build/images/logo/anpad.png') }}" alt="Anpad" title="Anpad">
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="menu-session">
+                        <div class="info-top d-none d-lg-flex justify-content-end">
+
+                            {% if app.user %}
+                                <span class="nav-username mr-5 text-uppercase">{{ 'Hello'|trans }}, {{ app.user.name }}.</span>
+
+                                <div class="nav-item dropdown mr-5 text-uppercase">
+                                    <a class="btn-link dropdown-toggle active"
+                                    data-toggle="dropdown">{{ 'NAVBAR_BTN_DROPDOWN'|trans }}</a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item text-uppercase"
+                                        href="{{ path('user_default') }}">{{ 'USER_TITLE'|trans }}</a>
+                                        {% if is_granted('ROLE_ADMIN_OPERATIONAL') %}
+                                            <a class="dropdown-item text-uppercase"
+                                            href="{{ path('user_list') }}">{{ 'Users'|trans }}</a>
+                                        {% endif %}
+
+                                        <a class="dropdown-item text-uppercase"
+                                        href="{{ path('logout') }}">{{ 'Logout'|trans }}</a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <a href="#" class="mr-5 text-uppercase" href="{{ path('signUp_index') }}">{{ 'SIGNUP_TITLE' | trans }}</a>
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="btn-link d-flex justify-content-center align-items-center mr-5 dropdown-toggle login active" data-toggle="dropdown">
+                                        {{ 'LOGIN_BTN'|trans }}
+                                        <i class="fa-solid fa-user ml-2"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right login">
+                                        <div id="login-container">
+                                            {{ include('@Base/security/login.html.twig', {'defaults': 'true'}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <a href="#" data-language="pt_br" class="language mr-3 language{{ 'pt_br' == app.request.getLocale() ? ' active' : '' }}">
+                                <img src="{{ asset('build/images/v2/brazil.png') }}" alt="PT-BR">
+                            </a>
+                            <a href="#" data-language="en" class="language mr-0 language{{ 'en' == app.request.getLocale() ? ' active' : '' }}">
+                                <img src="{{ asset('build/images/v2/eua.png') }}" alt="En">
+                            </a>                                    
+                        </div>
+                    
+                        <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+                            <!-- Mobille -->
+                            <div class="info-top d-flex d-lg-none justify-content-end">
+                                <a href="#" data-language="pt_br" class="language mr-1">
+                                    <img src="{{ asset('build/images/v2/brazil.png') }}" alt="PT-BR">
+                                </a>
+                                <a href="#" data-language="en" class="language mr-0">
+                                    <img src="{{ asset('build/images/v2/eua.png') }}" alt="En">
+                                </a>                                    
+                            </div>
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link {% if (app.request.get('_route') != 'index_event') and (app.request.get('_route') != 'theme_list')  %}active{% endif %}" href="{{ path('index') }}" title="Home" alt="Home">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="http://anpad.org.br/sobre.php" title="Sobre" alt="Sobre">{{ 'About'|trans }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') == 'theme_list' %}active{% endif %}" href="{{ path('theme_list') }}">{{ 'Divisions/Themes'|trans }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') == 'index_event' %}active{% endif %}" href="{{ path('index_event') }}">{{ 'Events'|trans }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="http://anpad.org.br/periodicos.php">{{ 'Journals'|trans }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="http://anpad.org.br/informativo_at.php">{{ 'Informative'|trans }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ 'History'|trans }}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="http://anpad.org.br/diversos/Diretorias_ANPAD_v5.pdf" target="__blank">{{ 'Memorial - Boards'|trans }}</a>
+                                        <a class="dropdown-item" href="http://anpad.org.br/diversos/Livro_ANPAD_30_ANOS.pdf" target="__blank">{{ 'Book 30 years'|trans }}</a> 
+                                    </div>
+                                </li> 
+                                <li class="nav-item">
+                                    <a class="nav-link" href="http://anpad.org.br/contato.php">{{ 'Contact'|trans }}</a>
+                                </li>                                
+                            </ul>
+                            <!-- Mobille -->
+                            <div class="info-top d-lg-none d-flex flex-column align-items-end pt-4 px-0">
+                                <a href="#" class="pb-2 text-uppercase">Cadastre-se</a>
+                                <a href="#" class="btn-link d-flex justify-content-center align-items-center">iANPAD <i class="fa-solid fa-user ml-2"></i></a>                                   
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <!-- End Menu -->
+        </div>
+    </div>
+</header>

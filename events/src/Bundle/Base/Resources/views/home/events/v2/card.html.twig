@@ -1,0 +1,61 @@
+{% macro interval(start, end) %}
+    {% set date = start|format_datetime(pattern="yyyyMMd") %}
+    {% set date2 = end|format_datetime(pattern="yyyyMMd") %}
+
+    {% if date == date2 %}
+        {{ start|format_datetime('medium', 'none') }}
+    {% else %}
+        {% set d = start|format_datetime(pattern="d") %}
+        {% set d2 = end|format_datetime(pattern="d") %}
+
+        {% set m = start|format_datetime(pattern="MM") %}
+        {% set m2 = end|format_datetime(pattern="MM") %}
+
+        {% set y = start|format_datetime(pattern="yyyy") %}
+        {% set y2 = end|format_datetime(pattern="yyyy") %}
+
+        {% if y == y2 %}
+            {% if m == m2 %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MMM d") }} - {{ end|format_datetime(pattern="d, yyyy") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d") }} - {{ end|format_datetime('medium', 'none') }}
+                {% endif %}
+            {% else %}
+                {% if app.request.getLocale() == 'en' %}
+                    {{ start|format_datetime(pattern="MM/d") }}
+                {% else %}
+                    {{ start|format_datetime(pattern="d/MM") }}
+                {% endif %}
+                - {{ end|format_datetime('short', 'none') }}
+            {% endif %}
+        {% else %}
+            {{ start|format_datetime('short', 'none') }} - {{ end|format_datetime('short', 'none') }}
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% import _self as dateMacro %}
+
+<div class="swiper-slide">
+    <div class="card gradient-{{ loop.index }}">
+        <div class="card__info d-flex flex-column justify-content-center align-items-center">
+            <h2>{{ edition.name }}</h2>
+            <p class="data">
+                {{ dateMacro.interval(edition.dateStart, edition.dateEnd) }}
+            </p>
+            
+            <span>
+                <img src="{{ asset('build/images/v2/computer.png') }}" alt="Evento On-line">
+                {{ edition.place|raw }}
+            </span>
+
+            <ul>
+                {% for subsection in edition.getSubsections({isHighlight: 1}) %}
+                    <li>{{ subsection.frontCall|raw }}</li>
+                {% endfor %}
+            </ul>
+            <a href="{{ path('event_details', {'edition': edition.id}) }}">{% trans %}EVENT_VIEW_MORE{% endtrans %}</a>
+        </div>
+    </div>
+</div>

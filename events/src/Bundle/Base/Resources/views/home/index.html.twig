@@ -1,15 +1,33 @@
-{# src/layouts/base.html.twig #}
+
 {% extends 'base_generic.html.twig' %}
 
 {% block title %}ANPAD{% endblock %}
 
 {% block body %}
-    <div class="container pb-5">
-        {% if dashboard.next|length > 0 %}
-            {% include 'home/events/cards.html.twig' %}
-        {% endif %}
+    <main id="home" class="apresentacao">
+        <section class="banner__inicial">
+            <div class="container">
+                <h1>{{ 'Events'|trans }}</h1>  
+                <div class="banner__carrousel pb-5 my-5">
+                    <div class="row justify-content-center position-relative">
+                        <div class="swiper-container eventos-carrousel">
+                            <div class="swiper-wrapper">
+                                {% for row in dashboard.next|batch(4) %}
+                                    {% for edition in row %}
+                                        {% include 'home/events/v2/card.html.twig' %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div> 
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
         {% if dashboard.previous|length > 0 %}
-            {% include 'home/events/previous.html.twig' %}
+            {% include 'home/events/v2/previous.html.twig' %}
         {% endif %}
-    </div>
+    </main>
 {% endblock %}

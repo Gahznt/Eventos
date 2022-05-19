@@ -1,0 +1,165 @@
+<section class="enanpad py-5 my-5">
+    <div class="container">
+        {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
+            {% set idx = 'anual' ~ loop.index %}
+                        
+            {% for event in col %}
+                {% if event.event.name|upper == 'ENANPAD' %}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2>{{ 'EVENT_ANNUAL'|trans }}</h2>
+                        <p>{{ event.event.description|raw }}</p>
+                        <a class="previous" href="#event-{{ idx }}-{{ loop.index }}-previous" aria-expanded="false" data-toggle="collapse" aria-controls="event-{{ idx }}-{{ loop.index }}-previous">{{ 'Previous Editions'|trans }}</a>
+
+                        <div class="collapse" id="event-{{ idx }}-{{ loop.index }}-previous">
+                            <div class="card-previous mt-3">
+                                {% for key, edition in event.event.editions({showOnlyPrevious: true}) %}
+                                    {% if key > 0 %},{% endif %}
+
+                                    {% if edition.id < 110 %}
+                                        <a class="dark hover-info" href="http://anpad.org.br/eventos.php?cod_evento_edicao={{ edition.id }}" target="_blank">{{ edition.name }}</a>
+                                    {% else %}
+                                        <a class="dark hover-info" href="{{ path('event_details', {'edition': edition.id}) }}">{{ edition.name }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 d-none d-lg-block">
+                        <div class="imagem">
+                            <img src="{{ asset('build/images/v2/ANPAD.png') }}" alt="ANPAD Vetor">
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}            
+        {% endfor %}  
+    </div>
+</section>
+
+<section class="eventos">
+    <div class="container">
+        <div class="cards my-5">
+            <div class="card__evento p-4 my-5">
+                <h2>{{ 'EVENTS_TRIENNIAL_2022'|trans }}</h2>
+                <p class="card__evento--frequencia">{{ 'EVENTS_TRIENNIAL_FREQUENCY'|trans }}</p>
+                <div class="row">
+                    {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
+                        {% set idx = 'tri2022' ~ loop.index %}
+                                    
+                        {% for event in col %}
+                            {% set name = event.event.name|upper  %}
+                            {% if name == 'SIMPOI' or  name == 'ENEO' or name == 'ENAPG' %}
+                                <div class="col-lg-4 mb-4 mb-lg-0">
+                                    <div class="card__content">
+                                        <h3>{{ event.event.name }}</h3>
+                                        <p>{{ event.event.description|raw }}</p>
+
+                                        <a class="previous" href="#event-{{ idx }}-{{ loop.index }}-previous" aria-expanded="false" data-toggle="collapse" aria-controls="event-{{ idx }}-{{ loop.index }}-previous">
+                                            {{ 'Previous Editions'|trans }}
+                                        </a>
+
+                                        <div class="collapse" id="event-{{ idx }}-{{ loop.index }}-previous">
+                                            <div class="card-previous">
+                                                {% for key, edition in event.event.editions({showOnlyPrevious: true}) %}
+                                                    {% if key > 0 %},{% endif %}
+
+                                                    {% if edition.id < 110 %}
+                                                        <a class="dark hover-info" href="http://anpad.org.br/eventos.php?cod_evento_edicao={{ edition.id }}" target="_blank">{{ edition.name }}</a>
+                                                    {% else %}
+                                                        <a class="dark hover-info" href="{{ path('event_details', {'edition': edition.id}) }}">{{ edition.name }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        {% endif %}
+                    {% endfor %}            
+                {% endfor %}     
+                </div>                        
+            </div>
+
+            <div class="card__evento p-4 my-5">
+                <h2>{{ 'EVENTS_TRIENNIAL_2023'|trans }}</h2>
+                <p class="card__evento--frequencia">{{ 'EVENTS_TRIENNIAL_FREQUENCY'|trans }}</p>
+                <div class="row">
+                    {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
+                        {% set idx = 'tri2023' ~ loop.index %}
+                                    
+                        {% for event in col %}
+                            {% set name = event.event.name|upper  %}
+                            {% if name == 'ENADI' or  name == '3ES' or name == 'ENGPR' %}
+                                <div class="col-lg-4 mb-4 mb-lg-0">
+                                    <div class="card__content">
+                                        <h3>{{ event.event.name }}</h3>
+                                        <p>{{ event.event.description|raw }}</p>
+
+                                        <a class="previous" href="#event-{{ idx }}-{{ loop.index }}-previous" aria-expanded="false" data-toggle="collapse" aria-controls="event-{{ idx }}-{{ loop.index }}-previous">
+                                            {{ 'Previous Editions'|trans }}
+                                        </a>
+
+                                        <div class="collapse" id="event-{{ idx }}-{{ loop.index }}-previous">
+                                            <div class="card-previous">
+                                                {% for key, edition in event.event.editions({showOnlyPrevious: true}) %}
+                                                    {% if key > 0 %},{% endif %}
+
+                                                    {% if edition.id < 110 %}
+                                                        <a class="dark hover-info" href="http://anpad.org.br/eventos.php?cod_evento_edicao={{ edition.id }}" target="_blank">{{ edition.name }}</a>
+                                                    {% else %}
+                                                        <a class="dark hover-info" href="{{ path('event_details', {'edition': edition.id}) }}">{{ edition.name }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        {% endif %}
+                    {% endfor %}            
+                {% endfor %}     
+                </div>           
+            </div>
+
+            <div class="card__evento p-4 my-5">
+                <h2>{{ 'EVENTS_TRIENNIAL_2024'|trans }}</h2>
+                <p class="card__evento--frequencia">{{ 'EVENTS_TRIENNIAL_FREQUENCY'|trans }}</p>
+                <div class="row">
+                    {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
+                        {% set idx = 'tri2024' ~ loop.index %}
+                                    
+                        {% for event in col %}
+                            {% set name = event.event.name|upper  %}
+                            {% if name == 'SITE' or  name == 'EMA' or name == 'ENEPQ' %}
+                                <div class="col-lg-4 mb-4 mb-lg-0">
+                                    <div class="card__content">
+                                        <h3>{{ event.event.name }}</h3>
+                                        <p>{{ event.event.description|raw }}</p>
+
+                                        <a class="previous" href="#event-{{ idx }}-{{ loop.index }}-previous" aria-expanded="false" data-toggle="collapse" aria-controls="event-{{ idx }}-{{ loop.index }}-previous">
+                                            {{ 'Previous Editions'|trans }}
+                                        </a>
+
+                                        <div class="collapse" id="event-{{ idx }}-{{ loop.index }}-previous">
+                                            <div class="card-previous">
+                                                {% for key, edition in event.event.editions({showOnlyPrevious: true}) %}
+                                                    {% if key > 0 %},{% endif %}
+
+                                                    {% if edition.id < 110 %}
+                                                        <a class="dark hover-info" href="http://anpad.org.br/eventos.php?cod_evento_edicao={{ edition.id }}" target="_blank">{{ edition.name }}</a>
+                                                    {% else %}
+                                                        <a class="dark hover-info" href="{{ path('event_details', {'edition': edition.id}) }}">{{ edition.name }}</a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        {% endif %}
+                    {% endfor %}            
+                {% endfor %}     
+                </div>                   
+            </div>
+        </div>                
+    </div>
+</section>

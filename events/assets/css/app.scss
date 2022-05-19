@@ -3,9 +3,9 @@
 @import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 @import "../../node_modules/datatables.net-dt/css/jquery.dataTables.min.css";
 @import "../../node_modules/select2/dist/css/select2.css";
-@import "assets/css/global.scss";
-@import "assets/css/navbar.scss";
-@import "assets/css/footer.scss";
+// @import "assets/css/global.scss";
+// @import "assets/css/navbar.scss";
+// @import "assets/css/footer.scss";
 @import "assets/css/breadcumb.scss";
 @import "assets/css/forms.scss";
 @import "assets/css/tabs.scss";
@@ -15,3 +15,9 @@
 @import "assets/css/modal.scss";
 @import "assets/css/schedule.scss";
 @import "assets/css/webapp.scss";
+
+/* v2.0.0 */
+@import "v2/global.css";
+@import "v2/media-query.css";
+@import "v2/swiper.min.css";
+@import "v2/custom.css";

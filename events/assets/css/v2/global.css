@@ -1,0 +1,119 @@
+
+/* Media Querys | Responsividade */
+/* resolução até 1200px */
+@media (max-width: 1200px) {
+    header .navbar a .header-logo{ width: 100%; }
+}
+
+/* resolução até 992px */
+@media (max-width: 992px) {
+    header .navbar-brand { width: 285px; margin: 0; }
+    header .navbar-brand .header-logo{ width: 100%; margin: 0; }
+    header .navbar-light .navbar-toggler{ background-color: transparent; border-color: transparent; }
+    header .navbar-light .navbar-toggler:focus { outline: 0px auto -webkit-focus-ring-color; }
+    header .menu-session {
+        position: absolute;
+        background: #f3f4f7;
+        z-index: 999;
+        top: 115px;
+        height: auto;
+        right: -40px;
+        width: 30%;
+    }
+    header .menu-session .info-top img{ width: 80%; }
+    header .menu-session .navbar-collapse { padding: 15px 30px; text-align: right; }
+    header .navbar .nav-item a.nav-link{ padding: 4px 0; }
+    .nav-item .active {
+        background-color: rgb(19, 91, 158);
+        padding: .25rem;
+        color: #fff;
+        border-radius: .4rem;
+    }
+
+    #home .eventos .card__evento .card__content p{ height: auto; }
+    #home .enanpad p{ padding-right: 0; }
+
+    #como-citar .content__citacao .content__citacao--refere p:first-of-type{
+        border-left: unset;
+        border-bottom: 2px solid #F7BE4D;
+    }
+    #como-citar .content__citacao .content__citacao--refere p{
+        border-left: unset;
+        margin-top: 0;
+        height: 45px;
+        border-bottom: 2px solid #B0B0B0;
+    }
+
+    #pre-eventos .programacao .card .card-body{ width: 100%; }
+    #pre-eventos .programacao .card .card-body .borda{
+        border-right: 0px solid #C4CDDD;
+        border-bottom: 2px solid #C4CDDD;
+        height: 100px;
+        padding-bottom: 10px;
+    }
+
+    footer .info-footer .footer-logo { width: 50%; margin-left: 0; margin-bottom: 70px; }
+}
+
+/* resolução até 768px */
+@media (max-width: 768px) {
+    header .menu-session { width: 40%; }
+    footer .info-footer .footer-logo{ width: 65%; }
+
+    .palestrantes .content__palestrantes .content__palestrantes--box img{
+        width: 100%;
+        object-fit: cover;
+        height: 600px;
+        border-radius: 8px;
+    }
+    .palestrantes .content__palestrantes .content__palestrantes--box .palestrantes__content{
+        width: 100%;
+        top: -110px;
+        left: 0;
+        position: relative; 
+        border-radius: 0 0 8px 8px;
+    }
+    .palestrantes .content__palestrantes .box:hover .content__palestrantes--hover{
+        height: 600px;
+        top: 0;
+        bottom: 0;
+        width: calc(100% - 30px);
+        border-radius: 8px;
+    }
+
+    #pre-eventos .programacao .card .card-header h3,
+    #pre-eventos .programacao .card .card-header .collapsed h3 { text-align: left; font-size: 22px; }
+
+}
+
+/* resolução até 575px */
+@media (max-width: 575px) {
+    header .menu-session { width: 50%; }
+    header .navbar a .header-logo { width: 75%; }
+    header .menu-session{ top: 90px; right: -20px; }
+
+    #home .banner__inicial .card{ width: 80%; margin: auto; }
+
+    .apresentacao .banner__apresentacao .banner-text a{ font-size: 16px; }
+    #apresentacao .section__artigo .section__artigo--left a{ font-size: 16px;}
+
+    #como-citar .content__citacao .content__citacao--texto .destaque p{ word-break: break-all; }
+}
+
+/* resolução até 400px */
+@media (max-width: 400px) {
+    header .menu-session { width: 60%; }
+    
+    .apresentacao .banner__apresentacao .banner-text a{ font-size: 14px; }
+    #apresentacao .section__artigo .section__artigo--left a{ font-size: 14px;}
+
+    .palestrantes .content__palestrantes .content__palestrantes--box img{ height: 430px; }
+    .palestrantes .content__palestrantes .box:hover .content__palestrantes--hover{ height: 430px; }
+
+    #pre-eventos .content__preventos .preventos__content .preventos__content--left .evento__palestrante h3{ font-size: 19px; padding: 0 5px; }
+    #pre-eventos .programacao .card .card-header .collapsed h3,
+    #pre-eventos .programacao .card .card-header h3 { font-size: 19px; }
+    #pre-eventos .content__preventos .preventos__content .preventos__content--right a { font-size: 14px; }
+
+    footer .info-footer .footer-logo { width: 80%; }
+}

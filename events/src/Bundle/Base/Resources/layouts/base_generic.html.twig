@@ -6,24 +6,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}ANPAD{% endblock %}</title>
     {% block stylesheets %}
-        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
-        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900" rel="stylesheet">
+    
+        <!-- Fontes -->
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <!-- Fontes End -->
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+        <!-- Fontawesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+        
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
 <body>
-{% include 'navbar.html.twig' %}
+{% include 'v2/navbar.html.twig' %}
 
 <div class="content">
     {% block body %}{% endblock %}
 </div>
 
-{% include 'footer.html.twig' %}
+{% include 'v2/footer.html.twig' %}
 {% include 'cookieconsent.html.twig' %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     {{ encore_entry_script_tags('login') }}
+    <!-- Jquery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- Swiper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.min.js" integrity="sha512-kZuRlVjyG3pnsZyFvfSlIeXQDOWRvZQo4+81+g+dybUUUHTgI9vtr1259r44u3X5cmlOP3+x5oSeAaMVfE1fyg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Swiper Carrousel -->
+    <script type="text/javascript">
+        var swiper = new Swiper('.eventos-carrousel', {            
+            slidesPerView: 4,
+            spaceBetween: 30,
+            slidesPerGroup : 1,
+            loop: true,
+            loopFillGroupWithBlank :  true,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                576: {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 10,
+                },
+                992: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                },
+                1200: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                }
+            },
+            autoplay: {
+                delay: 5000,
+            },
+        });
+
+        var swiperTwo = new Swiper('.menu-carrousel', {
+            slidesPerView: 5,
+            spaceBetween: 30,
+            slidesPerGroup : 1,
+            loop: true,
+            loopFillGroupWithBlank :  true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                576: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 10,
+                },
+                992: {
+                    slidesPerView: 4,
+                    spaceBetween: 30,
+                }
+            },
+            autoplay: {
+                delay: 6000,
+            },
+        });
+
+        $(document).ready(function(){            
+            $(".btn-link").on("click", function(){
+                $(".card").removeClass("card-ativo");
+                $(this).closest(".card").addClass( "card-ativo" );
+            });
+        });
+    </script>
 {% endblock %}
+
 </body>
 </html>

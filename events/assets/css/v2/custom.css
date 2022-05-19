@@ -1,0 +1,45 @@
+.dropdown-toggle::after {
+    content: none;
+}
+
+.dropdown-menu-right {
+    width: 340px;
+    padding: 15px;
+    margin-right: 40px;
+}
+
+#login-container .links {
+    font-size: 13px;
+}
+
+#conteudoNavbarSuportado > ul > li.nav-item.show > div {
+    left: 39.2rem;
+}
+
+.card__content > p:nth-child(2),
+.card__content > p:nth-child(4) {
+    display: none;
+}
+
+.card-previous .hover-info {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: #135B9E;
+    border: 0;
+    font-size: 15px;
+    text-align: center;
+}
+
+.swiper-wrapper {
+    transition-duration: 3500ms !important;
+}
+
+.info-top a {
+    filter: grayscale(90%);
+}
+
+.info-top a.active, 
+.info-top a:hover {
+    filter: grayscale(0%);
+}
