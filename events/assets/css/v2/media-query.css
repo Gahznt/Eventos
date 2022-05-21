@@ -10,7 +10,7 @@
 /* AJUSTES GERAIS */
 body{
     overflow-x: hidden;
-    background: rgba(236, 238, 242, 0.6);
+    background: rgba(236, 238, 242, 0.6) !important;
 }
 .fontzero{
     font-size: 0em; 
@@ -275,12 +275,11 @@ footer .info-footer .rede-social .rodape-text p{
 }
 #home .banner__inicial .card .card__info ul{
     list-style: none;
-    padding: 10px 0px;
     font-weight: 500;
     font-size: 14px;
     line-height: 30px;
     color: #121212;
-    margin: 15px 0;
+    margin: 8px 0;
 }
 #home .banner__inicial .card .card__info ul li::before{
     content: url('../../images/v2/list-style.png');
@@ -374,10 +373,11 @@ footer .info-footer .rede-social .rodape-text p{
 #home .eventos .card__evento .card__content{
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
     gap: 15px;
     padding: 24px;
     position: static;
-    height: auto;
     background: rgba(196, 205, 221, 0.3);
     border-radius: 8px;
 }

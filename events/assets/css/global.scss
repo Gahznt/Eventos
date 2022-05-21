@@ -3,6 +3,7 @@
 }
 
 body {
+  background-color: rgba(236, 238, 242, 0.6);
   overflow-x: hidden;
 }
 
@@ -28,6 +29,12 @@ button:focus,
   background-color: $primary-alt;
   &.hasBreadcumb {
     padding: $content-top 0 30px;
+  }
+}
+
+#breadcrumb {
+  .content {
+    background-color: transparent;
   }
 }
 

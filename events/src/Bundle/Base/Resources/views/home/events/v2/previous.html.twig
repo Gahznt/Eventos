@@ -43,7 +43,7 @@
         <div class="cards my-5">
             <div class="card__evento p-4 my-5">
                 <h2>{{ 'EVENTS_TRIENNIAL_2022'|trans }}</h2>
-                <p class="card__evento--frequencia">{{ 'EVENTS_TRIENNIAL_FREQUENCY'|trans }}</p>
+                <p class="card__evento--frequencia">{{ 'EVENTS_FREQUENCY'|trans }} <span>{{ 'EVENTS_FREQUENCY_TRIENNIAL'|trans }}</span></p>
                 <div class="row">
                     {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
                         {% set idx = 'tri2022' ~ loop.index %}
@@ -83,7 +83,7 @@
 
             <div class="card__evento p-4 my-5">
                 <h2>{{ 'EVENTS_TRIENNIAL_2023'|trans }}</h2>
-                <p class="card__evento--frequencia">{{ 'EVENTS_TRIENNIAL_FREQUENCY'|trans }}</p>
+                <p class="card__evento--frequencia">{{ 'EVENTS_FREQUENCY'|trans }} <span>{{ 'EVENTS_FREQUENCY_TRIENNIAL'|trans }}</span></p>
                 <div class="row">
                     {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
                         {% set idx = 'tri2023' ~ loop.index %}
@@ -123,7 +123,7 @@
 
             <div class="card__evento p-4 my-5">
                 <h2>{{ 'EVENTS_TRIENNIAL_2024'|trans }}</h2>
-                <p class="card__evento--frequencia">{{ 'EVENTS_TRIENNIAL_FREQUENCY'|trans }}</p>
+                <p class="card__evento--frequencia">{{ 'EVENTS_FREQUENCY'|trans }} <span>{{ 'EVENTS_FREQUENCY_TRIENNIAL'|trans }}</span></p>
                 <div class="row">
                     {% for col in dashboard.previous|batch(dashboard.previous|length/2) %}
                         {% set idx = 'tri2024' ~ loop.index %}

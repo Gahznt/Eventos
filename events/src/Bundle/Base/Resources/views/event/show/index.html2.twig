@@ -1,0 +1,57 @@
+{# src/layouts/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'event/show/v2.html.twig' %}
+    <nav id="sidebar" class="active">
+        <h1>{{ edition.name }}</h1>
+        <ul class="nav list-unstyled" id="sidebarnav">
+            <li class="active"><a href="#navsidebar-0" data-toggle="tab" role="tab" class="active" aria-selected="true">{{ 'EVENT_DETAILS_MENU_INTRODUCTION'|trans }}</a></li>
+
+            {% if edition.subsections|length > 0 %}
+                {% for subsection in edition.subsections %}
+                    <li><a href="#navsidebar-{{ subsection.id }}" data-toggle="tab" role="tab">{{ subsection.frontCall }}</a></li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </nav>
+    <div class="container nobc">
+        <div class="fieldset">
+            <div class="row">
+                <div class="col-lg-3 d-none d-lg-block">
+                    <ul class="nav flex-column navsidebar" role="tablist">
+                        <li class="active"><a href="#navsidebar-0" data-toggle="tab" role="tab" class="active" aria-selected="true">{{ 'EVENT_DETAILS_MENU_INTRODUCTION'|trans }}</a></li>
+
+                        {% if edition.subsections|length > 0 %}
+                            {% for subsection in edition.subsections %}
+                                <li><a href="#navsidebar-{{ subsection.id }}" data-toggle="tab" role="tab">{{ subsection.frontCall|raw }}</a></li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-lg-9">
+                    <div class="badge badge-warning d-md-none mb-3">{{ edition.name }}</div>
+                    <h2 class="d-md-none">{{ 'Detalhes do Evento'|trans }}</h2>
+                    <button class="btn btn-block btn-primary sidebarCollapse d-lg-none">{{ 'EVENT_DETAILS_BTN_EVENT'|trans }}</button>
+                    <div class="tab-content" id="navsidebar">
+                        <div class="tab-pane fade show active" id="navsidebar-0" role="tabpanel">{% include 'event/show/tabs/introduction.html.twig' %}</div>
+
+                        {% if edition.subsections|length > 0 %}
+                            {% for subsection in edition.subsections %}
+                                <div class="tab-pane fade" id="navsidebar-{{ subsection.id }}" role="tabpanel">
+                                    <h1>{{ subsection.name }}</h1>
+                                    {% include 'event/show/tabs/details.html.twig' %}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('events/show') }}
+{% endblock %}

@@ -1,0 +1,103 @@
+<div class="banner__content">
+    <div class="container py-5">
+        <div class="row py-5">
+            <div class="col-lg-6">
+                <div class="banner-text">
+                    <span>{{edition.dateStart|date('d')}} a {{edition.dateEnd|date('d/m/y')}}</span>
+                    <h1>{{ edition.name }}</h1>
+                    <span class="span">{{ 'EVENT_GENERAL_TOPIC'|trans }}</span>
+                    <p>{{ edition.longname }}</p>
+                    <a href="" class="button-link">{{ 'EVENT_VIEW_MORE'|trans }}</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 d-none d-lg-block">
+                <div class="banner__timer">
+                    <p>{{edition.dateStart|date('d')}} a {{edition.dateEnd|date('d/m/y')}}</p>
+                    <div class="timer d-flex">
+                        <div class="dias">
+                            <h3>00 :</h3>
+                            <p>{{ 'EVENT_TIMER_DAYS'|trans }}</p>
+                        </div>
+                        <div class="horas">
+                            <h3>22 :</h3>
+                            <p>{{ 'EVENT_TIMER_HOURS'|trans }}</p>
+                        </div>
+                        <div class="minutos">
+                            <h3>30 :</h3>
+                            <p>{{ 'EVENT_TIMER_MINUTES'|trans }}</p>
+                        </div>
+                        <div class="segundos">
+                            <h3>40</h3>
+                            <p>{{ 'EVENT_TIMER_SECONDS'|trans }}</p>
+                        </div>
+                    </div>
+                    <a href="" class="button-link">{{ 'INSTITUTION_DETAILS_MENU_REGISTRATIONS'|trans }}</a>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                setInterval(displayTime, 1000);
+
+                function displayTime() {
+                    const signupDeadline = JSON.parse('{{ edition.signupDeadline|json_encode()|raw  }}');
+                    const deadlineTime = new Date(signupDeadline.date);
+                    const nowTime = new Date();
+
+                    const time = new Date(deadlineTime.getTime() - nowTime.getTime());
+
+                    let days = time.getDay();
+                    let hours = time.getHours();
+                    let minutes = time.getMinutes();
+                    let seconds = time.getSeconds();
+                    
+                    days = days < 10 ? '0' + days + " :" : days + " :";
+                    hours = hours < 10 ? '0' + hours + " :" : hours + " :";
+                    minutes = minutes < 10 ? '0' + minutes + " :" : minutes + " :";
+                    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                    document.querySelector('.dias h3').innerHTML = days;
+                    document.querySelector('.horas h3').innerHTML = hours;
+                    document.querySelector('.minutos h3').innerHTML = minutes;
+                    document.querySelector('.segundos h3').innerHTML = seconds;
+                }
+                
+                displayTime();
+            </script>
+        </div>
+    </div>
+</div>
+
+<section class="section__artigo">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="section__artigo--left">
+                    <span><img src="{{ asset('build/images/v2/computer.png') }}" alt="Evento {{ edition.place }}">{{ 'DASHBOARD_LBL_EVENT'|trans }} {{ edition.place }}</span>
+                    {# This is complete description: {{ edition.description|raw }} #}
+                    <h2>O XLVI Encontro da ANPAD – EnANPAD 2022 – será realizado 100% ON-LINE, considerado o melhor formato em face dos desafios constantes enfrentados pelas novas ondas da pandemia.</h2>
+                    <span>ISSN Principal: 2177-2517 versão online</span>
+                    <p>Esse ano teremos como tema central o enfrentamento dos grandes desafios da sociedade, abrindo espaço para reflexões e debates acerca do papel dos diferentes atores individuais e organizacionais do campo de Administração. Juntam-se à pandemia, a crise climática e ambiental, o aprofundamento das desigualdades, os movimentos migratórios entre outros desafios que demandam gestão, coordenação, agilidade e robustez para sua superação, buscando o alcance dos Objetivos do Desenvolvimento Sustentável. Temas como o marco temporal indígena ou os conflitos de poder entre regiões, países, organizações, líderes políticos e burocratas na questão da vacinação e do passaporte vacinal, a exclusão e o assassinato do jovem imigrante congolês entre tantos outros, ilustram estes desafios. Por um lado, vemos indefinição, resistência, falta de empatia, passividade e por vezes violência de organizações e agentes organizacionais que precisam ser investigados e compreendidos para serem superados. Por outro, observamos novos fenômenos como economia de plataforma, hipervigilância digital e conectividade, entre outros, combinados com outros já conhecidos, como a pobreza, a corrupção, as mudanças climáticas, entre outros. Portanto, observamos a necessidade de uma nova postura, protagonismo de empreendedores e gestores, e inovações organizacionais e de políticas públicas para mudarmos a trajetória e tendências mais pessimistas, explorando práticas bem-sucedidas de inclusão, transformação das organizações e da sociedade, buscando “não deixar ninguém para trás”.</p>
+                    <p>Convidamos a comunidade para inserir-se nesse debate participando do Encontro que mantém a já consolidada organização em 11 (onze) Divisões Acadêmicas, que congregam temas de interesse da área de Administração e afins. Os(As) interessados(as) poderão submeter trabalhos teórico-empíricos, ensaios teóricos, artigos tecnológicos e casos para ensino.</p>
+                    <p>Além da programação tradicional, o EnANPAD 2022 será precedido por Oficinas de Desenvolvimento Metodológico (ODM) e Consórcio Doutoral nos dias 12 e 13 de setembro de 2022, e do Congresso da IFSAM – Federação Internacional de Associações Acadêmicas de Administração, nos dias 08 e 09 de setembro de 2022, esse ano realizado em parceria com a ANPAD e funcionando como pré-evento do EnANPAD.</p>
+                    <a href="#" class="button-link">veja a chamada de trabalhos</a>
+                </div>
+            </div>
+            
+            <div class="col-md-6 d-none d-lg-block">
+                <div class="section__artigo--right">
+                    <div class="card__evento">
+                        <span><img src="{{ asset('build/images/v2/computer.png') }}" alt="Evento {{ edition.place }}">{{ 'DASHBOARD_LBL_EVENT'|trans }} {{ edition.place }}</span>
+                        <h2>Oficinas de Desenvolvimento Metodológico (ODM) e Consórcio Doutoral</h2>
+                        <p>12 e 13 de setembro de 2022</p>
+                    </div>
+                    <div class="card__evento">
+                        <span><img src="{{ asset('build/images/v2/computer.png') }}" alt="Evento {{ edition.place }}">{{ 'DASHBOARD_LBL_EVENT'|trans }} {{ edition.place }}</span>
+                        <h2>Oficinas de Desenvolvimento Metodológico (ODM) e Consórcio Doutoral</h2>
+                        <p>12 e 13 de setembro de 2022</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -13,3 +13,6 @@ import './common.js';
 import './form.js';
 import './tinymce.min.js';
 import './locate.js';
+
+/* v2.0.0 */
+import './v2.js';

@@ -1,11 +1,14 @@
 .dropdown-toggle::after {
-    content: none;
+    content: none !important;
 }
 
 .dropdown-menu-right {
     width: 340px;
-    padding: 15px;
-    margin-right: 40px;
+    margin-right: 40px !important;
+}
+
+#login-container {
+    margin: 12px;
 }
 
 #login-container .links {
@@ -13,7 +16,7 @@
 }
 
 #conteudoNavbarSuportado > ul > li.nav-item.show > div {
-    left: 39.2rem;
+    left: 50.5rem !important;
 }
 
 .card__content > p:nth-child(2),
@@ -42,4 +45,11 @@
 .info-top a.active, 
 .info-top a:hover {
     filter: grayscale(0%);
+}
+
+.fade:not(.show) {
+    display: none !important;
+}
+.content-v2 {
+    min-height: 85vh;
 }

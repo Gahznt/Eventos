@@ -1,0 +1,456 @@
+<main id="pre-eventos" class="palestrantes apresentacao">
+    <section class="banner__apresentacao">
+        <div class="banner__content">
+            <div id="breadcrumb">
+                <div class="content">
+                    <div class="row">
+                        <p>Anpad</p>
+                        <span> / </span>
+                        <p><a href="#">{{ 'EVENT_TITLE'|trans }}</a></p>
+                        <span> / </span>
+                        <p><a href="#">{{ 'EVENT_TITLE'|trans }}</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row py-3">
+                    <div class="col-lg-6">
+                        <div class="banner-text">
+                            <span>{{edition.dateStart|date('d')}} a {{edition.dateEnd|date('d/m/y')}}</span>
+                            <h1>{{ edition.name }}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content__preventos">
+        <div class="container">
+            <h2>{{ 'EVENT_DETAILS_MENU_PRE_EVENT'|trans }}</h2>
+            <div class="preventos__content">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="preventos__content--left">
+                            <div class="evento__palestrante">
+                                <div class="d-flex align-items-center pb-4">
+                                    <img src="{{ asset('build/images/v2/sandra-cabral.png') }}" alt="Sandra Cabral">
+                                    <h3><span>Coordenadora:</span> Sandra Cabral (MPP/INSPER)</h3>
+                                </div>                                    
+                                <p>O XLV Encontro da ANPAD (EnANPAD 2021) traz como novidade as primeiras Oficinas de Desenvolvimento Profissional (ODP). Precedendo o Encontro, elas ocorrerão entre os dias 29 de setembro e 1º de outubro.</p>
+                                <p>As ODPs inovam ao debater vários temas de interesse transversal à academia brasileira em administração. Dentre eles, estão as perspectivas do mercado de trabalho após o doutorado em um contexto de pandemia e pós-pandemia da Covid-19;</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 pt-5 pt-lg-0">
+                        <div class="preventos__content--right d-flex flex-column justify-content-center">
+                            <h3>Cronograma</h3>
+                            <p>Consulte abaixo o cronograma de atividades e participe conosco das ODPs, o pré-evento do EnANPAD 2021.</p>
+                            <p><span>A sua presença é muito importante!</span></p>
+                            <a href="" class="button-link">baixar programação em pdf</a>
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="programacao mb-5 pb-5">            
+        <div class="container">
+            <h2>Programação</h2>
+            <div id="accordion">
+                <div class="card card-ativo">
+                    <div class="card-header border-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <h3 aria-hidden="true">Mercado de Trabalho Após o Doutorado
+                                    <img class="abrir" src="{{ asset('build/images/v2/icon-more.png') }}" alt="abrir">
+                                    <img class="fechar" src="{{ asset('build/images/v2/icon-more-2.png') }}" alt="fechar">
+                                </h3>  
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>09:00 - 10:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 1</h2>
+                                        <h3>Job Market internacional como funciona? Podemos reproduzir no Brasil</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>10:00 - 12:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 2</h2>
+                                        <h3>Mercado acadêmico no Brasil: cenários, desafios e propostas</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>09:00 - 10:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 3</h2>
+                                        <h3>Jovens doutoras(es) em pesquisa: Como garantir rigor, relevância e inclusão?</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header border-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                <h3 aria-hidden="true">Atividade de Impacto
+                                    <img class="abrir" src="{{ asset('build/images/v2/icon-more.png') }}" alt="abrir">
+                                    <img class="fechar" src="{{ asset('build/images/v2/icon-more-2.png') }}" alt="fechar">
+                                </h3>  
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>09:00 - 10:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 1</h2>
+                                        <h3>Job Market internacional como funciona? Podemos reproduzir no Brasil</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>10:00 - 12:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 2</h2>
+                                        <h3>Mercado acadêmico no Brasil: cenários, desafios e propostas</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>09:00 - 10:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 3</h2>
+                                        <h3>Jovens doutoras(es) em pesquisa: Como garantir rigor, relevância e inclusão?</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header border-header" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                <h3 aria-hidden="true">Mercado de Trabalho Após o Doutorado
+                                    <img class="abrir" src="{{ asset('build/images/v2/icon-more.png') }}" alt="abrir">
+                                    <img class="fechar" src="{{ asset('build/images/v2/icon-more-2.png') }}" alt="fechar">
+                                </h3>  
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>09:00 - 10:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 1</h2>
+                                        <h3>Job Market internacional como funciona? Podemos reproduzir no Brasil</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>10:00 - 12:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 2</h2>
+                                        <h3>Mercado acadêmico no Brasil: cenários, desafios e propostas</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>09:00 - 10:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 3</h2>
+                                        <h3>Jovens doutoras(es) em pesquisa: Como garantir rigor, relevância e inclusão?</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header border-header" id="headingFour">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                <h3 aria-hidden="true">Atividade de Impacto
+                                    <img class="abrir" src="{{ asset('build/images/v2/icon-more.png') }}" alt="abrir">
+                                    <img class="fechar" src="{{ asset('build/images/v2/icon-more-2.png') }}" alt="fechar">
+                                </h3>  
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>09:00 - 10:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 1</h2>
+                                        <h3>Job Market internacional como funciona? Podemos reproduzir no Brasil</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>10:00 - 12:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 2</h2>
+                                        <h3>Mercado acadêmico no Brasil: cenários, desafios e propostas</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+
+                        <div class="card-body mb-3">
+                            <div class="row">
+                                <div class="col-lg-3 d-flex justify-content-start justify-content-lg-center borda">
+                                    <div class="card__data d-flex">
+                                            <h2>29</h2>
+                                            <div class="card__data--HM d-flex flex-column align-items-center justify-content-center">
+                                            <h3>Setembro</h3>
+                                            <p>09:00 - 10:30</p>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 py-3 py-lg-0">
+                                    <div class="card__open--info px-2">
+                                        <h2>Mesa 3</h2>
+                                        <h3>Jovens doutoras(es) em pesquisa: Como garantir rigor, relevância e inclusão?</h3>
+                                        <p><span>Coordenação:</span></p>
+                                        <p>Alketa Peci - FGV/EBAPE</p>
+                                        <div class="pt-3">
+                                            <p><span>Participantes:</span></p>
+                                            <p>Eduardo Andrade - FGV/EBAPE</p>
+                                            <p>Joana Story   FGV/EAESP</p>
+                                            <p>Sergio Lazzarini – Insper</p>
+                                        </div>                                            
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

@@ -49,10 +49,10 @@
                                 </div>
                             {% endif %}
 
-                            <a href="#" data-language="pt_br" class="language mr-3 language{{ 'pt_br' == app.request.getLocale() ? ' active' : '' }}">
+                            <a href="#" data-language="pt_br" class="language mr-3 btnLanguage language{{ 'pt_br' == app.request.getLocale() ? ' active' : '' }}">
                                 <img src="{{ asset('build/images/v2/brazil.png') }}" alt="PT-BR">
                             </a>
-                            <a href="#" data-language="en" class="language mr-0 language{{ 'en' == app.request.getLocale() ? ' active' : '' }}">
+                            <a href="#" data-language="en" class="language mr-0 btnLanguage language{{ 'en' == app.request.getLocale() ? ' active' : '' }}">
                                 <img src="{{ asset('build/images/v2/eua.png') }}" alt="En">
                             </a>                                    
                         </div>
@@ -60,10 +60,10 @@
                         <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
                             <!-- Mobille -->
                             <div class="info-top d-flex d-lg-none justify-content-end">
-                                <a href="#" data-language="pt_br" class="language mr-1">
+                                <a href="#" data-language="pt_br" class="language mr-1 btnLanguage">
                                     <img src="{{ asset('build/images/v2/brazil.png') }}" alt="PT-BR">
                                 </a>
-                                <a href="#" data-language="en" class="language mr-0">
+                                <a href="#" data-language="en" class="language mr-0 btnLanguage">
                                     <img src="{{ asset('build/images/v2/eua.png') }}" alt="En">
                                 </a>                                    
                             </div>

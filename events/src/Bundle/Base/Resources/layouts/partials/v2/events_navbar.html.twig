@@ -1,0 +1,58 @@
+
+
+<div class="menu__apresentacao">
+    <div class="swiper-container menu-carrousel">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <ul class="d-flex justify-content-around">
+                    <li><a href="#navsidebar-0" alt="#navsidebar-1" data-toggle="tab" role="tab" aria-selected="true" class="active">{{ 'EVENT_DETAILS_MENU_INTRODUCTION'|trans }}</a></li>
+                </ul>
+            </div>
+
+            <div class="swiper-slide">
+                <ul class="d-flex justify-content-around">
+                    <li><a href="#navsidebar-1" alt="#navsidebar-1" data-toggle="tab" role="tab" aria-selected="true">{{ 'EVENT_DETAILS_MENU_HOW_TO_QUOTE'|trans }}</a></li>
+                </ul>
+            </div>
+
+            <div class="swiper-slide">
+                <ul class="d-flex justify-content-around">
+                    <li><a href="#navsidebar-2" alt="#navsidebar-2" data-toggle="tab" role="tab" aria-selected="true">{{ 'EVENT_DETAILS_MENU_SPEAKERS'|trans }}</a></li>
+                </ul>
+            </div>
+
+            <div class="swiper-slide">
+                <ul class="d-flex justify-content-around">
+                    <li><a href="#navsidebar-3" alt="#navsidebar-3" data-toggle="tab" role="tab" aria-selected="true">{{ 'EVENT_DETAILS_MENU_PRE_EVENTS'|trans }}</a></li>
+                </ul>
+            </div>
+
+            {# Looping nas subsections existentes atualmente
+            {% if edition.subsections|length > 0 %}
+                {% for subsection in edition.subsections %}
+                    <div class="swiper-slide">
+                        <ul class="d-flex justify-content-around">
+                            <li><a href="#navsidebar-{{ subsection.id }}" alt="#navsidebar-{{ subsection.id }}" data-toggle="tab" role="tab">{{ subsection.frontCall|raw }}</a></li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            {% endif %} #}
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+    const links = document.querySelectorAll('.menu-carrousel a');
+
+    links.forEach(element => {
+        element.addEventListener('click', e => {
+            e.preventDefault();
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+            e.classList.add('active');
+        });
+    });
+});
+</script>
